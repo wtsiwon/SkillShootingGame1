@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.U2D.Sprites;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -11,17 +12,75 @@ public class Player : MonoBehaviour
 
     public float bulletSpd;
 
+    public float atkDmg;
+
+    [Space(10f)]
     public bool isShoot;
 
+    [Space(10f)]
     public int level;
 
     public Vector3 clampPosition;
 
     public Bullet bullet;
 
+    [SerializeField]
+    [Space(10f)]
+    private bool isInvicibility;
+    public bool IsInvicibility
+    {
+        get => isInvicibility;
+        set
+        {
+            GetComponent<Collider2D>().enabled = !isInvicibility;
+        }
+    }
+
+    private Color fadeColor = new Color(255, 255, 255, 140);
+    private Color notFadeColor = Color.white;
+
+    private SpriteRenderer spriteRenderer;
+
+    [SerializeField]
+    [Space(10f)]
+    private int maxHp;
+
+    [SerializeField]
+    private int hp;
+    public int Hp
+    {
+        get
+        {
+            return hp;
+        }
+        set
+        {
+            if (value <= 0) OnDie();
+            else if (value > maxHp) hp = maxHp;
+            else
+            {
+                hp = value;
+                StartCoroutine(Invicibility(3));
+            }
+
+            GameManager.Instance.UpdatePlayerHpIcon(Hp);
+
+        }
+    }
+
     void Start()
     {
+        spriteRenderer = GetComponent<SpriteRenderer>();
         StartCoroutine(IShoot());
+        StartCoroutine(IUpdate());
+    }
+
+    private IEnumerator IUpdate()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(0.5f);
+        }
     }
 
     void Update()
@@ -61,7 +120,7 @@ public class Player : MonoBehaviour
             if (isShoot == true)
             {
                 Bullet bullet1 = Instantiate(bullet);
-                bullet1.SetBullet(transform.position, Vector3.up ,bulletSpd, level);
+                bullet1.SetBullet(transform.position, Vector3.up, bulletSpd, level);
                 yield return new WaitForSeconds(atkSpd);
             }
 
@@ -83,10 +142,36 @@ public class Player : MonoBehaviour
     /// </summary>
     public void AddPartner()
     {
-        
+
     }
 
-    private void Invicibility(float time)
+    public void OnDamaged(float dmg)
+    {
+        Hp -= 1;
+    }
+
+    private IEnumerator Invicibility(float time)
+    {
+        float interval = time / 7f;
+        float count = 0;
+
+        while (count == 7)
+        {
+            if (spriteRenderer.color == fadeColor)
+            {
+                spriteRenderer.color = notFadeColor;
+                count++;
+            }
+            else
+            {
+                spriteRenderer.color = fadeColor;
+                count++;
+            }
+            yield return new WaitForSeconds(interval);
+        }
+    }
+
+    private void OnDie()
     {
 
     }

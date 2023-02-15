@@ -12,6 +12,17 @@ public class Bullet : MonoBehaviour
 
     public Vector3 dir = Vector3.up;
 
+    public GameObject destroyEffect;
+
+    [SerializeField]
+    private float dmg;
+    public float Dmg
+    {
+        get
+        {
+            return dmg * level;
+        }
+    }
 
     private void Start()
     {
@@ -37,9 +48,28 @@ public class Bullet : MonoBehaviour
     private void Destroy()
     {
         float distance = Vector3.Distance(Vector3.zero, transform.position);
-        if(distance > 14f)
+        if (distance > 14f)
         {
+            Instantiate(destroyEffect, transform.position, Quaternion.identity);
             Destroy(gameObject);
         }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.TryGetComponent<Enemy>(out Enemy enemy))
+        {
+            enemy.OnDamaged(Dmg);
+            Instantiate(destroyEffect, transform.position, Quaternion.identity);
+            Destroy(gameObject);
+        }
+        print(collision);
+
+
+    }
+
+    private void OnDestroy()
+    {
+        print(Dmg);
     }
 }

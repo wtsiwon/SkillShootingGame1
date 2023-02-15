@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6429270943024261866}
   - component: {fileID: 6429270943024261867}
+  - component: {fileID: -4756973516649874934}
   - component: {fileID: 3464308033749415962}
   m_Layer: 0
   m_Name: Bullet
@@ -83,6 +84,22 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!58 &-4756973516649874934
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6429270943024261864}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.5
 --- !u!114 &3464308033749415962
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -97,3 +114,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isMove: 1
   moveSpd: 0
+  level: 1
+  dir: {x: 0, y: 1, z: 0}
+  destroyEffect: {fileID: 6997005148218412782, guid: 314da7196f851584ba204732b3a8b787, type: 3}
+  dmg: 2

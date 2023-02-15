@@ -1,0 +1,185 @@
+Using pre-set license
+Built from '2020.3/release' branch; Version is '2020.3.31f1 (6b54b7616050) revision 7034039'; Using compiler version '192528614'; Build Type 'Release'
+OS: 'Windows 10  (10.0.19044) 64bit Professional' Language: 'ko' Physical Memory: 16325 MB
+BatchMode: 1, IsHumanControllingUs: 0, StartBugReporterOnCrash: 0, Is64bit: 1, IsPro: 0
+
+COMMAND LINE ARGUMENTS:
+C:\Program Files\Unity\Hub\Editor\2020.3.31f1\Editor\Unity.exe
+-adb2
+-batchMode
+-noUpm
+-name
+AssetImportWorker1
+-projectPath
+C:/Users/siwon/Unity/KineungContestPractice1
+-logFile
+Logs/AssetImportWorker1.log
+-srvPort
+61135
+Successfully changed project path to: C:/Users/siwon/Unity/KineungContestPractice1
+C:/Users/siwon/Unity/KineungContestPractice1
+Using Asset Import Pipeline V2.
+Refreshing native plugins compatible for Editor in 41.39 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Initialize engine version: 2020.3.31f1 (6b54b7616050)
+[Subsystems] Discovering subsystems at path C:/Program Files/Unity/Hub/Editor/2020.3.31f1/Editor/Data/Resources/UnitySubsystems
+[Subsystems] Discovering subsystems at path C:/Users/siwon/Unity/KineungContestPractice1/Assets
+GfxDevice: creating device client; threaded=0
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.1]
+    Renderer: NVIDIA GeForce RTX 2060 (ID=0x1f08)
+    Vendor:   
+    VRAM:     5980 MB
+    Driver:   27.21.14.5751
+Initialize mono
+Mono path[0] = 'C:/Program Files/Unity/Hub/Editor/2020.3.31f1/Editor/Data/Managed'
+Mono path[1] = 'C:/Program Files/Unity/Hub/Editor/2020.3.31f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit'
+Mono config path = 'C:/Program Files/Unity/Hub/Editor/2020.3.31f1/Editor/Data/MonoBleedingEdge/etc'
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56164
+Begin MonoManager ReloadAssembly
+Registering precompiled unity dll's ...
+Register platform support module: C:/Program Files/Unity/Hub/Editor/2020.3.31f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
+Registered in 0.002344 seconds.
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 41.05 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  0.703 seconds
+Domain Reload Profiling:
+	ReloadAssembly (703ms)
+		BeginReloadAssembly (75ms)
+			ExecutionOrderSort (0ms)
+			DisableScriptedObjects (0ms)
+			BackupInstance (0ms)
+			ReleaseScriptingObjects (0ms)
+			CreateAndSetChildDomain (1ms)
+		EndReloadAssembly (541ms)
+			LoadAssemblies (73ms)
+			RebuildTransferFunctionScriptingTraits (0ms)
+			SetupTypeCache (175ms)
+			ReleaseScriptCaches (0ms)
+			RebuildScriptCaches (43ms)
+			SetupLoadedEditorAssemblies (207ms)
+				LogAssemblyErrors (0ms)
+				InitializePlatformSupportModulesInManaged (6ms)
+				SetLoadedEditorAssemblies (0ms)
+				RefreshPlugins (41ms)
+				BeforeProcessingInitializeOnLoad (19ms)
+				ProcessInitializeOnLoadAttributes (105ms)
+				ProcessInitializeOnLoadMethodAttributes (35ms)
+				AfterProcessingInitializeOnLoad (0ms)
+				EditorAssembliesLoaded (0ms)
+			ExecutionOrderSort2 (0ms)
+			AwakeInstancesAfterBackupRestoration (0ms)
+Platform modules already initialized, skipping
+Registering precompiled user dll's ...
+Registered in 0.003136 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.41 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.209 seconds
+Domain Reload Profiling:
+	ReloadAssembly (1209ms)
+		BeginReloadAssembly (181ms)
+			ExecutionOrderSort (0ms)
+			DisableScriptedObjects (6ms)
+			BackupInstance (0ms)
+			ReleaseScriptingObjects (0ms)
+			CreateAndSetChildDomain (22ms)
+		EndReloadAssembly (956ms)
+			LoadAssemblies (107ms)
+			RebuildTransferFunctionScriptingTraits (0ms)
+			SetupTypeCache (306ms)
+			ReleaseScriptCaches (0ms)
+			RebuildScriptCaches (61ms)
+			SetupLoadedEditorAssemblies (375ms)
+				LogAssemblyErrors (0ms)
+				InitializePlatformSupportModulesInManaged (6ms)
+				SetLoadedEditorAssemblies (1ms)
+				RefreshPlugins (0ms)
+				BeforeProcessingInitializeOnLoad (99ms)
+				ProcessInitializeOnLoadAttributes (249ms)
+				ProcessInitializeOnLoadMethodAttributes (12ms)
+				AfterProcessingInitializeOnLoad (7ms)
+				EditorAssembliesLoaded (0ms)
+			ExecutionOrderSort2 (0ms)
+			AwakeInstancesAfterBackupRestoration (8ms)
+Platform modules already initialized, skipping
+========================================================================
+Worker process is ready to serve import requests
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.04 seconds
+Refreshing native plugins compatible for Editor in 0.38 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 1543 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 73.5 MB.
+System memory in use after: 73.6 MB.
+
+Unloading 16 unused Assets to reduce memory usage. Loaded Objects now: 1980.
+Total: 2.933600 ms (FindLiveObjects: 0.131600 ms CreateObjectMapping: 0.054000 ms MarkObjects: 2.686600 ms  DeleteObjects: 0.060700 ms)
+
+AssetImportParameters requested are different than current active one (requested -> active):
+  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
+  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
+  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
+  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
+  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
+  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
+  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
+  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+========================================================================
+Received Import Request.
+  path: Assets/2D Space Ships Pack - War Antuz race
+  artifactKey: Guid(ccc420a2f784b4943ba9bbb1bb61a807) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/2D Space Ships Pack - War Antuz race using Guid(ccc420a2f784b4943ba9bbb1bb61a807) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'f2008277f9630a258f046f7e9970b907') in 0.008956 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 6.121032 seconds.
+  path: Assets/2D Space Ships Pack - War Antuz race/SpaceShips/J-04.png
+  artifactKey: Guid(f363b0b016e375243ae8e35aa3fcde91) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/2D Space Ships Pack - War Antuz race/SpaceShips/J-04.png using Guid(f363b0b016e375243ae8e35aa3fcde91) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '7164ecf0c73d107180b969bce4875d04') in 0.067533 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.777983 seconds.
+  path: Assets/2D Space Ships Pack - War Antuz race/SpaceShips/J-03.png
+  artifactKey: Guid(8e501ad2c85cfda43a909add47b89703) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/2D Space Ships Pack - War Antuz race/SpaceShips/J-03.png using Guid(8e501ad2c85cfda43a909add47b89703) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '666f72d32d855177935834df0f0606ac') in 0.014351 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 1.118750 seconds.
+  path: Assets/2D Space Ships Pack - War Antuz race/SpaceShips/I-16.png
+  artifactKey: Guid(4c7aded2e9bdee14aaad0b7a3be4b51a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/2D Space Ships Pack - War Antuz race/SpaceShips/I-16.png using Guid(4c7aded2e9bdee14aaad0b7a3be4b51a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '962ff54f520bf0cdb2ef384952541ec9') in 0.012376 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.327348 seconds.
+  path: Assets/2D Space Ships Pack - War Antuz race/SpaceShips/I-15.png
+  artifactKey: Guid(42a89060cbf340d40baaf749026032af) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/2D Space Ships Pack - War Antuz race/SpaceShips/I-15.png using Guid(42a89060cbf340d40baaf749026032af) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '6361801836d99cee761b7b43ca727bf7') in 0.015407 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 3.271741 seconds.
+  path: Assets/2D Space Ships Pack - War Antuz race/SpaceShips/-READ BEFORE-.txt
+  artifactKey: Guid(2691083f31fc8fd40ba7eec0d419862e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/2D Space Ships Pack - War Antuz race/SpaceShips/-READ BEFORE-.txt using Guid(2691083f31fc8fd40ba7eec0d419862e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '5e7458610e001159cc3e94cf746996e5') in 0.012031 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.617863 seconds.
+  path: Assets/2D Space Ships Pack - War Antuz race/SpaceShips/A-01.png
+  artifactKey: Guid(82d1b321326481f40a9b5213096ea505) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/2D Space Ships Pack - War Antuz race/SpaceShips/A-01.png using Guid(82d1b321326481f40a9b5213096ea505) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'fab4de50f960d75b7a1ab589c0ae82cc') in 0.012720 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 3.492901 seconds.
+  path: Assets/2D Space Ships Pack - War Antuz race/SpaceShips/I-06.png
+  artifactKey: Guid(335a5ca366672ac47ad0c3ef0be750cd) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/2D Space Ships Pack - War Antuz race/SpaceShips/I-06.png using Guid(335a5ca366672ac47ad0c3ef0be750cd) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '4e7ae2ac9b26d88ea6f59d5b0c53d19f') in 0.011508 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 11.476723 seconds.
+  path: Assets/2D Space Ships Pack - War Antuz race/SpaceShips/J-13.png
+  artifactKey: Guid(5bfac85d033853445956fb8d3e53ad6a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/2D Space Ships Pack - War Antuz race/SpaceShips/J-13.png using Guid(5bfac85d033853445956fb8d3e53ad6a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '0364fc921f4963346596c6ef6c5aadd2') in 0.060169 seconds 
+AssetImportWorkerClient::OnTransportError - code=2 error=End of file

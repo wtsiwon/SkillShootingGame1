@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour
 
     public Text scoreText;
 
-    public GameObject destroyObj;
+    public GameObject destroyEffect;
 
     private int score;
 

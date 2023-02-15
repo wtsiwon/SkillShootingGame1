@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour, ICanDamaged
 {
+    public bool isBoss;
+
     public float moveSpd;
 
     public float maxHp;
@@ -30,12 +32,12 @@ public class Enemy : MonoBehaviour, ICanDamaged
 
     public bool isMove = true;
 
-    private SpriteRenderer spriteRenderer;
+    protected SpriteRenderer spriteRenderer;
 
-    private Color ondmgColor = new Color(255, 255, 255, 150);
-    private Color originColor = Color.white;
+    protected Color ondmgColor = new Color(255, 255, 255, 150);
+    protected Color originColor = Color.white;
 
-    private void Start()
+    protected virtual void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
@@ -60,12 +62,15 @@ public class Enemy : MonoBehaviour, ICanDamaged
         spriteRenderer.color = originColor;
     }
 
-    private void OnDie()
+    protected virtual void OnDie()
     {
-        GameObject obj = Instantiate(GameManager.Instance.destroyObj, transform.position, Quaternion.identity);
+        GameObject obj = Instantiate(GameManager.Instance.destroyEffect, transform.position, Quaternion.identity);
         obj.transform.localScale = new Vector3(20, 20, 1);
         obj.GetComponent<SpriteRenderer>().color = Color.green;
-        Destroy(gameObject);
+        if (isBoss == false)
+        {
+            Destroy(gameObject);
+        }
     }
 }
 

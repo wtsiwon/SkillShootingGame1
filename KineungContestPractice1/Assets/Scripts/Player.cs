@@ -4,7 +4,7 @@ using UnityEditor.U2D.Sprites;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class Player : MonoBehaviour
+public class Player : Singleton<Player>
 {
     public float moveSpd;
 
@@ -18,7 +18,34 @@ public class Player : MonoBehaviour
     public bool isShoot;
 
     [Space(10f)]
-    public int level;
+    [SerializeField]
+    private int level;
+    public int Level
+    {
+        get => level;
+
+        set
+        {
+            level = value;
+        }
+    }
+
+    public List<Vector3> petPosList = new List<Vector3>();
+
+    public int maxPetCount;
+
+    private int petCount;
+
+    public int PetCount
+    {
+        get => petCount;
+        set
+        {
+            petCount = value;
+
+        }
+    }
+
 
     public Vector3 clampPosition;
 
@@ -102,7 +129,7 @@ public class Player : MonoBehaviour
 
     private void InputShootKey()
     {
-        if (Input.GetKey(KeyCode.J))
+        if (Input.GetKey(KeyCode.Z))
         {
             isShoot = true;
         }
@@ -110,7 +137,14 @@ public class Player : MonoBehaviour
         {
             isShoot = false;
         }
+
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            ChaseShoot();
+        }
     }
+
+
 
     private IEnumerator IShoot()
     {
@@ -119,14 +153,55 @@ public class Player : MonoBehaviour
             yield return new WaitForSeconds(0.01f);
             if (isShoot == true)
             {
-                Bullet bullet1 = Instantiate(bullet);
-                bullet1.SetBullet(transform.position, Vector3.up, bulletSpd, level);
+                switch (level)
+                {
+                    case 1:
+                        Bullet bullet1 = Instantiate(bullet);
+                        bullet1.SetBullet(transform.position, Vector3.up, bulletSpd, level, atkDmg, false);
+                        break;
+                    case 2:
+                        Bullet bullet2 = Instantiate(bullet);
+                        bullet2.SetBullet(new Vector3(transform.position.x + 0.5f, transform.position.y, 0),
+                            Vector3.up, bulletSpd, level, atkDmg, false);
+
+                        Bullet bullet3 = Instantiate(bullet);
+                        bullet3.SetBullet(new Vector3(transform.position.x - 0.5f, transform.position.y, 0),
+                            Vector3.up, bulletSpd, level, atkDmg, false);
+                        break;
+                    default:
+                        Bullet bullet4 = Instantiate(bullet);
+                        bullet4.SetBullet(new Vector3(transform.position.x + 0.5f, transform.position.y, 0),
+                            Vector3.up, bulletSpd, level, atkDmg, false);
+
+                        Bullet bullet5 = Instantiate(bullet);
+                        bullet5.SetBullet(new Vector3(transform.position.x - 0.5f, transform.position.y, 0),
+                            Vector3.up, bulletSpd, level, atkDmg, false);
+                        break;
+                }
                 yield return new WaitForSeconds(atkSpd);
             }
 
         }
     }
 
+    private void ChaseShoot()
+    {
+        GuidShoot(true);
+        GuidShoot(false);
+    }
+
+    private void GuidShoot(bool isRight)
+    {
+        Bullet obj = Instantiate(bullet, transform.position, Quaternion.identity);
+        if (isRight == true)
+        {
+            obj.SetBullet(transform.position, new Vector3(0, 0, 179), moveSpd, level, atkDmg, false, true, true);
+        }
+        else
+        {
+            obj.SetBullet(transform.position, new Vector3(0, 0, -179), moveSpd, level, atkDmg, false, true, true);
+        }
+    }
     private Vector3 ClampPosition()
     {
         Vector3 vector3 = new Vector3();
@@ -145,7 +220,7 @@ public class Player : MonoBehaviour
 
     }
 
-    public void OnDamaged(float dmg)
+    public void OnDamaged()
     {
         Hp -= 1;
     }

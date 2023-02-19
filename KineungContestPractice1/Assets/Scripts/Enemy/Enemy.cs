@@ -79,10 +79,20 @@ public abstract class Enemy : MonoBehaviour
         GameManager.Instance.Score += score;
         if (isBoss == false)
         {
-            GameManager.Instance.SpawnRandomItem(transform.position);
+            ItemSpawn();
             Destroy(gameObject);
         }
     }
+
+    private void ItemSpawn()
+    {
+        int rand = Random.Range(0, 10);
+        if(rand == 0)
+        {
+            GameManager.Instance.SpawnRandomItem(transform.position);
+        }
+    }
+
 
     protected virtual IEnumerator IAttack()
     {

@@ -46,10 +46,22 @@ public class Player : Singleton<Player>
         }
     }
 
+    private int shootCount = 12;
 
     public Vector3 clampPosition;
 
     public Bullet bullet;
+
+    public BezierBullet bezierBullet;
+
+    [SerializeField]
+    private Transform target;
+
+    [SerializeField]
+    private float startDistance = 6f;
+    [SerializeField]
+    private float endDistance = 3f;
+
 
     [SerializeField]
     [Space(10f)]
@@ -186,22 +198,59 @@ public class Player : Singleton<Player>
 
     private void ChaseShoot()
     {
-        GuidShoot(true);
-        GuidShoot(false);
+        StartCoroutine(IGuideShoot1(shootCount));
     }
 
-    private void GuidShoot(bool isRight)
+    #region ㅎㅎ
+    //private IEnumerator IGuideShoot(int count)
+    //{
+    //    Enemy[] targets = FindTargets();
+
+    //    if (targets.Length == 0) yield break;
+
+    //    int manyShoot = count / targets.Length;//하나의 적에게 몇개의 총알을 쏠것인가
+
+    //    if(count < targets.Length) //총알의 수보다 적이 더 많을 때
+    //        manyShoot = 1;
+
+    //    float interval = 2 / count;
+    //    for (int i = 0; i < count; i++)
+    //    {
+    //        for (int j = 0; j < manyShoot; j++)
+    //        {
+    //            BezierBullet bullet1 = Instantiate(bezierBullet);
+    //            float randomX = Random.Range(-1.0f, 1.0f);
+    //            Vector3 pos = new Vector3(randomX, transform.position.y, 0);
+    //            bullet1.SetBullet(pos, bulletSpd / 10, atkDmg, target);
+    //        }
+    //        yield return new WaitForSeconds(interval);
+    //    }
+    //}
+    #endregion
+
+    private IEnumerator IGuideShoot1(int count)
     {
-        Bullet obj = Instantiate(bullet, transform.position, Quaternion.identity);
-        if (isRight == true)
+        target = FindObjectOfType<Enemy>().transform;
+        if(target == null) yield return null;
+
+        for (int i = 0; i < count; i++)
         {
-            obj.SetBullet(transform.position, new Vector3(0, 0, 179), moveSpd, level, atkDmg, false, true, true);
-        }
-        else
-        {
-            obj.SetBullet(transform.position, new Vector3(0, 0, -179), moveSpd, level, atkDmg, false, true, true);
+            for (int j = 0; j < 2; j++)
+            {
+                if (target == null) yield return null;
+                BezierBullet bullet1 = Instantiate(bezierBullet);
+                bullet1.SetBullet(transform.position, bulletSpd / 10, atkDmg, target, startDistance, endDistance);
+            }
+            yield return new WaitForSeconds(0.05f);
         }
     }
+
+    public Enemy[] FindTargets()
+    {
+        Enemy[] targets = FindObjectsOfType<Enemy>();
+        return targets;
+    }
+
     private Vector3 ClampPosition()
     {
         Vector3 vector3 = new Vector3();

@@ -1050,6 +1050,8 @@ MonoBehaviour:
   maxPetCount: 0
   clampPosition: {x: 10, y: 4, z: 0}
   bullet: {fileID: 3464308033749415962, guid: 9260f1e8aa8d1c348b9e298ce15397ef, type: 3}
+  bezierBullet: {fileID: -4700010817148788277, guid: 27a8baff1c5b26d49a7f07f8c59c06fd, type: 3}
+  target: {fileID: 0}
   isInvicibility: 0
   maxHp: 3
   hp: 3

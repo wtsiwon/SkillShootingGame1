@@ -58,9 +58,9 @@ GameObject:
   - component: {fileID: 6429270943024261866}
   - component: {fileID: 6429270943024261867}
   - component: {fileID: -4756973516649874934}
-  - component: {fileID: 3464308033749415962}
+  - component: {fileID: -4700010817148788277}
   m_Layer: 0
-  m_Name: Bullet
+  m_Name: BezierBullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -148,7 +148,7 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
---- !u!114 &3464308033749415962
+--- !u!114 &-4700010817148788277
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -157,11 +157,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 6429270943024261864}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d4df90c746100ad4e88a1180cf63ddb7, type: 3}
+  m_Script: {fileID: 11500000, guid: 48e8f38c40dbb7a4e8cb3e9d6f5c202a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   filter:
-    useTriggers: 1
+    useTriggers: 0
     useLayerMask: 0
     useDepth: 0
     useOutsideDepth: 0
@@ -169,8 +169,10 @@ MonoBehaviour:
     useOutsideNormalAngle: 0
     layerMask:
       serializedVersion: 2
-      m_Bits: 64
+      m_Bits: 0
     minDepth: 0
     maxDepth: 0
     minNormalAngle: 0
     maxNormalAngle: 0
+  duration: 1
+  target: {fileID: 0}

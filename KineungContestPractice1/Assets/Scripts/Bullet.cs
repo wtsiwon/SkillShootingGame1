@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour
@@ -13,34 +14,25 @@ public class Bullet : MonoBehaviour
         set
         {
             isGuided = value;
-            if(value == true)
-            {
-                StartCoroutine(nameof(IGuidShoot));
-            }
         }
     }
 
     private bool isTargetChasing;
 
 
-    private Transform target;
-
     [SerializeField]
     private ContactFilter2D filter;
 
-    [SerializeField]
-    private Collider2D col;
-
     private bool isEnemyBullet;
 
-    private float moveSpd;
+    protected float moveSpd;
 
-    private int level;
+    protected int level;
 
     private Vector3 dir = Vector3.up;
 
-    private float dmg;
-    public float Dmg
+    protected float dmg;
+    public virtual float Dmg
     {
         get
         {
@@ -50,18 +42,23 @@ public class Bullet : MonoBehaviour
 
     private void Start()
     {
-        
+        if (isGuided == true)
+        {
+            StartCoroutine(nameof(IGuidShoot));
+        }
     }
 
     private void Update()
     {
         if (isMove == true)
         {
-            transform.Translate(dir * moveSpd * Time.deltaTime);
+            if (isGuided == false)
+            {
+                transform.Translate(Vector3.up * moveSpd * Time.deltaTime);
+            }
         }
-        if(isTargetChasing == true)
+        if (isTargetChasing == true)
         {
-            LookTarget();
         }
         Destroy();
     }
@@ -71,7 +68,7 @@ public class Bullet : MonoBehaviour
         transform.position = pos;
         moveSpd = spd;
         isMove = isMoving;
-        this.dir = dir;
+        transform.rotation = Quaternion.Euler(dir);
         this.dmg = dmg;
         this.level = level;
         this.isEnemyBullet = isEnemyBullet;
@@ -107,48 +104,34 @@ public class Bullet : MonoBehaviour
                 Destroy(gameObject);
             }
         }
-        print(collision);
     }
+
+    private IEnumerator Bezier()
+    {
+        yield return null;
+    }
+
+    
 
     private IEnumerator IGuidShoot()
     {
-        Quaternion startRot = transform.rotation;
-        Quaternion endRot = new Quaternion(0, 0, 0, 0);
+        Vector3 startRot = transform.rotation.eulerAngles;
+        Vector3 endRot = Vector3.zero;
 
-        float duration = 0.5f;
+        float duration = 1f;
         float timer = 0;
         while (timer < duration)
         {
-            transform.rotation = Quaternion.Lerp(startRot, endRot, timer / duration);
+            transform.rotation = Quaternion.Euler(Vector3.Lerp(startRot, endRot, timer / duration));
 
             timer += Time.deltaTime;
             yield return null;
         }
-        StartCoroutine(nameof(FindTarget));
     }
 
-    private IEnumerator FindTarget()
-    {
-        while(target != null)
-        {
-            yield return null;
-            List<Collider2D> colList = new List<Collider2D>();
-
-            Physics2D.OverlapCollider(col, filter, colList);
-
-            if (colList.Count == 0) continue;
-
-            target = colList[0].transform;
-        }
-    }
-
-    private void LookTarget()
-    {
-        dir = (target.position - transform.position).normalized;
-    }
 
     private void OnDestroy()
     {
-        print(Dmg);
+
     }
 }

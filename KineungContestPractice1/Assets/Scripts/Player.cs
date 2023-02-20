@@ -46,22 +46,9 @@ public class Player : Singleton<Player>
         }
     }
 
-    private int shootCount = 12;
-
     public Vector3 clampPosition;
 
     public Bullet bullet;
-
-    public BezierBullet bezierBullet;
-
-    [SerializeField]
-    private Transform target;
-
-    [SerializeField]
-    private float startDistance = 6f;
-    [SerializeField]
-    private float endDistance = 3f;
-
 
     [SerializeField]
     [Space(10f)]
@@ -149,14 +136,7 @@ public class Player : Singleton<Player>
         {
             isShoot = false;
         }
-
-        if (Input.GetKeyDown(KeyCode.X))
-        {
-            ChaseShoot();
-        }
     }
-
-
 
     private IEnumerator IShoot()
     {
@@ -196,11 +176,6 @@ public class Player : Singleton<Player>
         }
     }
 
-    private void ChaseShoot()
-    {
-        StartCoroutine(IGuideShoot1(shootCount));
-    }
-
     #region ¤¾¤¾
     //private IEnumerator IGuideShoot(int count)
     //{
@@ -227,29 +202,6 @@ public class Player : Singleton<Player>
     //    }
     //}
     #endregion
-
-    private IEnumerator IGuideShoot1(int count)
-    {
-        target = FindObjectOfType<Enemy>().transform;
-        if(target == null) yield return null;
-
-        for (int i = 0; i < count; i++)
-        {
-            for (int j = 0; j < 2; j++)
-            {
-                if (target == null) yield return null;
-                BezierBullet bullet1 = Instantiate(bezierBullet);
-                bullet1.SetBullet(transform.position, bulletSpd / 10, atkDmg, target, startDistance, endDistance);
-            }
-            yield return new WaitForSeconds(0.05f);
-        }
-    }
-
-    public Enemy[] FindTargets()
-    {
-        Enemy[] targets = FindObjectsOfType<Enemy>();
-        return targets;
-    }
 
     private Vector3 ClampPosition()
     {

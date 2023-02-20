@@ -90,9 +90,4 @@ public class GameManager : Singleton<GameManager>
 
         Instantiate(itemList[randNum], pos, Quaternion.identity);
     }
-
-    private void RandomItem(int itemNum)
-    {
-
-    }
 }

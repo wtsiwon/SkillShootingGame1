@@ -23,11 +23,11 @@ public class Bullet : MonoBehaviour
     [SerializeField]
     private ContactFilter2D filter;
 
-    private bool isEnemyBullet;
+    protected bool isEnemyBullet;
 
     protected float moveSpd;
 
-    protected int level;
+    protected int level = 1;
 
     private Vector3 dir = Vector3.up;
 
@@ -69,8 +69,8 @@ public class Bullet : MonoBehaviour
         moveSpd = spd;
         isMove = isMoving;
         transform.rotation = Quaternion.Euler(dir);
-        this.dmg = dmg;
         this.level = level;
+        this.dmg = dmg;
         this.isEnemyBullet = isEnemyBullet;
         this.isGuided = isGuided;
     }
@@ -85,7 +85,7 @@ public class Bullet : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    protected void OnTriggerEnter2D(Collider2D collision)
     {
         if (isEnemyBullet == true)
         {

@@ -38,23 +38,19 @@ public class BezierBullet : Bullet
             t += Time.deltaTime * moveSpd;
             yield return null;
         }
-        Hit();
+        Destroy(gameObject);
     }
 
-    public void SetBullet(Vector2 pos, float moveSpd, float dmg, Transform target, float startDistance, float endDistance)
+    public void SetBullet(Vector2 pos, float moveSpd, float dmg, Transform target, float startDistance, float endDistance, bool isEnemyBullet)
     {
         transform.position = pos;
         this.moveSpd = moveSpd;
         this.dmg = dmg;
         this.target = target;
         AssignFourPoint();
+        this.isEnemyBullet = isEnemyBullet;
     }
 
-    private void Hit()
-    {
-        target.GetComponent<Enemy>().OnDamaged(Dmg);
-        Destroy(gameObject);
-    }
 
     private float FourPointBezier(float a, float b, float c, float d, float t)
     {

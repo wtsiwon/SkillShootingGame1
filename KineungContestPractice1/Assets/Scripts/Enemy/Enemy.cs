@@ -30,7 +30,7 @@ public abstract class Enemy : MonoBehaviour
         set
         {
             if (value <= 0) OnDie();
-            else if (value >= maxHp) hp = maxHp;
+            else if (value > maxHp) hp = maxHp;
             else
             {
                 hp = value;
@@ -64,6 +64,7 @@ public abstract class Enemy : MonoBehaviour
     public void OnDamaged(float dmg)
     {
         Hp -= dmg;
+        print(dmg);
     }
 
     private IEnumerator IOnDamaged()

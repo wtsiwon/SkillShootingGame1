@@ -15,7 +15,22 @@ public abstract class Enemy : MonoBehaviour
 
     public bool isAttack;
 
+    public float bulletSpd;
+
     public Bullet bullet;
+
+    protected bool isDie;
+    public virtual bool IsDie
+    {
+        get
+        {
+            return isDie;
+        }
+        set
+        {
+            isDie = value;
+        }
+    }
 
     public float maxHp;
 
@@ -50,7 +65,6 @@ public abstract class Enemy : MonoBehaviour
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         StartCoroutine(nameof(IAttack));
-
     }
 
     private void Update()

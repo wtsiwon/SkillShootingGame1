@@ -2,26 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.UIElements;
 
 public class Boss : Enemy
 {
+    [SerializeField]
+    private Transform shootingPos;
+
     public bool isBossMove;
 
     public int patternNum;
 
-    private bool isDie;
-    public bool IsDie
-    {
-        get
-        {
-            return isDie;
-        }
-        set
-        {
-            isDie = value;
-        }
-    }
 
     public override float Hp
     {
@@ -29,7 +21,7 @@ public class Boss : Enemy
         set
         {
             base.Hp = value;
-            if (value <= 0)
+            if (value <= 0 && IsDie == false)
             {
                 OnDie();
             }
@@ -42,6 +34,7 @@ public class Boss : Enemy
         base.Start();
         StartCoroutine(IBossMove());
         isBossMove = true;
+        IsDie = false;
     }
 
     void Update()
@@ -109,6 +102,8 @@ public class Boss : Enemy
         isBossMove = false;
     }
 
+
+
     protected override void Attack()
     {
         RandomBossPattern();
@@ -116,20 +111,27 @@ public class Boss : Enemy
 
     private void RandomBossPattern()
     {
+
+
         int randPattern = Random.Range(1, 2);
 
-        StartCoroutine($"IBossPattern{randPattern}");
+        StartCoroutine($"IBossPattern{1}");
     }
 
     private IEnumerator IBossPattern1()
     {
         int angle = 360 / 12;
 
-        for (int i = 0; i < 12; i += angle)
+        for (int j = 0; j < 10; j++)
         {
-            GameObject obj = Instantiate(bullet, transform.position, Quaternion.identity).gameObject;
-            obj.transform.rotation = Quaternion.Euler(new Vector3(0, 0, i));
+            int count = 0;
+            for (int i = 0; i < 360; i += angle)
+            {
+                Bullet bullet1 = Instantiate(bullet, transform.position, Quaternion.identity);
+                bullet1.SetBullet(transform.position, new Vector3(0, 0, i + count * 15), bulletSpd, 1, 1, true);
+            }
+            count++;
+            yield return new WaitForSeconds(0.3f);
         }
-        yield return null;
     }
 }

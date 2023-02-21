@@ -19,10 +19,6 @@ public class Bullet : MonoBehaviour
 
     private bool isTargetChasing;
 
-
-    [SerializeField]
-    private ContactFilter2D filter;
-
     protected bool isEnemyBullet;
 
     protected float moveSpd;
@@ -105,13 +101,6 @@ public class Bullet : MonoBehaviour
             }
         }
     }
-
-    private IEnumerator Bezier()
-    {
-        yield return null;
-    }
-
-    
 
     private IEnumerator IGuidShoot()
     {

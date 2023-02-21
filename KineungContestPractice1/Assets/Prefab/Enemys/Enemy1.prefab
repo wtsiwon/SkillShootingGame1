@@ -140,6 +140,7 @@ MonoBehaviour:
   score: 1000
   atkSpd: 0.5
   isAttack: 1
+  bulletSpd: 5
   bullet: {fileID: 3464308033749415962, guid: 9260f1e8aa8d1c348b9e298ce15397ef, type: 3}
   maxHp: 10
   hp: 10

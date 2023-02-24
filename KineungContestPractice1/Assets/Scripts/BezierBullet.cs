@@ -47,6 +47,8 @@ public class BezierBullet : Bullet
         this.moveSpd = moveSpd;
         this.dmg = dmg;
         this.target = target;
+        this.startDistance = startDistance;
+        this.endDistance = endDistance;
         AssignFourPoint();
         this.isEnemyBullet = isEnemyBullet;
     }

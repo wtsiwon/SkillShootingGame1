@@ -101,6 +101,12 @@ public class Bullet : MonoBehaviour
                 GameManager.Instance.GetDestroyEffect(transform.position, 7, true);
                 Destroy(gameObject);
             }
+            else if(collision.TryGetComponent<Boss>(out Boss boss))
+            {
+                boss.OnDamaged(Dmg);
+                GameManager.Instance.GetDestroyEffect(transform.position, 7, true);
+                Destroy(gameObject);
+            }
         }
     }
 

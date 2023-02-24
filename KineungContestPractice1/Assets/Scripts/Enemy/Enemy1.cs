@@ -6,21 +6,23 @@ public class Enemy1 : Enemy
 {
     protected override void Attack()
     {
+
         StartCoroutine(SectorFormShot(5, transform.position.z));
     }
 
-    private IEnumerator SectorFormShot(int count, float central)
+    private IEnumerator SectorFormShot(int count, float center)
     {
-        float amount = central / (count - 1);
-        float z = central / -2f;
+        float amount = 180 / count;
+
+        float z = 180 + amount;
 
         for (int i = 0; i < count; i++)
         {
-            Vector3 rot = new Vector3(0, 0, z);
             Bullet bullet1 = Instantiate(bullet);
-            bullet.SetBullet(transform.position, rot, bulletSpd, 1, 1, true);
-            z += amount;
+            bullet1.SetBullet(transform.position, new Vector3(0, 0, z), bulletSpd, 1, dmg, true);
         }
+
+
         yield return null;
     }
 }

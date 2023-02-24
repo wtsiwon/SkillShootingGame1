@@ -13,7 +13,7 @@ public class EnemySpawner : Singleton<EnemySpawner>
     public List<Enemy> enemyList = new List<Enemy>();
 
     [Space(10f)]
-    public List<Enemy> bossList = new List<Enemy>();
+    public List<Boss> bossList = new List<Boss>();
 
     [Space(10f)]
     public List<Transform> enemySpawnPos = new List<Transform>();
@@ -39,7 +39,7 @@ public class EnemySpawner : Singleton<EnemySpawner>
             if (isEnemySpawn)
             {
                 yield return waitTime;
-                StartCoroutine($"IEnemySpawnPattern{Random.Range(1, enemyList.Count)}");
+                //StartCoroutine($"IEnemySpawnPattern{Random.Range(1, enemyList.Count)}");
             }
         }
     }

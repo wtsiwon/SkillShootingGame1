@@ -29,7 +29,8 @@ public class Player : Singleton<Player>
 
         set
         {
-            level = value;
+            if (value >= maxLevel) level = maxLevel;
+            else level = value;
         }
     }
 

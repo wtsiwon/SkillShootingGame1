@@ -11,6 +11,8 @@ public abstract class Enemy : MonoBehaviour
 
     public int score;//잡으면 주는 점수
 
+    public float dmg;
+
     public float atkSpd;//공격속도
 
     public bool isAttack;

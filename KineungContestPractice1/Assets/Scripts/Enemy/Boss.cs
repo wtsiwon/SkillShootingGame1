@@ -5,33 +5,58 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UIElements;
 
-public class Boss : Enemy
+public class Boss : MonoBehaviour
 {
     [SerializeField]
     private Transform shootingPos;
+
+    public Bullet bulletObj;
 
     public bool isBossMove;
 
     public int patternNum;
 
+    public float moveSpd;
 
-    public override float Hp
+    public float atkSpd;
+
+    private bool isDie;
+    public bool IsDie
     {
-        get => base.Hp;
+        get
+        {
+            return isDie;
+        }
         set
         {
-            base.Hp = value;
-            if (value <= 0 && IsDie == false)
-            {
-                OnDie();
-            }
+            isDie = value;
         }
     }
 
-
-    protected override void Start()
+    [SerializeField]
+    [Space(10f)]
+    private float maxHp;
+    [SerializeField]
+    private float hp;
+    public float Hp
     {
-        base.Start();
+        get => hp;
+        set
+        {
+            if (value > maxHp) hp = maxHp;
+            else if (value <= 0 && isDie == false)
+            {
+                OnDie();
+            }
+            else hp = value;
+        }
+    }
+
+    [SerializeField]
+    private float bulletSpd;
+
+    private void Start()
+    {
         StartCoroutine(IBossMove());
         isBossMove = true;
         IsDie = false;
@@ -45,9 +70,19 @@ public class Boss : Enemy
         }
     }
 
-    protected override void OnDie()
+    private IEnumerator IAttack()
     {
-        base.OnDie();
+        while (true)
+        {
+            yield return new WaitForSeconds(atkSpd);
+        }
+    }
+    public void OnDamaged(float dmg)
+    {
+        Hp -= dmg;
+    }
+    private void OnDie()
+    {
         BossDie();
     }
 
@@ -104,7 +139,7 @@ public class Boss : Enemy
 
 
 
-    protected override void Attack()
+    private void Attack()
     {
         RandomBossPattern();
     }
@@ -125,11 +160,11 @@ public class Boss : Enemy
             int count = 0;
             for (int i = 0; i < 180; i += angle)
             {
-                Bullet bullet1 = Instantiate(bullet, transform.position, Quaternion.identity);
+                Bullet bullet1 = Instantiate(bulletObj, transform.position, Quaternion.identity);
                 bullet1.SetBullet(transform.position, new Vector3(0, 0, i + count * 15 + 90), bulletSpd, 1, 1, true);
             }
             count++;
-            yield return new WaitForSeconds(0.8f);
+            yield return new WaitForSeconds(1f);
         }
     }
 }

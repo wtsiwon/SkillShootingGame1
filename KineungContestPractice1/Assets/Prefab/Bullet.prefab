@@ -26,8 +26,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6429270943024261864}
-  m_LocalRotation: {x: 0, y: 0, z: 0.21643962, w: 0.976296}
-  m_LocalPosition: {x: -2.4627488, y: 2.672749, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -12.870266, z: 0}
   m_LocalScale: {x: 0.3, y: 0.3, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -112,3 +112,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4df90c746100ad4e88a1180cf63ddb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isEnemyBullet: 1
+  moveSpd: 5

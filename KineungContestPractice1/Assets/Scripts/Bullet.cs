@@ -19,8 +19,10 @@ public class Bullet : MonoBehaviour
 
     private bool isTargetChasing;
 
+    [SerializeField]
     protected bool isEnemyBullet;
 
+    [SerializeField]
     protected float moveSpd;
 
     protected int level = 1;

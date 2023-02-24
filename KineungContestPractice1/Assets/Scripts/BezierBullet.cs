@@ -68,6 +68,8 @@ public class BezierBullet : Bullet
 
     public void AssignFourPoint()
     {
+        if (target == null) return;
+
         points[0] = transform.position;
 
         points[1] = PointSetting(transform.position) + 

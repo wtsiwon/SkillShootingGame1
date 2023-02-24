@@ -94,8 +94,7 @@ public class PlayerSkill : MonoBehaviour
 
     private IEnumerator IGuideShoot1(int count)
     {
-        
-        if (target == null) yield return null;
+        if (target == null) yield break;
 
         for (int i = 0; i < count / 2; i++)
         {

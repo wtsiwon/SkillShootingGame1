@@ -111,8 +111,6 @@ public class Boss : Enemy
 
     private void RandomBossPattern()
     {
-
-
         int randPattern = Random.Range(1, 2);
 
         StartCoroutine($"IBossPattern{1}");
@@ -120,18 +118,18 @@ public class Boss : Enemy
 
     private IEnumerator IBossPattern1()
     {
-        int angle = 360 / 12;
+        int angle = 180 / 12;
 
         for (int j = 0; j < 10; j++)
         {
             int count = 0;
-            for (int i = 0; i < 360; i += angle)
+            for (int i = 0; i < 180; i += angle)
             {
                 Bullet bullet1 = Instantiate(bullet, transform.position, Quaternion.identity);
-                bullet1.SetBullet(transform.position, new Vector3(0, 0, i + count * 15), bulletSpd, 1, 1, true);
+                bullet1.SetBullet(transform.position, new Vector3(0, 0, i + count * 15 + 90), bulletSpd, 1, 1, true);
             }
             count++;
-            yield return new WaitForSeconds(0.3f);
+            yield return new WaitForSeconds(0.8f);
         }
     }
 }

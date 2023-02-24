@@ -17,6 +17,9 @@ public class Player : Singleton<Player>
     [Space(10f)]
     public bool isShoot;
 
+    [SerializeField]
+    private int maxLevel;
+
     [Space(10f)]
     [SerializeField]
     private int level;

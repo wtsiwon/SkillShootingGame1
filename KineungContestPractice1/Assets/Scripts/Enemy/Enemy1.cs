@@ -6,7 +6,7 @@ public class Enemy1 : Enemy
 {
     protected override void Attack()
     {
-        StartCoroutine(SectorFormShot(5, 50));
+        StartCoroutine(SectorFormShot(5, transform.position.z));
     }
 
     private IEnumerator SectorFormShot(int count, float central)

@@ -92,13 +92,15 @@ public abstract class Enemy : MonoBehaviour
 
     protected virtual void OnDie()
     {
+        if(isBoss == false) EnemyDie();
+    }
+
+    protected void EnemyDie()
+    {
         GameManager.Instance.GetDestroyEffect(transform.position, 15);
         GameManager.Instance.Score += score;
-        if (isBoss == false)
-        {
-            ItemSpawn();
-            Destroy(gameObject);
-        }
+        ItemSpawn();
+        Destroy(gameObject);
     }
 
     private void ItemSpawn()

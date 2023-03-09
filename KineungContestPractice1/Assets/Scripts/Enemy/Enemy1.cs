@@ -19,7 +19,7 @@ public class Enemy1 : Enemy
         for (int i = 0; i < count; i++)
         {
             Bullet bullet1 = Instantiate(bullet);
-            bullet1.SetBullet(transform.position, new Vector3(0, 0, z), bulletSpd, 1, dmg, true);
+            bullet1.SetBullet(transform.position, new Vector3(0, 0, z), bulletSpd, dmg, true);
         }
 
 

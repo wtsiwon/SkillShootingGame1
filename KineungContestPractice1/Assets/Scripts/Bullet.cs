@@ -25,8 +25,6 @@ public class Bullet : MonoBehaviour
     [SerializeField]
     protected float moveSpd;
 
-    protected int level = 1;
-
     private Vector3 dir = Vector3.up;
 
     protected float dmg;
@@ -34,7 +32,7 @@ public class Bullet : MonoBehaviour
     {
         get
         {
-            return dmg * level;
+            return dmg;
         }
     }
 
@@ -61,13 +59,12 @@ public class Bullet : MonoBehaviour
         Destroy();
     }
 
-    public void SetBullet(Vector3 pos, Vector3 dir, float spd, int level, float dmg, bool isEnemyBullet, bool isMoving = true, bool isGuided = false)
+    public void SetBullet(Vector3 pos, Vector3 dir, float spd, float dmg, bool isEnemyBullet, bool isMoving = true, bool isGuided = false)
     {
         transform.position = pos;
         moveSpd = spd;
         isMove = isMoving;
         transform.rotation = Quaternion.Euler(dir);
-        this.level = level;
         this.dmg = dmg;
         this.isEnemyBullet = isEnemyBullet;
         this.isGuided = isGuided;

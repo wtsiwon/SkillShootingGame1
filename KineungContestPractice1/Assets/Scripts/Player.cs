@@ -153,25 +153,27 @@ public class Player : Singleton<Player>
                 {
                     case 1:
                         Bullet bullet1 = Instantiate(bullet);
-                        bullet1.SetBullet(transform.position, Vector3.up, bulletSpd, level, atkDmg, false);
+                        bullet1.SetBullet(transform.position, Vector3.up, bulletSpd, atkDmg, false);
                         break;
                     case 2:
                         Bullet bullet2 = Instantiate(bullet);
                         bullet2.SetBullet(new Vector3(transform.position.x + 0.5f, transform.position.y, 0),
-                            Vector3.up, bulletSpd, level, atkDmg, false);
+                            Vector3.up, bulletSpd, atkDmg, false);
 
                         Bullet bullet3 = Instantiate(bullet);
                         bullet3.SetBullet(new Vector3(transform.position.x - 0.5f, transform.position.y, 0),
-                            Vector3.up, bulletSpd, level, atkDmg, false);
+                            Vector3.up, bulletSpd, atkDmg, false);
                         break;
                     default:
+
+
                         Bullet bullet4 = Instantiate(bullet);
                         bullet4.SetBullet(new Vector3(transform.position.x + 0.5f, transform.position.y, 0),
-                            Vector3.up, bulletSpd, level, atkDmg, false);
+                            Vector3.up, bulletSpd, atkDmg, false);
 
                         Bullet bullet5 = Instantiate(bullet);
                         bullet5.SetBullet(new Vector3(transform.position.x - 0.5f, transform.position.y, 0),
-                            Vector3.up, bulletSpd, level, atkDmg, false);
+                            Vector3.up, bulletSpd, atkDmg, false);
                         break;
                 }
                 yield return new WaitForSeconds(atkSpd);

@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using TMPro.EditorUtilities;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UIElements;
 
-public class Boss : MonoBehaviour
+public class Boss : Enemy
 {
     [SerializeField]
     private Transform shootingPos;
@@ -16,53 +17,14 @@ public class Boss : MonoBehaviour
 
     public int patternNum;
 
-    public float moveSpd;
-
-    public float atkSpd;
-
-    private bool isDie;
-    public bool IsDie
-    {
-        get
-        {
-            return isDie;
-        }
-        set
-        {
-            isDie = value;
-        }
-    }
-
-    [SerializeField]
-    [Space(10f)]
-    private float maxHp;
-    [SerializeField]
-    private float hp;
-    public float Hp
-    {
-        get => hp;
-        set
-        {
-            if (value > maxHp) hp = maxHp;
-            else if (value <= 0 && isDie == false)
-            {
-                OnDie();
-            }
-            else hp = value;
-        }
-    }
-
-    [SerializeField]
-    private float bulletSpd;
-
-    private void Start()
+    protected override void Start()
     {
         StartCoroutine(IBossMove());
         isBossMove = true;
         IsDie = false;
     }
 
-    void Update()
+    private void Update()
     {
         if (IsDie == true)
         {
@@ -70,20 +32,9 @@ public class Boss : MonoBehaviour
         }
     }
 
-    private IEnumerator IAttack()
+    protected override void OnDie()
     {
-        while (true)
-        {
-            yield return new WaitForSeconds(atkSpd);
-        }
-    }
-    public void OnDamaged(float dmg)
-    {
-        Hp -= dmg;
-    }
-    private void OnDie()
-    {
-        BossDie();
+        if(isBoss == true) BossDie();
     }
 
     private void BossDie()
@@ -136,14 +87,6 @@ public class Boss : MonoBehaviour
 
         isBossMove = false;
     }
-
-
-
-    private void Attack()
-    {
-        RandomBossPattern();
-    }
-
     private void RandomBossPattern()
     {
         int randPattern = Random.Range(1, 2);
@@ -161,10 +104,21 @@ public class Boss : MonoBehaviour
             for (int i = 0; i < 180; i += angle)
             {
                 Bullet bullet1 = Instantiate(bulletObj, transform.position, Quaternion.identity);
-                bullet1.SetBullet(transform.position, new Vector3(0, 0, i + count * 15 + 90), bulletSpd, 1, 1, true);
+                bullet1.SetBullet(transform.position, new Vector3(0, 0, i + count * 15 + 90), bulletSpd, 1, true);
             }
             count++;
             yield return new WaitForSeconds(1f);
         }
+    }
+
+
+    private IEnumerator IBossPattern2() 
+    {
+        yield return null;
+    }
+
+    protected override void Attack()
+    {
+        RandomBossPattern();
     }
 }

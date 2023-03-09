@@ -16,7 +16,6 @@ public abstract class Pet : MonoBehaviour
 
     protected float atkSpd;
     protected float dmg;
-    protected int level;
 
     protected virtual void Start()
     {

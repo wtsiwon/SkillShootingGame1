@@ -20,6 +20,9 @@ public class GameManager : Singleton<GameManager>
 
     private int score;
 
+    [HideInInspector]
+    public float destroyDistance = 14f;
+
     public int Score
     {
         get => score;

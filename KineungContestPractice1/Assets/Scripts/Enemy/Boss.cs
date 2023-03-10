@@ -41,7 +41,7 @@ public class Boss : Enemy
     {
         isDie = true;
         EnemySpawner.Instance.isBossSpawned = false;
-        StartCoroutine(IBossDieEffect());
+        StartCoroutine(nameof(IBossDieEffect));
     }
 
     private IEnumerator IBossDieEffect()

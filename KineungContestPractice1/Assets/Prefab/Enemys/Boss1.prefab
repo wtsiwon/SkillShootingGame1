@@ -248,12 +248,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 889722845e4fee14ebe1ef9feb93007d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isBoss: 0
+  moveSpd: 2
+  score: 0
+  dmg: 0
+  atkSpd: 0
+  isAttack: 0
+  bulletSpd: 2
+  bullet: {fileID: 3464308033749415962, guid: 9260f1e8aa8d1c348b9e298ce15397ef, type: 3}
+  maxHp: 1000000
+  hp: 1000000
+  isMove: 1
+  onDmgObj: {fileID: 6997005148218412782, guid: 314da7196f851584ba204732b3a8b787, type: 3}
   shootingPos: {fileID: 2854433915210654815}
   bulletObj: {fileID: 3464308033749415962, guid: 9260f1e8aa8d1c348b9e298ce15397ef, type: 3}
   isBossMove: 0
   patternNum: 1
-  moveSpd: 2
-  atkSpd: 0
-  maxHp: 1000000
-  hp: 1000000
-  bulletSpd: 2

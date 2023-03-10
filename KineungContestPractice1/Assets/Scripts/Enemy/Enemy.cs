@@ -134,6 +134,5 @@ public abstract class Enemy : MonoBehaviour
             }
         }
     }
-
     protected abstract void Attack();
 }

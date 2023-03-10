@@ -17,6 +17,8 @@ public class Boss : Enemy
 
     public int patternNum;
 
+    private bool isPatternDone;
+
     protected override void Start()
     {
         StartCoroutine(IBossMove());
@@ -34,7 +36,7 @@ public class Boss : Enemy
 
     protected override void OnDie()
     {
-        if(isBoss == true) BossDie();
+        if (isBoss == true) BossDie();
     }
 
     private void BossDie()
@@ -96,7 +98,10 @@ public class Boss : Enemy
 
     private IEnumerator IBossPattern1()
     {
+        isPatternDone = false;
+
         int angle = 180 / 12;
+
 
         for (int j = 0; j < 10; j++)
         {
@@ -109,12 +114,51 @@ public class Boss : Enemy
             count++;
             yield return new WaitForSeconds(1f);
         }
+
+        isPatternDone = true;
+        yield break;
     }
 
 
-    private IEnumerator IBossPattern2() 
+    private IEnumerator IBossPattern2(int bulletCount, int central, int rotate, int rotateCount, int entireCount)
     {
-        yield return null;
+        isPatternDone = false;
+
+        float z = -rotate;
+        float amount = (rotate * 2f) / rotateCount;
+
+        for (int i = 0; i < entireCount; i++)
+        {
+            Vector2 nor = (Vector3.zero - transform.position).normalized;
+            float tarZ = Mathf.Atan2(nor.y, nor.x) * Mathf.Rad2Deg;
+
+
+            z += amount;
+            if (z == rotate || z == -rotate)
+            {
+                amount *= -1;
+            }
+
+            ShotBullet(central, z + tarZ, bulletCount);
+
+            yield return new WaitForSeconds(0.1f);
+        }
+
+        isPatternDone = true;
+        yield break;
+    }
+
+    private void ShotBullet(float central, float startRot, int bulletCount)
+    {
+        float amount = central / (bulletCount - 1);
+        float z = central / -2f;
+
+        for (int i = 0; i < bulletCount; i++)
+        {
+            Quaternion rot = Quaternion.Euler(0, 0, z + startRot);
+            Instantiate(bullet, transform.position, rot);
+            z += amount;
+        }
     }
 
     protected override void Attack()

@@ -259,7 +259,7 @@ MonoBehaviour:
   maxHp: 1000000
   hp: 1000000
   isMove: 1
-  onDmgObj: {fileID: 6997005148218412782, guid: 314da7196f851584ba204732b3a8b787, type: 3}
+  onDmgObj: {fileID: 3065659202634681191}
   shootingPos: {fileID: 2854433915210654815}
   bulletObj: {fileID: 3464308033749415962, guid: 9260f1e8aa8d1c348b9e298ce15397ef, type: 3}
   isBossMove: 0

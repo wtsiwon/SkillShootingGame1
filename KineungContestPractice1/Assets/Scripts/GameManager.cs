@@ -5,12 +5,13 @@ using Unity.Profiling;
 using UnityEngine;
 using UnityEngine.UI;
 using Image = UnityEngine.UI.Image;
+using TMPro;
 
 public class GameManager : Singleton<GameManager>
 {
     public Image[] hpIcons;
 
-    public Text scoreText;
+    public TextMeshProUGUI scoreText;
 
     public GameObject destroyEffect;
 
@@ -77,6 +78,7 @@ public class GameManager : Singleton<GameManager>
         GameObject obj = Instantiate(destroyEffect, pos, Quaternion.identity);
         obj.transform.rotation = Quaternion.Euler(0, 0, randRotate);
         obj.transform.localScale = new Vector3(scale, scale, 1);
+        Destroy(obj,0.5f);
     }
 
     public void SpawnRandomItem(Vector3 pos)
@@ -90,7 +92,6 @@ public class GameManager : Singleton<GameManager>
         {
             randNum = Random.Range(0, itemList.Count - 1);
         }
-
         Instantiate(itemList[randNum], pos, Quaternion.identity);
     }
 }

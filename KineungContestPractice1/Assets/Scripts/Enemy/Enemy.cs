@@ -51,7 +51,7 @@ public abstract class Enemy : MonoBehaviour
             else
             {
                 hp = value;
-                StartCoroutine(IOnDamaged());
+                StartCoroutine(nameof(IOnDamaged));
             }
         }
     }
@@ -83,7 +83,7 @@ public abstract class Enemy : MonoBehaviour
         print(dmg);
     }
 
-    private IEnumerator IOnDamaged()
+    protected IEnumerator IOnDamaged()
     {
         onDmgObj.SetActive(true);
         yield return new WaitForSeconds(0.1f);
@@ -92,7 +92,7 @@ public abstract class Enemy : MonoBehaviour
 
     protected virtual void OnDie()
     {
-        if(isBoss == false) EnemyDie();
+        if (isBoss == false) EnemyDie();
     }
 
     protected void EnemyDie()
@@ -103,10 +103,19 @@ public abstract class Enemy : MonoBehaviour
         Destroy(gameObject);
     }
 
+    protected void EnemyDestroy()
+    {
+        float distance = Vector3.Distance(Vector3.zero, transform.position);
+        if (distance > GameManager.Instance.destroyDistance)
+        {
+            Destroy(gameObject);
+        }
+    }
+
     private void ItemSpawn()
     {
         int rand = Random.Range(0, 10);
-        if(rand == 0)
+        if (rand == 0)
         {
             GameManager.Instance.SpawnRandomItem(transform.position);
         }

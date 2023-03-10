@@ -73,7 +73,7 @@ public class Bullet : MonoBehaviour
     private void Destroy()
     {
         float distance = Vector3.Distance(Vector3.zero, transform.position);
-        if (distance > 14f)
+        if (distance > GameManager.Instance.destroyDistance)
         {
             GameManager.Instance.GetDestroyEffect(transform.position);
             Destroy(gameObject);
@@ -98,12 +98,6 @@ public class Bullet : MonoBehaviour
                 GameManager.Instance.GetDestroyEffect(transform.position, 7, true);
                 Destroy(gameObject);
             }
-            else if(collision.TryGetComponent<Boss>(out Boss boss))
-            {
-                boss.OnDamaged(Dmg);
-                GameManager.Instance.GetDestroyEffect(transform.position, 7, true);
-                Destroy(gameObject);
-            }
         }
     }
 
@@ -122,7 +116,6 @@ public class Bullet : MonoBehaviour
             yield return null;
         }
     }
-
 
     private void OnDestroy()
     {

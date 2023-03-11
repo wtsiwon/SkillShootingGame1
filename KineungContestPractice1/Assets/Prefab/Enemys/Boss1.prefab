@@ -256,8 +256,8 @@ MonoBehaviour:
   isAttack: 0
   bulletSpd: 2
   bullet: {fileID: 3464308033749415962, guid: 9260f1e8aa8d1c348b9e298ce15397ef, type: 3}
-  maxHp: 1000000
-  hp: 1000000
+  maxHp: 10000
+  hp: 10000
   isMove: 1
   onDmgObj: {fileID: 3065659202634681191}
   shootingPos: {fileID: 2854433915210654815}

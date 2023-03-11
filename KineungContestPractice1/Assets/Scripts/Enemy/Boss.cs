@@ -11,8 +11,6 @@ public class Boss : Enemy
     [SerializeField]
     private Transform shootingPos;
 
-    public Bullet bulletObj;
-
     public bool isBossMove;
 
     public int patternNum;
@@ -108,7 +106,7 @@ public class Boss : Enemy
             int count = 0;
             for (int i = 0; i < 180; i += angle)
             {
-                Bullet bullet1 = Instantiate(bulletObj, transform.position, Quaternion.identity);
+                Bullet bullet1 = Instantiate(bullet, transform.position, Quaternion.identity);
                 bullet1.SetBullet(transform.position, new Vector3(0, 0, i + count * 15 + 90), bulletSpd, 1, true);
             }
             count++;

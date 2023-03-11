@@ -17,6 +17,19 @@ public class Boss : Enemy
 
     private bool isPatternDone;
 
+    public override float Hp
+    {
+        get
+        {
+            return hp;
+        }
+        set
+        {
+            base.Hp = value;
+        }
+    }
+
+
     protected override void Start()
     {
         StartCoroutine(IBossMove());
@@ -24,7 +37,7 @@ public class Boss : Enemy
         IsDie = false;
     }
 
-    private void Update()
+    protected void Update()//일부러 상속 안받음
     {
         if (IsDie == true)
         {
@@ -32,25 +45,41 @@ public class Boss : Enemy
         }
     }
 
-    protected override void OnDie()
+    private IEnumerator IUpdate()
     {
-        if (isBoss == true) BossDie();
+        while (true)
+        {
+            if (isPatternDone == true)
+            {
+                //RandomBossPattern();
+            }
+            yield return null;
+        }
+    }
+
+    protected override IEnumerator IAttack()
+    {
+        return base.IAttack();
     }
 
     private void BossDie()
     {
-        isDie = true;
-        EnemySpawner.Instance.isBossSpawned = false;
-        StartCoroutine(nameof(IBossDieEffect));
+        if (isDie == false)
+        {
+            isDie = true;
+            EnemySpawner.Instance.isBossSpawned = false;
+            StartCoroutine(nameof(IBossDieEffect));
+            Destroy(gameObject, 5f);
+        }
     }
 
     private IEnumerator IBossDieEffect()
     {
         print("DieEffect");
         int count = 0;
-        while (count < 30)
+        while (count < 100)
         {
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(0.03f);
             count++;
             GameObject obj = Instantiate(GameManager.Instance.destroyEffect, RandomPositon(transform.position, 4, 3), Quaternion.identity);
             obj.transform.localScale = new Vector3(15, 15, 1);
@@ -87,6 +116,7 @@ public class Boss : Enemy
 
         isBossMove = false;
     }
+
     private void RandomBossPattern()
     {
         int randPattern = Random.Range(1, 2);
@@ -142,25 +172,31 @@ public class Boss : Enemy
             yield return new WaitForSeconds(0.1f);
         }
 
+        void ShotBullet(float central, float startRot, int bulletCount)
+        {
+            float amount = central / (bulletCount - 1);
+            float z = central / -2f;
+
+            for (int i = 0; i < bulletCount; i++)
+            {
+                Quaternion rot = Quaternion.Euler(0, 0, z + startRot);
+                Instantiate(bullet, transform.position, rot);
+                z += amount;
+            }
+        }
         isPatternDone = true;
         yield break;
     }
 
-    private void ShotBullet(float central, float startRot, int bulletCount)
-    {
-        float amount = central / (bulletCount - 1);
-        float z = central / -2f;
 
-        for (int i = 0; i < bulletCount; i++)
-        {
-            Quaternion rot = Quaternion.Euler(0, 0, z + startRot);
-            Instantiate(bullet, transform.position, rot);
-            z += amount;
-        }
-    }
 
     protected override void Attack()
     {
         RandomBossPattern();
     }
+    protected override void OnDie()
+    {
+        if (isBoss == true) BossDie();
+    }
+
 }

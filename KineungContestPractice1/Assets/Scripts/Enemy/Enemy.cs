@@ -37,7 +37,7 @@ public abstract class Enemy : MonoBehaviour
     public float maxHp;
 
     [SerializeField]
-    private float hp;
+    protected float hp;
     public virtual float Hp
     {
         get
@@ -46,7 +46,11 @@ public abstract class Enemy : MonoBehaviour
         }
         set
         {
-            if (value <= 0) OnDie();
+            if (value <= 0)
+            {
+                OnDie();
+                StartCoroutine(nameof(IOnDamaged));
+            }
             else if (value > maxHp) hp = maxHp;
             else
             {
@@ -69,7 +73,7 @@ public abstract class Enemy : MonoBehaviour
         StartCoroutine(nameof(IAttack));
     }
 
-    private void Update()
+    protected virtual void Update()
     {
         if (isMove == true)
         {

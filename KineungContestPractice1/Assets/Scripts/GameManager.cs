@@ -19,10 +19,19 @@ public class GameManager : Singleton<GameManager>
 
     private Player player;
 
+    [Header("카메라Shake 관련 변수")]
+    public Camera cam;
+
+    public float shakeTime;
+    public float shakeInterval;
+    public float shakeRange;
+
     private int score;
 
     [HideInInspector]
     public float destroyDistance = 14f;
+
+    public int currentStageNum;
 
     public int Score
     {
@@ -42,13 +51,20 @@ public class GameManager : Singleton<GameManager>
 
     void Start()
     {
-        player = Player.Instance;
-        Score = 0;
+        InitializeGame();
     }
 
     void Update()
     {
 
+    }
+
+    private void InitializeGame()
+    {
+        player = Player.Instance;
+        Score = 0;
+
+        StartCoroutine(CameraShake(shakeTime, shakeRange));
     }
 
     public void UpdatePlayerHpIcon(int hp)
@@ -78,7 +94,7 @@ public class GameManager : Singleton<GameManager>
         GameObject obj = Instantiate(destroyEffect, pos, Quaternion.identity);
         obj.transform.rotation = Quaternion.Euler(0, 0, randRotate);
         obj.transform.localScale = new Vector3(scale, scale, 1);
-        Destroy(obj,0.5f);
+        Destroy(obj, 0.5f);
     }
 
     public void SpawnRandomItem(Vector3 pos)
@@ -93,5 +109,73 @@ public class GameManager : Singleton<GameManager>
             randNum = Random.Range(0, itemList.Count - 1);
         }
         Instantiate(itemList[randNum], pos, Quaternion.identity);
+    }
+
+    #region 카메라 Shake
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="shakeTime">흔드는 시간</param>
+    /// <param name="range">얼마나 크게 움직일 것인가</param>
+    /// <param name="ifMode">시간이 아니라 특정조건에 만족해야 할때</param>
+    public IEnumerator CameraShake(float shakeTime, float range, bool ifMode = false)
+    {
+        Vector3 defaultCamPosition = cam.transform.localPosition;
+
+        if (ifMode == false)
+        {
+            float time = 0;
+
+            while (time < shakeTime)
+            {
+                StartCoroutine(ShakePosition(range));
+
+                time += Time.deltaTime;
+                yield return null;
+            }
+        }
+        else
+        {
+            bool isDone = false;
+            while (isDone == false)
+            {
+                ShakePosition(range);
+                isDone = true;
+                yield break;
+            }
+        }
+
+        cam.transform.localPosition = defaultCamPosition;
+    }
+
+    private IEnumerator ShakePosition(float range)
+    {
+        Vector3 shakePosition = Random.insideUnitCircle * range;
+        
+        shakePosition.z = cam.transform.localPosition.z;
+
+        cam.transform.localPosition = shakePosition;
+        print(cam.transform.localPosition);
+
+        ShakeIntervalMove(shakePosition, 0.1f);
+        yield return new WaitForSeconds(0.1f);
+    }
+
+    private void ShakeIntervalMove(Vector3 shakePosition, float shakeInterval)
+    {
+        print("CameraShake");
+        float time = 0;
+        while (time < shakeInterval)
+        {
+            cam.transform.localPosition = Vector3.Lerp(cam.transform.localPosition, shakePosition, time / shakeInterval);
+            time += Time.deltaTime;
+        }
+    }
+
+    #endregion
+
+    private void GameOver()
+    {
+
     }
 }

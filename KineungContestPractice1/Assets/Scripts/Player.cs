@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEditor.U2D.Sprites;
 using UnityEngine;
 using UnityEngine.UIElements;
+using System;
 
 public class Player : Singleton<Player>
 {
@@ -16,6 +17,8 @@ public class Player : Singleton<Player>
 
     [Space(10f)]
     public bool isShoot;
+
+    private List<Action> shootingActionList = new List<Action>();
 
     [SerializeField]
     private int maxLevel;
@@ -52,7 +55,8 @@ public class Player : Singleton<Player>
 
     public Vector3 clampPosition;
 
-    public Bullet bullet;
+
+    public List<Bullet> bulletList = new List<Bullet>();
 
     [SerializeField]
     [Space(10f)]
@@ -103,6 +107,7 @@ public class Player : Singleton<Player>
         spriteRenderer = GetComponent<SpriteRenderer>();
         StartCoroutine(IShoot());
         StartCoroutine(IUpdate());
+
     }
 
     private IEnumerator IUpdate()
@@ -152,35 +157,82 @@ public class Player : Singleton<Player>
                 switch (level)
                 {
                     case 1:
-                        Bullet bullet1 = Instantiate(bullet);
+                        Bullet bullet1 = Instantiate(bulletList[0]);
                         bullet1.SetBullet(transform.position, Vector3.up, bulletSpd, atkDmg, false);
                         break;
                     case 2:
-                        Bullet bullet2 = Instantiate(bullet);
+                        Bullet bullet2 = Instantiate(bulletList[0]);
                         bullet2.SetBullet(new Vector3(transform.position.x + 0.5f, transform.position.y, 0),
                             Vector3.up, bulletSpd, atkDmg, false);
 
-                        Bullet bullet3 = Instantiate(bullet);
+                        Bullet bullet3 = Instantiate(bulletList[0]);
                         bullet3.SetBullet(new Vector3(transform.position.x - 0.5f, transform.position.y, 0),
                             Vector3.up, bulletSpd, atkDmg, false);
+                        break;
+                    case 3:
+                        Bullet bullet6 = Instantiate(bulletList[1]);
+                        bullet6.SetBullet(transform.position, Vector3.up, bulletSpd, atkDmg, false);
+
                         break;
                     default:
 
 
-                        Bullet bullet4 = Instantiate(bullet);
+                        Bullet bullet4 = Instantiate(bulletList[0]);
                         bullet4.SetBullet(new Vector3(transform.position.x + 0.5f, transform.position.y, 0),
                             Vector3.up, bulletSpd, atkDmg, false);
 
-                        Bullet bullet5 = Instantiate(bullet);
+                        Bullet bullet5 = Instantiate(bulletList[0]);
                         bullet5.SetBullet(new Vector3(transform.position.x - 0.5f, transform.position.y, 0),
                             Vector3.up, bulletSpd, atkDmg, false);
+
                         break;
+
                 }
                 yield return new WaitForSeconds(atkSpd);
             }
-
         }
     }
+
+    private Bullet GetBullet(int bulletLevel)
+    {
+        Bullet bullet = Instantiate(bulletList[bulletLevel - 1]);
+        bullet.SetBullet(transform.position, Vector3.up,bulletSpd, atkDmg, false);
+
+        return bullet;
+    }
+
+    #region PlayerShooting
+    //레벨에 따른 탄막
+    private void ShootingPattern1()
+    {
+        Bullet bullet = GetBullet(1);
+    }
+
+    private void ShootingPattern2()
+    {
+        Bullet bullet1 = GetBullet(1);
+        Vector3 bullet1Pos = bullet1.transform.position;
+        bullet1Pos = new Vector3(bullet1Pos.x - 0.5f, bullet1Pos.y, 0);
+        bullet1.transform.position = bullet1Pos;
+
+        Bullet bullet2 = GetBullet(1);
+        Vector3 bullet2Pos = bullet2.transform.position;
+        bullet2Pos = new Vector3(bullet2Pos.x + 0.5f, bullet2Pos.y, 0);
+        bullet2.transform.position = bullet2Pos;
+    }
+
+    private void ShootingPattern3()
+    {
+        GetBullet(2);
+        ShootingPattern2();
+    }
+
+    private void ShootingPattern4()
+    {
+
+    }
+
+    #endregion
 
     #region ㅎㅎ
     //private IEnumerator IGuideShoot(int count)

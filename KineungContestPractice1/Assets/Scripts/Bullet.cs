@@ -53,9 +53,6 @@ public class Bullet : MonoBehaviour
                 transform.Translate(Vector3.up * moveSpd * Time.deltaTime);
             }
         }
-        if (isTargetChasing == true)
-        {
-        }
         Destroy();
     }
 

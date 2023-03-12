@@ -1113,8 +1113,8 @@ MonoBehaviour:
   - {x: 0, y: 0.5, z: 0}
   - {x: 0.6, y: 0.2, z: 0}
   isInvicibility: 0
-  maxHp: 3
-  hp: 3
+  maxHp: 100
+  hp: 100
 --- !u!58 &843022192
 CircleCollider2D:
   m_ObjectHideFlags: 0

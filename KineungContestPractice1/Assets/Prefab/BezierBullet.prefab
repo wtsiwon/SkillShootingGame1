@@ -162,5 +162,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isEnemyBullet: 0
   moveSpd: 0
-  duration: 1.97
+  duration: 1.93
   target: {fileID: 0}

@@ -250,14 +250,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isBoss: 1
   moveSpd: 2
-  score: 0
-  dmg: 0
-  atkSpd: 0
-  isAttack: 0
+  score: 1000000
+  dmg: 10
+  atkSpd: 5
+  isAttack: 1
   bulletSpd: 2
   bullet: {fileID: 3464308033749415962, guid: 9260f1e8aa8d1c348b9e298ce15397ef, type: 3}
   maxHp: 1000000
-  hp: 100
+  hp: 1000000
   isMove: 1
   onDmgObj: {fileID: 3065659202634681191}
   shootingPos: {fileID: 2854433915210654815}

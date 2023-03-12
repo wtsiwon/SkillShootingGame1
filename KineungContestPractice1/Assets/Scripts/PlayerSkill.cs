@@ -54,8 +54,13 @@ public class PlayerSkill : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.X) && skillCoolDownList[(int)ESkillType.GuideShoot] == false)
         {
-            target = FindObjectOfType<Enemy>().transform;
-            if (target == null) return;
+            Enemy enemy = FindObjectOfType<Enemy>();
+            if (enemy == null) return;
+
+            target = enemy.transform;
+
+            //if (FindObjectOfType<Enemy>() == null) return;
+            //target = FindObjectOfType<Enemy>().transform;
 
             ChaseShoot();
             StartCoroutine(ISkillCoolDown(ESkillType.GuideShoot));
@@ -71,7 +76,6 @@ public class PlayerSkill : MonoBehaviour
         float timer = 0;
         skillCoolTimeTextList[index].gameObject.SetActive(true);
         
-
 
         while (timer < skillCoolTimeList[index])
         {

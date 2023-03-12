@@ -5,6 +5,13 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using System;
 
+public enum EShootPos
+{
+    Left,
+    Center,
+    Right,
+}
+
 public class Player : Singleton<Player>
 {
     public float moveSpd;
@@ -18,7 +25,9 @@ public class Player : Singleton<Player>
     [Space(10f)]
     public bool isShoot;
 
-    private List<Action> shootingActionList = new List<Action>();
+    private bool isSlowMove;
+
+    private List<Action> shootingActionList = new List<Action>(7);
 
     [SerializeField]
     private int maxLevel;
@@ -49,14 +58,18 @@ public class Player : Singleton<Player>
         set
         {
             petCount = value;
-
         }
     }
 
     public Vector3 clampPosition;
 
-
     public List<Bullet> bulletList = new List<Bullet>();
+
+    [Tooltip("총알레벨에 따른 추가 데미지")]
+    public List<float> levelPerbulletAdditionalDmg = new List<float>();
+
+    [Tooltip("총알 발사 위치")]
+    public List<Vector3> bulletShootPosList = new List<Vector3>();
 
     [SerializeField]
     [Space(10f)]
@@ -105,6 +118,7 @@ public class Player : Singleton<Player>
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
+
         StartCoroutine(IShoot());
         StartCoroutine(IUpdate());
 
@@ -132,7 +146,14 @@ public class Player : Singleton<Player>
 
         Vector3 dir = new Vector3(x, y, 0);
 
-        transform.Translate(dir * moveSpd * Time.deltaTime);
+        if (isSlowMove == true)
+        {
+            transform.Translate(dir * moveSpd / 2 * Time.deltaTime);
+        }
+        else
+        {
+            transform.Translate(dir * moveSpd * Time.deltaTime);
+        }
     }
 
     private void InputShootKey()
@@ -145,6 +166,15 @@ public class Player : Singleton<Player>
         {
             isShoot = false;
         }
+
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            isSlowMove = true;
+        }
+        else
+        {
+            isSlowMove = false;
+        }
     }
 
     private IEnumerator IShoot()
@@ -154,40 +184,7 @@ public class Player : Singleton<Player>
             yield return new WaitForSeconds(0.01f);
             if (isShoot == true)
             {
-                switch (level)
-                {
-                    case 1:
-                        Bullet bullet1 = Instantiate(bulletList[0]);
-                        bullet1.SetBullet(transform.position, Vector3.up, bulletSpd, atkDmg, false);
-                        break;
-                    case 2:
-                        Bullet bullet2 = Instantiate(bulletList[0]);
-                        bullet2.SetBullet(new Vector3(transform.position.x + 0.5f, transform.position.y, 0),
-                            Vector3.up, bulletSpd, atkDmg, false);
-
-                        Bullet bullet3 = Instantiate(bulletList[0]);
-                        bullet3.SetBullet(new Vector3(transform.position.x - 0.5f, transform.position.y, 0),
-                            Vector3.up, bulletSpd, atkDmg, false);
-                        break;
-                    case 3:
-                        Bullet bullet6 = Instantiate(bulletList[1]);
-                        bullet6.SetBullet(transform.position, Vector3.up, bulletSpd, atkDmg, false);
-
-                        break;
-                    default:
-
-
-                        Bullet bullet4 = Instantiate(bulletList[0]);
-                        bullet4.SetBullet(new Vector3(transform.position.x + 0.5f, transform.position.y, 0),
-                            Vector3.up, bulletSpd, atkDmg, false);
-
-                        Bullet bullet5 = Instantiate(bulletList[0]);
-                        bullet5.SetBullet(new Vector3(transform.position.x - 0.5f, transform.position.y, 0),
-                            Vector3.up, bulletSpd, atkDmg, false);
-
-                        break;
-
-                }
+                StartCoroutine($"IShootingPattern{level}");
                 yield return new WaitForSeconds(atkSpd);
             }
         }
@@ -196,42 +193,121 @@ public class Player : Singleton<Player>
     private Bullet GetBullet(int bulletLevel)
     {
         Bullet bullet = Instantiate(bulletList[bulletLevel - 1]);
-        bullet.SetBullet(transform.position, Vector3.up,bulletSpd, atkDmg, false);
+        bullet.SetBullet(transform.position, Vector3.up, bulletSpd, atkDmg + (atkDmg * levelPerbulletAdditionalDmg[level - 1]), false);
 
         return bullet;
     }
 
     #region PlayerShooting
     //레벨에 따른 탄막
-    private void ShootingPattern1()
+    private IEnumerator IShootingPattern1()
     {
         Bullet bullet = GetBullet(1);
+        Vector3 bulletPos = transform.position;
+        bulletPos += bulletShootPosList[(int)EShootPos.Center];
+        bullet.transform.position = bulletPos;
+        yield break;
     }
 
-    private void ShootingPattern2()
+    private IEnumerator IShootingPattern2()
     {
         Bullet bullet1 = GetBullet(1);
-        Vector3 bullet1Pos = bullet1.transform.position;
-        bullet1Pos = new Vector3(bullet1Pos.x - 0.5f, bullet1Pos.y, 0);
+        Vector3 bullet1Pos = transform.position;
+        bullet1Pos += bulletShootPosList[(int)EShootPos.Left];
         bullet1.transform.position = bullet1Pos;
 
         Bullet bullet2 = GetBullet(1);
-        Vector3 bullet2Pos = bullet2.transform.position;
-        bullet2Pos = new Vector3(bullet2Pos.x + 0.5f, bullet2Pos.y, 0);
+        Vector3 bullet2Pos = transform.position;
+        bullet2Pos += bulletShootPosList[(int)EShootPos.Right];
         bullet2.transform.position = bullet2Pos;
+        yield break;
     }
 
-    private void ShootingPattern3()
+    private IEnumerator IShootingPattern3()
     {
-        GetBullet(2);
-        ShootingPattern2();
+        Bullet bullet = GetBullet(2);
+        Vector3 bulletPos = transform.position;
+        bulletPos += bulletShootPosList[(int)EShootPos.Center];
+        bullet.transform.position = bulletPos;
+        yield break;
     }
 
-    private void ShootingPattern4()
+    private IEnumerator IShootingPattern4()
     {
+        Bullet bullet1 = GetBullet(1);//왼쪽
+        Vector3 bullet1Pos = transform.position;
+        bullet1Pos += bulletShootPosList[(int)EShootPos.Left];
+        bullet1.transform.position = bullet1Pos;
 
+        StartCoroutine(IShootingPattern3());
+
+        Bullet bullet2 = GetBullet(1);//오른쪽
+        Vector3 bullet2Pos = transform.position;
+        bullet2Pos += bulletShootPosList[(int)EShootPos.Right];
+        bullet2.transform.position = bullet2Pos;
+
+        yield break;
     }
 
+    private IEnumerator IShootingPattern5()
+    {
+        Bullet bullet1 = GetBullet(2);
+        Vector3 bullet1Pos = transform.position;
+        bullet1Pos += bulletShootPosList[(int)EShootPos.Left];
+        bullet1.transform.position = bullet1Pos;
+
+        Bullet bullet2 = GetBullet(1);
+        Vector3 bullet2Pos = transform.position;
+        bullet2Pos += bulletShootPosList[(int)EShootPos.Center];
+        bullet2.transform.position = bullet2Pos;
+
+        Bullet bullet3 = GetBullet(2);
+        Vector3 bullet3Pos = transform.position;
+        bullet3Pos += bulletShootPosList[(int)EShootPos.Right];
+        bullet3.transform.position = bullet3Pos;
+
+        yield break;
+    }
+
+    private IEnumerator IShootingPattern6()
+    {
+        Bullet bullet0 = GetBullet(1);
+        Vector3 bullet0Pos = transform.position;
+        bullet0Pos += bulletShootPosList[(int)EShootPos.Left];
+        bullet0.transform.position = bullet0Pos;
+
+        Bullet bullet1 = GetBullet(3);
+        Vector3 bullet1Pos = transform.position;
+        bullet1Pos += bulletShootPosList[(int)EShootPos.Center];
+        bullet1.transform.position = bullet1Pos;
+
+        Bullet bullet2 = GetBullet(1);
+        Vector3 bullet2Pos = transform.position;
+        bullet2Pos += bulletShootPosList[(int)EShootPos.Right];
+        bullet2.transform.position = bullet2Pos;
+
+        yield break;
+    }
+
+    private IEnumerator IShootingPattern7()
+    {
+        Bullet bullet1 = GetBullet(2);
+        Vector3 bullet1Pos = transform.position;
+        bullet1Pos += bulletShootPosList[(int)EShootPos.Left];
+        bullet1.transform.position = bullet1Pos;
+
+        Bullet bullet2 = GetBullet(3);
+        Vector3 bullet2Pos = transform.position;
+        bullet2Pos += bulletShootPosList[(int)EShootPos.Center];
+        bullet2.transform.position = bullet2Pos;
+
+        Bullet bullet3 = GetBullet(2);
+        Vector3 bullet3Pos = transform.position;
+        bullet3Pos += bulletShootPosList[(int)EShootPos.Right];
+        bullet3.transform.position = bullet3Pos;
+
+        yield break;
+    }
     #endregion
 
     #region ㅎㅎ

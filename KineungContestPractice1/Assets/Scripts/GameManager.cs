@@ -14,12 +14,13 @@ public class GameManager : Singleton<GameManager>
     public TextMeshProUGUI scoreText;
 
     public GameObject destroyEffect;
-
+    [Space(5f)]
     public List<Item> itemList = new List<Item>();
 
     private Player player;
 
     [Header("카메라Shake 관련 변수")]
+    [Space(10f)]
     public Camera cam;
 
     public float shakeTime;
@@ -31,6 +32,7 @@ public class GameManager : Singleton<GameManager>
     [HideInInspector]
     public float destroyDistance = 14f;
 
+    [Space(10f)]
     public int currentStageNum;
 
     public int Score
@@ -47,6 +49,7 @@ public class GameManager : Singleton<GameManager>
 
     private void Awake()
     {
+
     }
 
     void Start()
@@ -63,8 +66,6 @@ public class GameManager : Singleton<GameManager>
     {
         player = Player.Instance;
         Score = 0;
-
-        StartCoroutine(CameraShake(shakeTime, shakeRange));
     }
 
     public void UpdatePlayerHpIcon(int hp)

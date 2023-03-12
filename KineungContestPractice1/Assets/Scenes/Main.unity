@@ -1068,7 +1068,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 843022188}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.5, y: -3.41, z: 0}
+  m_LocalPosition: {x: -5.5, y: -5.17, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1091,15 +1091,27 @@ MonoBehaviour:
   bulletSpd: 30
   atkDmg: 10
   isShoot: 0
-  maxLevel: 0
+  maxLevel: 7
   level: 1
   petPosList: []
-  maxPetCount: 0
-  clampPosition: {x: 5.5, y: 4, z: 0}
+  maxPetCount: 5
+  clampPosition: {x: 5.5, y: 5, z: 0}
   bulletList:
   - {fileID: 3464308033749415962, guid: 9260f1e8aa8d1c348b9e298ce15397ef, type: 3}
   - {fileID: 3297353483868941516, guid: 81dd6587026ccf04ab9ef5618a816d18, type: 3}
   - {fileID: 8310349175442874342, guid: 0d8e38ed1f97abd4193c02deaaf9e497, type: 3}
+  levelPerbulletAdditionalDmg:
+  - 0
+  - 0.4
+  - 0.6
+  - 0.8
+  - 1.1
+  - 1.4
+  - 1.7
+  bulletShootPosList:
+  - {x: -0.6, y: 0.2, z: 0}
+  - {x: 0, y: 0.5, z: 0}
+  - {x: 0.6, y: 0.2, z: 0}
   isInvicibility: 0
   maxHp: 3
   hp: 3

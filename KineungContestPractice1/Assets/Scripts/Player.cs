@@ -110,10 +110,27 @@ public class Player : Singleton<Player>
                 StartCoroutine(Invicibility(3));
             }
 
-            GameManager.Instance.UpdatePlayerHpIcon(Hp);
+            GameManager.Instance.UpdatePlayerHpBar(maxHp / Hp);
 
         }
     }
+
+    [SerializeField]
+    [Space(10f)]
+    private float maxFuel;
+
+    private float fuel;
+
+    public float Fuel
+    {
+        get => fuel;
+        set
+        {
+            
+        }
+    }
+
+
 
     void Start()
     {

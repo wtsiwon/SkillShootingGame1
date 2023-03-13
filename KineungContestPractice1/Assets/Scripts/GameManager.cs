@@ -9,7 +9,8 @@ using TMPro;
 
 public class GameManager : Singleton<GameManager>
 {
-    public Image[] hpIcons;
+    public Slider hpbar;
+    public Slider fuelbar;
 
     public TextMeshProUGUI scoreText;
 
@@ -68,16 +69,14 @@ public class GameManager : Singleton<GameManager>
         Score = 0;
     }
 
-    public void UpdatePlayerHpIcon(int hp)
+    public void UpdatePlayerHpBar(float amount)
     {
-        for (int i = 0; i < hpIcons.Length; i++)
-        {
-            hpIcons[i].gameObject.SetActive(false);
-            if (i <= hp - 1)
-            {
-                hpIcons[i].gameObject.SetActive(true);
-            }
-        }
+        hpbar.value = amount;
+    }
+
+    public void UpdatePlayerFuelBar(float amount)
+    {
+        fuelbar.value = amount;
     }
 
     public void GetDestroyEffect(Vector3 pos, float scale = 7, bool isRandRotate = true)

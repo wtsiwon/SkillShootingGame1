@@ -110,13 +110,16 @@ public class Player : Singleton<Player>
                 StartCoroutine(Invicibility(3));
             }
 
-            GameManager.Instance.UpdatePlayerHpBar(maxHp / Hp);
+            GameManager.Instance.UpdatePlayerHpBar(hp / maxHp);
 
         }
     }
 
-    [SerializeField]
     [Space(10f)]
+    [Tooltip("연료 감소 속도")]
+    public float decline;
+
+    [SerializeField]
     private float maxFuel;
 
     private float fuel;
@@ -126,7 +129,13 @@ public class Player : Singleton<Player>
         get => fuel;
         set
         {
-            
+            if (value <= 0) OnDie();
+            else if (value > maxFuel) fuel = maxFuel;
+            else
+            {
+                fuel = value;
+            }
+            GameManager.Instance.UpdatePlayerFuelBar(Fuel / maxFuel);
         }
     }
 
@@ -151,6 +160,8 @@ public class Player : Singleton<Player>
 
     void Update()
     {
+        Fuel -= Time.deltaTime * decline;
+
         Move();
         InputShootKey();
         transform.position = ClampPosition();

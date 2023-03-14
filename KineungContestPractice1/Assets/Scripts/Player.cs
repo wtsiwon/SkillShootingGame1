@@ -92,7 +92,6 @@ public class Player : Singleton<Player>
     [Space(10f)]
     private int maxHp;
 
-    [SerializeField]
     private int hp;
     public int Hp
     {
@@ -117,7 +116,7 @@ public class Player : Singleton<Player>
 
     [Space(10f)]
     [Tooltip("연료 감소 속도")]
-    public float decline;
+    public float decrease;
 
     [SerializeField]
     private float maxFuel;
@@ -144,10 +143,17 @@ public class Player : Singleton<Player>
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
+        SetPlayer();
 
         StartCoroutine(IShoot());
         StartCoroutine(IUpdate());
 
+    }
+
+    private void SetPlayer()
+    {
+        fuel = maxFuel;
+        hp = maxHp;
     }
 
     private IEnumerator IUpdate()
@@ -158,9 +164,18 @@ public class Player : Singleton<Player>
         }
     }
 
+    private IEnumerator IFuelReduction()
+    {
+        while(Fuel < 0)
+        {
+            yield return new WaitForSeconds(0.05f);
+            Fuel -= decrease;
+        }
+    }
+
     void Update()
     {
-        Fuel -= Time.deltaTime * decline;
+        
 
         Move();
         InputShootKey();

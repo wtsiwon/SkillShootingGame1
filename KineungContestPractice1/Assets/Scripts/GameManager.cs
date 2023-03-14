@@ -13,6 +13,7 @@ public class GameManager : Singleton<GameManager>
     public Slider fuelbar;
 
     public TextMeshProUGUI scoreText;
+    public TextMeshProUGUI highestScoreText;
 
     public GameObject destroyEffect;
     [Space(5f)]
@@ -28,13 +29,39 @@ public class GameManager : Singleton<GameManager>
     public float shakeInterval;
     public float shakeRange;
 
-    private int score;
 
     [HideInInspector]
     public float destroyDistance = 14f;
 
     [Space(10f)]
     public int currentStageNum;
+
+    private int highestScore;
+
+    public int HighestScore
+    {
+        get
+        {
+            if (highestScore <= score)
+            {
+                PlayerPrefs.SetInt("HighestScore", score);
+                
+            }
+            else
+            {
+                highestScore = PlayerPrefs.GetInt("HighestScore", 0);
+            }
+
+            return highestScore;
+        }
+
+        set
+        {
+            highestScoreText.text = highestScore.ToString();
+        }
+    }
+
+    private int score;
 
     public int Score
     {
@@ -151,7 +178,7 @@ public class GameManager : Singleton<GameManager>
     private IEnumerator ShakePosition(float range)
     {
         Vector3 shakePosition = Random.insideUnitCircle * range;
-        
+
         shakePosition.z = cam.transform.localPosition.z;
 
         cam.transform.localPosition = shakePosition;

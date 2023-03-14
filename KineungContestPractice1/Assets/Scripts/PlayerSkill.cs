@@ -6,14 +6,27 @@ using static UnityEngine.GraphicsBuffer;
 
 public enum ESkillType
 {
-    GuideShoot,
+    BezierShoot,
+    Repair,
+    Bomb,
 }
 
 public class PlayerSkill : MonoBehaviour
 {
+    [Tooltip("스킬 쿨타임들")]
     public List<bool> skillCoolDownList = new List<bool>();
 
+    [SerializeField]
+    private BoxCollider2D collider;
+
     private Player player;
+
+
+    [Tooltip("폭탄 스킬 데미지")]
+    public int bombDmg;
+
+    [Tooltip("얼마나 수리 해줄것인가")]
+    public int repairAmount;
 
     public int shootCount;
 
@@ -50,22 +63,61 @@ public class PlayerSkill : MonoBehaviour
         SkillKeyInput();
     }
 
+    #region SkillKeyInput
     private void SkillKeyInput()
     {
-        if (Input.GetKeyDown(KeyCode.X) && skillCoolDownList[(int)ESkillType.GuideShoot] == false)
+        BezierSkillInput();
+        BombSkillInput();
+        RepairSkillInput();
+    }
+
+    private void BezierSkillInput()
+    {
+        if (Input.GetKeyDown(KeyCode.X))
         {
+            if(skillCoolDownList[(int)ESkillType.BezierShoot] == true)
+            {
+                GameManager.Instance.CantUseSkillText();
+            }
+
             Enemy enemy = FindObjectOfType<Enemy>();
             if (enemy == null) return;
 
             target = enemy.transform;
 
-            //if (FindObjectOfType<Enemy>() == null) return;
-            //target = FindObjectOfType<Enemy>().transform;
-
             ChaseShoot();
-            StartCoroutine(ISkillCoolDown(ESkillType.GuideShoot));
+            StartCoroutine(ISkillCoolDown(ESkillType.BezierShoot));
         }
     }
+
+    private void BombSkillInput()
+    {
+        if(Input.GetKeyDown(KeyCode.C))
+        {
+            if(skillCoolDownList[(int)ESkillType.Bomb] == true)
+            {
+                GameManager.Instance.CantUseSkillText();
+            }
+
+            Boom(bombDmg);
+            StartCoroutine(ISkillCoolDown(ESkillType.Bomb));
+        }
+    }
+
+    private void RepairSkillInput()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftControl))
+        {
+            if (skillCoolDownList[(int)ESkillType.Repair] == true)
+            {
+                GameManager.Instance.CantUseSkillText();
+            }
+
+            Repair(repairAmount);
+            StartCoroutine(ISkillCoolDown(ESkillType.Repair));
+        }
+    }
+    #endregion
 
     private IEnumerator ISkillCoolDown(ESkillType type)
     {
@@ -110,5 +162,45 @@ public class PlayerSkill : MonoBehaviour
             }
             yield return new WaitForSeconds(0.05f);
         }
+    }
+
+    private void Boom(int dmg)
+    {
+        List<Enemy> enemies = new List<Enemy>();
+        List<Bullet> bullets = new List<Bullet>();
+        Collider2D[] objs = Physics2D.OverlapBoxAll(Vector2.zero, collider.size, 0);
+
+        for (int i = 0; i < objs.Length; i++)
+        {
+            if (TryGetComponent<Enemy>(out Enemy enemy))
+            {
+                enemies.Add(enemy);
+            }
+            else if(TryGetComponent<Bullet>(out Bullet bullet))
+            {
+                bullets.Add(bullet);
+            }
+        }
+
+        if(enemies.Count == 0 && bullets.Count == 0)
+        {
+            return;
+        }
+
+        for (int i = 0; i < enemies.Count; i++)
+        {
+            enemies[i].OnDamaged(dmg);
+        }
+
+        for (int i = 0; i < bullets.Count; i++)
+        {
+            GameManager.Instance.GetDestroyEffect(bullets[i].transform.position);
+            Destroy(bullets[i].gameObject);
+        }
+    }
+
+    private void Repair(int amount)
+    {
+        player.Hp += amount;
     }
 }

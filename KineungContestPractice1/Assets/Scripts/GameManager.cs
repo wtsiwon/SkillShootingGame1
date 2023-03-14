@@ -9,11 +9,20 @@ using TMPro;
 
 public class GameManager : Singleton<GameManager>
 {
+    [SerializeField]
+    private BoxCollider2D collider;
+
     public Slider hpbar;
     public Slider fuelbar;
 
+    [Header("Texts")]
+    [Space(10f)]
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI highestScoreText;
+    public Text cantUseSkillText;
+    public Text noEnemyText;
+    public float textFadeOutTime;
+
 
     public GameObject destroyEffect;
     [Space(5f)]
@@ -45,7 +54,6 @@ public class GameManager : Singleton<GameManager>
             if (highestScore <= score)
             {
                 PlayerPrefs.SetInt("HighestScore", score);
-                
             }
             else
             {
@@ -83,11 +91,21 @@ public class GameManager : Singleton<GameManager>
     void Start()
     {
         InitializeGame();
+        StartCoroutine(IUpdate());
     }
 
     void Update()
     {
 
+    }
+
+    private IEnumerator IUpdate()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(0.5f);
+            print(fuelbar.value);
+        }
     }
 
     private void InitializeGame()
@@ -198,7 +216,35 @@ public class GameManager : Singleton<GameManager>
             time += Time.deltaTime;
         }
     }
+    #endregion
 
+    #region Activing Text
+    public void CantUseSkillText()
+    {
+        Text text = Instantiate(cantUseSkillText, Vector3.zero, Quaternion.identity);
+        StartCoroutine(ITextFadeOut(text));
+        
+    }
+
+    public void NoEnemyText()
+    {
+        Text text = Instantiate(noEnemyText, Vector3.zero, Quaternion.identity);
+        StartCoroutine(ITextFadeOut(text));
+    }
+
+    private IEnumerator ITextFadeOut(Text text)
+    {
+        float time = 0;
+        
+        while(time < textFadeOutTime)
+        {
+            yield return new WaitForSeconds(0.05f);
+            time += 0.05f;
+            text.color = Color.Lerp(text.color, new Color(text.color.r, text.color.g, text.color.b, 0), time/ textFadeOutTime);
+        }
+
+        Destroy(text);
+    }
     #endregion
 
     private void GameOver()

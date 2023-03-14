@@ -6,6 +6,9 @@ public enum EItemType
 {
     LevelUp,
     Healing,
+    Bomb,
+    Invincibility,
+    FuelSupply,
     AddPet,
 }
 public class Item : MonoBehaviour
@@ -13,6 +16,19 @@ public class Item : MonoBehaviour
     public EItemType type;
 
     private float spd = 2f;
+
+    [SerializeField]
+    [Tooltip("폭탄 데미지")]
+    private int bombDmg;
+
+    [SerializeField]
+    [Tooltip("무적시간")]
+    private float invicibilityTime;
+
+    [SerializeField]
+    [Tooltip("연료 충전량")]
+    private float fuelSupplyAmount;
+
     private void Start()
     {
         SetItem();
@@ -36,6 +52,12 @@ public class Item : MonoBehaviour
             case EItemType.AddPet:
                 Player.Instance.PetCount += 1;
                 break;
+            case EItemType.Invincibility:
+                StartCoroutine(IInvicibility(invicibilityTime));
+                break;
+            case EItemType.FuelSupply:
+                FuelSupply(fuelSupplyAmount);
+                break;
         }
     }
 
@@ -46,6 +68,17 @@ public class Item : MonoBehaviour
             SetItem();
             Destroy(gameObject);
         }
+    }
 
+    private IEnumerator IInvicibility(float invicibilityTime)
+    {
+        Player.Instance.IsInvicibility = true;
+        yield return new WaitForSeconds(invicibilityTime);
+        Player.Instance.IsInvicibility = false;
+    }
+
+    private void FuelSupply(float amount)
+    {
+        Player.Instance.Fuel += amount;
     }
 }

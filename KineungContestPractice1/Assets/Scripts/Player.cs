@@ -25,14 +25,11 @@ public class Player : Singleton<Player>
     [Space(10f)]
     public bool isShoot;
 
+    [Space(5f)]
     private bool isSlowMove;
-
-    private List<Action> shootingActionList = new List<Action>(7);
 
     [SerializeField]
     private int maxLevel;
-
-    [Space(10f)]
     [SerializeField]
     private int level;
     public int Level
@@ -147,6 +144,7 @@ public class Player : Singleton<Player>
 
         StartCoroutine(IShoot());
         StartCoroutine(IUpdate());
+        StartCoroutine(IFuelReduction());
 
     }
 
@@ -166,7 +164,7 @@ public class Player : Singleton<Player>
 
     private IEnumerator IFuelReduction()
     {
-        while(Fuel < 0)
+        while(Fuel > 0)
         {
             yield return new WaitForSeconds(0.05f);
             Fuel -= decrease;
@@ -175,8 +173,6 @@ public class Player : Singleton<Player>
 
     void Update()
     {
-        
-
         Move();
         InputShootKey();
         transform.position = ClampPosition();

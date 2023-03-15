@@ -21,6 +21,7 @@ public class GameManager : Singleton<GameManager>
     public TextMeshProUGUI highestScoreText;
     public Text cantUseSkillText;
     public Text noEnemyText;
+    public Text healingText;
     public float textFadeOutTime;
 
 
@@ -229,6 +230,12 @@ public class GameManager : Singleton<GameManager>
     public void NoEnemyText()
     {
         Text text = Instantiate(noEnemyText, Vector3.zero, Quaternion.identity);
+        StartCoroutine(ITextFadeOut(text));
+    }
+
+    private void HealingText(Vector3 pos)
+    {
+        Text text = Instantiate(healingText, pos, Quaternion.identity);
         StartCoroutine(ITextFadeOut(text));
     }
 

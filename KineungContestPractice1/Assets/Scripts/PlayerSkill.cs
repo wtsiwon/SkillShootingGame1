@@ -13,11 +13,15 @@ public enum ESkillType
 
 public class PlayerSkill : MonoBehaviour
 {
-    [Tooltip("스킬 쿨타임들")]
+    [Tooltip("스킬 쿨타임이 돌고 있나 배지어, 수리, 폭탄순")]
     public List<bool> skillCoolDownList = new List<bool>();
 
     [SerializeField]
-    private BoxCollider2D collider;
+    [Space(10f)]
+    private List<float> skillCoolTimeList = new List<float>();
+
+    [SerializeField]
+    private BoxCollider2D bombCollider;
 
     private Player player;
 
@@ -49,10 +53,6 @@ public class PlayerSkill : MonoBehaviour
     private List<Text> skillCoolTimeTextList = new List<Text>();
     #endregion
 
-    [SerializeField]
-    [Space(10f)]
-    private List<float> skillCoolTimeList = new List<float>();
-
     private void Start()
     {
         player = Player.Instance;
@@ -78,6 +78,7 @@ public class PlayerSkill : MonoBehaviour
             if(skillCoolDownList[(int)ESkillType.BezierShoot] == true)
             {
                 GameManager.Instance.CantUseSkillText();
+                return;
             }
 
             Enemy enemy = FindObjectOfType<Enemy>();
@@ -97,6 +98,7 @@ public class PlayerSkill : MonoBehaviour
             if(skillCoolDownList[(int)ESkillType.Bomb] == true)
             {
                 GameManager.Instance.CantUseSkillText();
+                return;
             }
 
             Boom(bombDmg);
@@ -111,6 +113,7 @@ public class PlayerSkill : MonoBehaviour
             if (skillCoolDownList[(int)ESkillType.Repair] == true)
             {
                 GameManager.Instance.CantUseSkillText();
+                return;
             }
 
             Repair(repairAmount);
@@ -168,7 +171,7 @@ public class PlayerSkill : MonoBehaviour
     {
         List<Enemy> enemies = new List<Enemy>();
         List<Bullet> bullets = new List<Bullet>();
-        Collider2D[] objs = Physics2D.OverlapBoxAll(Vector2.zero, collider.size, 0);
+        Collider2D[] objs = Physics2D.OverlapBoxAll(Vector2.zero, bombCollider.size, 0);
 
         for (int i = 0; i < objs.Length; i++)
         {

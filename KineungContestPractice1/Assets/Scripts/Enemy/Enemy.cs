@@ -128,9 +128,11 @@ public abstract class Enemy : MonoBehaviour
 
     protected virtual IEnumerator IAttack()
     {
+        var wait = new WaitForSeconds(0.01f);
+
         while (true)
         {
-            yield return new WaitForSeconds(0.01f);
+            yield return wait;
             if (isAttack == true)
             {
                 yield return new WaitForSeconds(atkSpd);

@@ -82,7 +82,11 @@ public class PlayerSkill : MonoBehaviour
             }
 
             Enemy enemy = FindObjectOfType<Enemy>();
-            if (enemy == null) return;
+            if (enemy == null)
+            {
+                GameManager.Instance.NoEnemyText();
+                return;
+            }
 
             target = enemy.transform;
 
@@ -117,6 +121,7 @@ public class PlayerSkill : MonoBehaviour
             }
 
             Repair(repairAmount);
+            GameManager.Instance.HealingText(repairAmount);
             StartCoroutine(ISkillCoolDown(ESkillType.Repair));
         }
     }

@@ -1,16 +1,12 @@
-using Microsoft.Unity.VisualStudio.Editor;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.Profiling;
 using UnityEngine;
 using UnityEngine.UI;
-using Image = UnityEngine.UI.Image;
 using TMPro;
 
 public class GameManager : Singleton<GameManager>
 {
-    [SerializeField]
-    private BoxCollider2D collider;
+    public Canvas canvas;
 
     public Slider hpbar;
     public Slider fuelbar;
@@ -22,6 +18,7 @@ public class GameManager : Singleton<GameManager>
     public Text cantUseSkillText;
     public Text noEnemyText;
     public Text healingText;
+    public GameObject healingEffect;
     public float textFadeOutTime;
 
 
@@ -222,21 +219,29 @@ public class GameManager : Singleton<GameManager>
     #region Activing Text
     public void CantUseSkillText()
     {
-        Text text = Instantiate(cantUseSkillText, Vector3.zero, Quaternion.identity);
+        Text text = Instantiate(cantUseSkillText, canvas.transform.position, Quaternion.identity, canvas.transform);
         StartCoroutine(ITextFadeOut(text));
-        
     }
 
     public void NoEnemyText()
     {
-        Text text = Instantiate(noEnemyText, Vector3.zero, Quaternion.identity);
+        Text text = Instantiate(noEnemyText,canvas.transform.position, Quaternion.identity,canvas.transform);
         StartCoroutine(ITextFadeOut(text));
     }
 
-    private void HealingText(Vector3 pos)
+    public void HealingText(int amount)
     {
-        Text text = Instantiate(healingText, pos, Quaternion.identity);
+        Text text = Instantiate(healingText, hpbar.transform.position, Quaternion.identity, canvas.transform);
+        text.transform.position = new Vector3(text.transform.position.x, text.transform.position.y - 330, 0);
+
+        text.text = $"+{amount}Hp!";
+
         StartCoroutine(ITextFadeOut(text));
+    }
+
+    public void HealingEffect(int count, Vector3 pos)
+    {
+
     }
 
     private IEnumerator ITextFadeOut(Text text)
@@ -250,7 +255,7 @@ public class GameManager : Singleton<GameManager>
             text.color = Color.Lerp(text.color, new Color(text.color.r, text.color.g, text.color.b, 0), time/ textFadeOutTime);
         }
 
-        Destroy(text);
+        Destroy(text.gameObject);
     }
     #endregion
 

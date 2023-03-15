@@ -7,7 +7,9 @@ using TMPro;
 public class GameManager : Singleton<GameManager>
 {
     public Canvas canvas;
+    public Bullet bullet;
 
+    [Header("UI")]
     public Slider hpbar;
     public Slider fuelbar;
 
@@ -21,6 +23,7 @@ public class GameManager : Singleton<GameManager>
     public GameObject healingEffect;
     public float textFadeOutTime;
 
+    public bool isGameStart;
 
     public GameObject destroyEffect;
     [Space(5f)]
@@ -67,6 +70,10 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
+    [SerializeField]
+    [Tooltip("초당 점수 증가량")]
+    private int scoreIncreasePerSecond;
+
     private int score;
 
     public int Score
@@ -75,6 +82,10 @@ public class GameManager : Singleton<GameManager>
         set
         {
             score = value;
+            if(score >= HighestScore)
+            {
+                highestScoreText.text = $"{score}";
+            }
             scoreText.text = $"{score}";
         }
     }
@@ -89,7 +100,8 @@ public class GameManager : Singleton<GameManager>
     void Start()
     {
         InitializeGame();
-        StartCoroutine(IUpdate());
+        StartCoroutine(nameof(IUpdate));
+        StartCoroutine(nameof(IAddScore));
     }
 
     void Update()
@@ -97,12 +109,24 @@ public class GameManager : Singleton<GameManager>
 
     }
 
+    private IEnumerator IAddScore()
+    {
+        while (true)
+        {
+            yield return null;
+            if (isGameStart == true)
+            {
+                yield return new WaitForSeconds(0.1f);
+                Score += scoreIncreasePerSecond / 10;
+            }
+        }
+    }
+
     private IEnumerator IUpdate()
     {
         while (true)
         {
             yield return new WaitForSeconds(0.5f);
-            print(fuelbar.value);
         }
     }
 
@@ -110,6 +134,8 @@ public class GameManager : Singleton<GameManager>
     {
         player = Player.Instance;
         Score = 0;
+        isGameStart = true;
+
     }
 
     public void UpdatePlayerHpBar(float amount)
@@ -220,13 +246,13 @@ public class GameManager : Singleton<GameManager>
     public void CantUseSkillText()
     {
         Text text = Instantiate(cantUseSkillText, canvas.transform.position, Quaternion.identity, canvas.transform);
-        StartCoroutine(ITextFadeOut(text));
+        StartCoroutine(ITextFadeOut(text, textFadeOutTime));
     }
 
     public void NoEnemyText()
     {
-        Text text = Instantiate(noEnemyText,canvas.transform.position, Quaternion.identity,canvas.transform);
-        StartCoroutine(ITextFadeOut(text));
+        Text text = Instantiate(noEnemyText, canvas.transform.position, Quaternion.identity, canvas.transform);
+        StartCoroutine(ITextFadeOut(text, textFadeOutTime));
     }
 
     public void HealingText(int amount)
@@ -236,23 +262,26 @@ public class GameManager : Singleton<GameManager>
 
         text.text = $"+{amount}Hp!";
 
-        StartCoroutine(ITextFadeOut(text));
+        StartCoroutine(ITextFadeOut(text, textFadeOutTime * 2));
     }
 
     public void HealingEffect(int count, Vector3 pos)
     {
-
+        for (int i = 0; i < count; i++)
+        {
+            Instantiate(healingEffect, pos, Quaternion.identity);
+        }
     }
 
-    private IEnumerator ITextFadeOut(Text text)
+    private IEnumerator ITextFadeOut(Text text, float fadeOutTime)
     {
         float time = 0;
-        
-        while(time < textFadeOutTime)
+
+        while (time < fadeOutTime)
         {
             yield return new WaitForSeconds(0.05f);
             time += 0.05f;
-            text.color = Color.Lerp(text.color, new Color(text.color.r, text.color.g, text.color.b, 0), time/ textFadeOutTime);
+            text.color = Color.Lerp(text.color, new Color(text.color.r, text.color.g, text.color.b, 0), time / textFadeOutTime);
         }
 
         Destroy(text.gameObject);

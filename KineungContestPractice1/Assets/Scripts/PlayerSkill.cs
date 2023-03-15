@@ -2,8 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEngine.GraphicsBuffer;
-
+using System.Linq;
 public enum ESkillType
 {
     BezierShoot,
@@ -75,7 +74,7 @@ public class PlayerSkill : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.X))
         {
-            if(skillCoolDownList[(int)ESkillType.BezierShoot] == true)
+            if (skillCoolDownList[(int)ESkillType.BezierShoot] == true)
             {
                 GameManager.Instance.CantUseSkillText();
                 return;
@@ -97,9 +96,9 @@ public class PlayerSkill : MonoBehaviour
 
     private void BombSkillInput()
     {
-        if(Input.GetKeyDown(KeyCode.C))
+        if (Input.GetKeyDown(KeyCode.C))
         {
-            if(skillCoolDownList[(int)ESkillType.Bomb] == true)
+            if (skillCoolDownList[(int)ESkillType.Bomb] == true)
             {
                 GameManager.Instance.CantUseSkillText();
                 return;
@@ -135,7 +134,7 @@ public class PlayerSkill : MonoBehaviour
 
         float timer = 0;
         skillCoolTimeTextList[index].gameObject.SetActive(true);
-        
+
 
         while (timer < skillCoolTimeList[index])
         {
@@ -178,37 +177,53 @@ public class PlayerSkill : MonoBehaviour
         List<Bullet> bullets = new List<Bullet>();
         Collider2D[] objs = Physics2D.OverlapBoxAll(Vector2.zero, bombCollider.size, 0);
 
+        //enemies = objs.Select(obj => GetComponent<Enemy>()).Where(enemy => enemy != null).ToList();
+        //bullets = objs.Select(obj => GetComponent<Bullet>()).Where(bullet => bullet != null).ToList();
+
+        #region LINQ로 바꾸기 전 코드
         for (int i = 0; i < objs.Length; i++)
         {
-            if (TryGetComponent<Enemy>(out Enemy enemy))
+
+            print(objs[i].name);
+            if (objs[i].TryGetComponent(out Enemy enemy))
             {
                 enemies.Add(enemy);
             }
-            else if(TryGetComponent<Bullet>(out Bullet bullet))
+            else if (objs[i].TryGetComponent(out Bullet bullet))
             {
                 bullets.Add(bullet);
             }
         }
+        #endregion
 
-        if(enemies.Count == 0 && bullets.Count == 0)
+        if (enemies.Count == 0 && bullets.Count == 0)
         {
+            print("아무도 없어임마");
             return;
         }
 
-        for (int i = 0; i < enemies.Count; i++)
+        if (enemies.Count > 0)
         {
-            enemies[i].OnDamaged(dmg);
+            for (int i = 0; i < enemies.Count; i++)
+            {
+                enemies[i].OnDamaged(dmg);
+            }
         }
 
-        for (int i = 0; i < bullets.Count; i++)
+        if (bullets.Count > 0)
         {
-            GameManager.Instance.GetDestroyEffect(bullets[i].transform.position);
-            Destroy(bullets[i].gameObject);
+            for (int i = 0; i < bullets.Count; i++)
+            {
+                GameManager.Instance.GetDestroyEffect(bullets[i].transform.position);
+                Destroy(bullets[i].gameObject);
+            }
         }
+        GameManager.Instance.GetDestroyEffect(Vector3.zero, 100);
     }
 
     private void Repair(int amount)
     {
         player.Hp += amount;
+        GameManager.Instance.HealingEffect(3, transform.position);
     }
 }

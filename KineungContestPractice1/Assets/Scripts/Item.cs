@@ -44,10 +44,17 @@ public class Item : MonoBehaviour
         switch (type)
         {
             case EItemType.LevelUp:
-                Player.Instance.Level += 1;
+                if (Player.Instance.Level == Player.Instance.maxLevel)
+                {
+                    GameManager.Instance.Score += 10000;
+                }
+                else
+                {
+                    Player.Instance.Level += 1;
+                }
                 break;
             case EItemType.Healing:
-                Player.Instance.Hp += 1;
+                Player.Instance.Hp += 20;
                 break;
             case EItemType.AddPet:
                 Player.Instance.PetCount += 1;

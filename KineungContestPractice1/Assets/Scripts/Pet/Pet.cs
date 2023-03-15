@@ -14,16 +14,40 @@ public abstract class Pet : MonoBehaviour
 {
     public EPetType type;
 
+    [SerializeField]
     protected float atkSpd;
-    protected float dmg;
+
+    [SerializeField]
+    protected float atkDmg;
+
+    protected float chaseTime = 0.5f;
+
+    protected Bullet bullet;
+
+    protected Player player;
 
     protected virtual void Start()
     {
+        SetPet();
+
         StartCoroutine(nameof(IAttack));
     }
     protected virtual void Update()
     {
-        transform.position = Player.Instance.transform.position + Player.Instance.petPosList[(int)type];
+
+    }
+
+    protected void LateUpdate()
+    {
+        //transform.position = Vector3.Lerp(transform.position, pos, chaseTime);
+    }
+
+    protected void SetPet()
+    {
+        player = Player.Instance;
+        transform.localPosition = player.petPosList[(int)type];
+
+        bullet = GameManager.Instance.bullet;
     }
 
     protected virtual IEnumerator IAttack()

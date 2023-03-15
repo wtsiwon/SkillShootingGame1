@@ -27,8 +27,7 @@ public class Player : Singleton<Player>
     [Space(5f)]
     private bool isSlowMove;
 
-    [SerializeField]
-    private int maxLevel;
+    public readonly int maxLevel = 7;
     [SerializeField]
     private int level;
     public int Level
@@ -42,6 +41,7 @@ public class Player : Singleton<Player>
         }
     }
 
+    public List<Pet> petList = new List<Pet>();
     public List<Vector3> petPosList = new List<Vector3>();
 
     public int maxPetCount;
@@ -54,6 +54,7 @@ public class Player : Singleton<Player>
         set
         {
             petCount = value;
+            AddPet(value);
         }
     }
 
@@ -67,15 +68,20 @@ public class Player : Singleton<Player>
     [Tooltip("총알 발사 위치")]
     public List<Vector3> bulletShootPosList = new List<Vector3>();
 
+    public float invicibilityTime;
+
     [SerializeField]
     [Space(10f)]
     private bool isInvicibility;
+
+    [SerializeField]
+    private GameObject invicibilityCircle;
     public bool IsInvicibility
     {
         get => isInvicibility;
         set
         {
-            GetComponent<Collider2D>().enabled = !isInvicibility;
+            invicibilityCircle.SetActive(value);
         }
     }
 
@@ -84,9 +90,8 @@ public class Player : Singleton<Player>
 
     private SpriteRenderer spriteRenderer;
 
-    [SerializeField]
     [Space(10f)]
-    private int maxHp;
+    public readonly int maxHp = 100;
 
     private int hp;
     public int Hp
@@ -97,16 +102,24 @@ public class Player : Singleton<Player>
         }
         set
         {
-            if (value <= 0) OnDie();
+            if (value <= 0)
+            {
+                if (isInvicibility == true) return;
+                OnDie();
+            }
             else if (value > maxHp) hp = maxHp;
             else
             {
+                if (isInvicibility == true)
+                {
+                    return;
+                }
+
                 hp = value;
-                StartCoroutine(Invicibility(3));
+                StartCoroutine(IInvicibility());
             }
 
             GameManager.Instance.UpdatePlayerHpBar(hp / maxHp);
-
         }
     }
 
@@ -163,11 +176,19 @@ public class Player : Singleton<Player>
 
     private IEnumerator IFuelReduction()
     {
-        while(Fuel > 0)
+        while (Fuel > 0)
         {
             yield return new WaitForSeconds(0.05f);
             Fuel -= decrease;
         }
+
+    }
+
+    private IEnumerator IInvicibility()
+    {
+        IsInvicibility = true;
+        yield return new WaitForSeconds(invicibilityTime);
+        IsInvicibility = false;
     }
 
     void Update()
@@ -388,9 +409,9 @@ public class Player : Singleton<Player>
     /// <summary>
     /// 파트너 추가
     /// </summary>
-    public void AddPartner()
+    public void AddPet(int petCount)
     {
-
+        Instantiate(petList[petCount - 1], transform);
     }
 
     public void OnDamaged()
@@ -398,29 +419,8 @@ public class Player : Singleton<Player>
         Hp -= 1;
     }
 
-    private IEnumerator Invicibility(float time)
-    {
-        float interval = time / 7f;
-        float count = 0;
-
-        while (count == 7)
-        {
-            if (spriteRenderer.color == fadeColor)
-            {
-                spriteRenderer.color = notFadeColor;
-                count++;
-            }
-            else
-            {
-                spriteRenderer.color = fadeColor;
-                count++;
-            }
-            yield return new WaitForSeconds(interval);
-        }
-    }
-
     private void OnDie()
     {
-
+        print("죽었어임마");
     }
 }

@@ -84,7 +84,6 @@ public abstract class Enemy : MonoBehaviour
     public void OnDamaged(float dmg)
     {
         Hp -= dmg;
-        print(dmg);
     }
 
     protected IEnumerator IOnDamaged()

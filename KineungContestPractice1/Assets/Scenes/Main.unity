@@ -182,11 +182,11 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 50
+    m_FontSize: 70
     m_FontStyle: 1
     m_BestFit: 0
     m_MinSize: 0
-    m_MaxSize: 50
+    m_MaxSize: 70
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -412,6 +412,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvas: {fileID: 1203728240}
+  bullet: {fileID: 3464308033749415962, guid: 9260f1e8aa8d1c348b9e298ce15397ef, type: 3}
   hpbar: {fileID: 65692517}
   fuelbar: {fileID: 565862143}
   scoreText: {fileID: 1672498176}
@@ -419,8 +420,9 @@ MonoBehaviour:
   cantUseSkillText: {fileID: 4066748419204104830, guid: b191ca6041c061f4ab94c7fbe602c17b, type: 3}
   noEnemyText: {fileID: 7064661304414687973, guid: 2434fc508d9bf40478fc02ada829970e, type: 3}
   healingText: {fileID: 1552861164460459110, guid: 159d11cb15755c14e907d6356f8d3f59, type: 3}
-  healingEffect: {fileID: 0}
+  healingEffect: {fileID: 5964116159567784685, guid: fedcbd1a9bcabf54b9ef74bbb4298fee, type: 3}
   textFadeOutTime: 1
+  isGameStart: 0
   destroyEffect: {fileID: 6997005148218412782, guid: 314da7196f851584ba204732b3a8b787, type: 3}
   itemList:
   - {fileID: 5034645439104565372, guid: eb045edf576810b4f95652708a4a37c7, type: 3}
@@ -432,6 +434,7 @@ MonoBehaviour:
   shakeRange: 0.5
   destroyDistance: 14
   currentStageNum: 1
+  scoreIncreasePerSecond: 100
   stage: 1
 --- !u!1 &327094772
 GameObject:
@@ -1315,9 +1318,9 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 0}
+  m_TargetGraphic: {fileID: 1510108297}
   m_FillRect: {fileID: 1083452610}
-  m_HandleRect: {fileID: 0}
+  m_HandleRect: {fileID: 1510108296}
   m_Direction: 2
   m_MinValue: 0
   m_MaxValue: 1
@@ -1994,9 +1997,13 @@ MonoBehaviour:
   bulletSpd: 30
   atkDmg: 10
   isShoot: 0
-  maxLevel: 7
   level: 1
-  petPosList: []
+  petList:
+  - {fileID: 6466171731060115375, guid: 5d9dcc5bc63b70340a354ebd8f2b6762, type: 3}
+  petPosList:
+  - {x: 2, y: 0, z: 0}
+  - {x: -2, y: 0, z: 0}
+  petDistance: 0
   maxPetCount: 5
   clampPosition: {x: 5.5, y: 5, z: 0}
   bulletList:
@@ -2016,7 +2023,8 @@ MonoBehaviour:
   - {x: 0, y: 0.5, z: 0}
   - {x: 0.6, y: 0.2, z: 0}
   isInvicibility: 0
-  maxHp: 100
+  invicibilityCircle: {fileID: 709514133}
+  invicibilityTime: 2.5
   decrease: 0.1
   maxFuel: 100
 --- !u!58 &843022192
@@ -2074,7 +2082,7 @@ MonoBehaviour:
   - 10
   - 12
   bombCollider: {fileID: 1081950794}
-  bombDmg: 100
+  bombDmg: 1000
   repairAmount: 30
   shootCount: 20
   bezierBullet: {fileID: -4700010817148788277, guid: 27a8baff1c5b26d49a7f07f8c59c06fd, type: 3}
@@ -2086,7 +2094,7 @@ MonoBehaviour:
   skillCoolTimeTextList:
   - {fileID: 1505686562}
   - {fileID: 20578000}
-  - {fileID: 1505686562}
+  - {fileID: 866247532}
 --- !u!1 &851242711
 GameObject:
   m_ObjectHideFlags: 0
@@ -2162,102 +2170,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 851242711}
   m_CullTransparentMesh: 1
---- !u!1 &858622587
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 858622589}
-  - component: {fileID: 858622588}
-  - component: {fileID: 858622590}
-  m_Layer: 0
-  m_Name: healingEffect
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!212 &858622588
-SpriteRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 858622587}
-  m_Enabled: 1
-  m_CastShadows: 0
-  m_ReceiveShadows: 0
-  m_DynamicOccludee: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 0
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 0
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 9a1ab8af8c446204e989a90f18305caf, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
-  m_FlipY: 0
-  m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
-  m_AdaptiveModeThreshold: 0.5
-  m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
---- !u!4 &858622589
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 858622587}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 10
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &858622590
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 858622587}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3b3f1a2393723524fa8b9b5c707ac8fe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpd: 0
 --- !u!1 &866247530
 GameObject:
   m_ObjectHideFlags: 0
@@ -2317,11 +2229,11 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 50
+    m_FontSize: 70
     m_FontStyle: 1
     m_BestFit: 0
     m_MinSize: 0
-    m_MaxSize: 50
+    m_MaxSize: 70
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -3559,7 +3471,7 @@ GameObject:
   - component: {fileID: 1452415756}
   - component: {fileID: 1452415755}
   m_Layer: 5
-  m_Name: HpText (1)
+  m_Name: FuelText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3986,11 +3898,11 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 50
+    m_FontSize: 70
     m_FontStyle: 1
     m_BestFit: 0
     m_MinSize: 0
-    m_MaxSize: 50
+    m_MaxSize: 70
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -4040,11 +3952,11 @@ RectTransform:
   m_Father: {fileID: 370659380}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -60}
-  m_SizeDelta: {x: 0, y: 120}
-  m_Pivot: {x: 0.5, y: 1}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -1, y: 0}
+  m_SizeDelta: {x: -2, y: 120}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1510108297
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4737,6 +4649,36 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1872292270}
   m_CullTransparentMesh: 1
+--- !u!1 &2065812541
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2065812542}
+  m_Layer: 0
+  m_Name: CheatKeyManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2065812542
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2065812541}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -3.8112404, y: -4.601471, z: -11.544297}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2131276798
 GameObject:
   m_ObjectHideFlags: 0

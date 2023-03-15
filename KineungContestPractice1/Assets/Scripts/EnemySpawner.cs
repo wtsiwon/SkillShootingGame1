@@ -26,36 +26,12 @@ public class EnemySpawner : Singleton<EnemySpawner>
     }
     private void Start()
     {
-        StartCoroutine(nameof(ISpawn));
-        StartCoroutine(nameof(IBossSpawn));
+        SpawnPatterns();
     }
 
-    private IEnumerator ISpawn()
+    private void SpawnPatterns()
     {
-        while (true)
-        {
-            yield return new WaitForSeconds(0.01f);
-
-            if (isEnemySpawn)
-            {
-                yield return waitTime;
-                //StartCoroutine($"IEnemySpawnPattern{Random.Range(1, enemyList.Count)}");
-            }
-        }
-    }
-
-    private IEnumerator IBossSpawn()
-    {
-        while (true)
-        {
-            yield return new WaitForSeconds(0.01f);
-            if(isBossSpawned == false)
-            {
-                yield return new WaitForSeconds(5);
-                SpawnBoss();
-                isBossSpawned = true;
-            }
-        }
+        SpawnBoss(1);
     }
 
     private Enemy GetEnemy(int enemyNum, int posNum, Vector3 rotate = default)
@@ -65,10 +41,13 @@ public class EnemySpawner : Singleton<EnemySpawner>
         return enemy;
     }
 
-    private void SpawnBoss()
+    private void SpawnBoss(int bossNum)
     {
-        Instantiate(bossList[0], enemySpawnPos[3].position + new Vector3(0, 2, 0), Quaternion.identity);
+        Instantiate(bossList[bossNum - 1], enemySpawnPos[3].position + new Vector3(0, 2, 0), Quaternion.identity);
+        isBossSpawned = true;
     }
+
+    #region 적 나오는 패턴들
 
     private IEnumerator IEnemySpawnPattern1()
     {
@@ -136,7 +115,6 @@ public class EnemySpawner : Singleton<EnemySpawner>
         enemy1.moveSpd = enemyMoveSpd;
 
         Enemy enemy2 = GetEnemy(2, 5);
-        enemy2.moveSpd = enemyMoveSpd;
         yield return new WaitForSeconds(0.5f);
 
         Enemy enemy3 = GetEnemy(3, 2);
@@ -163,7 +141,5 @@ public class EnemySpawner : Singleton<EnemySpawner>
         GetEnemy(2, 5);
     }
 
-    
-
-
+    #endregion
 }

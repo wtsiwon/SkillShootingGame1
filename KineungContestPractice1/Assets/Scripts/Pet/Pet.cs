@@ -22,6 +22,7 @@ public abstract class Pet : MonoBehaviour
 
     protected float chaseTime = 0.5f;
 
+    [SerializeField]
     protected Bullet bullet;
 
     protected Player player;
@@ -46,8 +47,6 @@ public abstract class Pet : MonoBehaviour
     {
         player = Player.Instance;
         transform.localPosition = player.petPosList[(int)type];
-
-        bullet = GameManager.Instance.bullet;
     }
 
     protected virtual IEnumerator IAttack()

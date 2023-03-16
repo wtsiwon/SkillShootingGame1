@@ -164,6 +164,7 @@ public class Player : Singleton<Player>
     {
         fuel = maxFuel;
         hp = maxHp;
+        petCount = 0;
     }
 
     private IEnumerator IUpdate()

@@ -167,7 +167,7 @@ public class PlayerSkill : MonoBehaviour
                 BezierBullet bullet1 = Instantiate(bezierBullet);
                 bullet1.SetBullet(transform.position, player.bulletSpd / 10, player.atkDmg, target, startDistance, endDistance, false);
             }
-            yield return new WaitForSeconds(0.05f);
+            yield return null;
         }
     }
 

@@ -98,3 +98,4 @@ MonoBehaviour:
   type: 0
   atkSpd: 0.3
   atkDmg: 10
+  bullet: {fileID: 3464308033749415962, guid: 9260f1e8aa8d1c348b9e298ce15397ef, type: 3}

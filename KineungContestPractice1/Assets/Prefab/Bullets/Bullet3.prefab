@@ -114,3 +114,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isEnemyBullet: 1
   moveSpd: 5
+  scale: 7

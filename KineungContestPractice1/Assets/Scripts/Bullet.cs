@@ -36,6 +36,8 @@ public class Bullet : MonoBehaviour
         }
     }
 
+    public float scale;
+
     private void Start()
     {
         if (isGuided == true)
@@ -67,6 +69,11 @@ public class Bullet : MonoBehaviour
         this.isGuided = isGuided;
     }
 
+    public void SetScale(float scale)
+    {
+        this.scale = scale;
+    }
+
     private void Destroy()
     {
         float distance = Vector3.Distance(Vector3.zero, transform.position);
@@ -84,6 +91,7 @@ public class Bullet : MonoBehaviour
             if (collision.TryGetComponent<Player>(out Player player))
             {
                 player.OnDamaged();
+                GameManager.Instance.GetDestroyEffect(transform.position);
                 Destroy(gameObject);
             }
         }
@@ -92,7 +100,7 @@ public class Bullet : MonoBehaviour
             if (collision.TryGetComponent<Enemy>(out Enemy enemy))
             {
                 enemy.OnDamaged(Dmg);
-                GameManager.Instance.GetDestroyEffect(transform.position, 7, true);
+                GameManager.Instance.GetDestroyEffect(transform.position, scale, true);
                 Destroy(gameObject);
             }
         }

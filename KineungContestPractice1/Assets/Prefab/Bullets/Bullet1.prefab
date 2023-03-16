@@ -74,7 +74,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 6657893770769798689, guid: 6408e7fa7d3b69d45aa02fcfc211fa9b, type: 3}
-  m_Color: {r: 1, g: 0.97486424, b: 0.13679248, a: 1}
+  m_Color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -114,3 +114,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isEnemyBullet: 1
   moveSpd: 5
+  scale: 7

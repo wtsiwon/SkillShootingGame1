@@ -6,6 +6,12 @@ public class StrikerPet : Pet
 {
     [Tooltip("공격력 계수")]
     public float attackPowerCoefficient;
+
+    protected override void Update()
+    {
+        base.Update();
+    }
+
     protected override void Attack()
     {
         StrikeAttack();

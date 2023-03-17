@@ -27,6 +27,8 @@ public abstract class Pet : MonoBehaviour
 
     protected Player player;
 
+    protected float chasingSpd = 3.5f;
+
     protected virtual void Start()
     {
         SetPet();
@@ -35,7 +37,10 @@ public abstract class Pet : MonoBehaviour
     }
     protected virtual void Update()
     {
-
+        transform.position = Vector3.Lerp(transform.position,
+            Player.Instance.transform.position +
+            Player.Instance.petPosList[(int)type],
+            Time.deltaTime * chasingSpd);
     }
 
     protected void LateUpdate()

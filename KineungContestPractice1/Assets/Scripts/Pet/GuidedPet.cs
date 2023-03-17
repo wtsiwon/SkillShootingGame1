@@ -8,6 +8,11 @@ public class GuidedPet : Pet
     private float endDistance = 2f;
 
 
+    protected override void Update()
+    {
+        base.Update();
+    }
+
     protected override void Attack()
     {
         Enemy enemy = FindObjectOfType<Enemy>();

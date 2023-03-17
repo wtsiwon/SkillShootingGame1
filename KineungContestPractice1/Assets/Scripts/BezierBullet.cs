@@ -20,13 +20,26 @@ public class BezierBullet : Bullet
     void Start()
     {
         StartCoroutine(BezierCurve());
+        print(moveSpd);
     }
 
     void Update()
     {
-        
+        //if(target == null)
+        //{
+        //    transform.Translate(Vector3.up * moveSpd * Time.deltaTime);
+        //}
     }
 
+
+    private IEnumerator IUpdate()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(0.5f);
+            print(moveSpd);
+        }
+    }
     private IEnumerator BezierCurve()
     {
         yield return new WaitForSeconds(0.005f);

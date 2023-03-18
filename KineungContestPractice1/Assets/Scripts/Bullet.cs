@@ -90,7 +90,7 @@ public class Bullet : MonoBehaviour
         {
             if (collision.TryGetComponent<Player>(out Player player))
             {
-                player.OnDamaged();
+                player.OnDamaged((int)Dmg);
                 GameManager.Instance.GetDestroyEffect(transform.position);
                 Destroy(gameObject);
             }

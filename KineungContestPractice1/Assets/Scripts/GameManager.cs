@@ -17,6 +17,7 @@ public class GameManager : Singleton<GameManager>
     [Space(10f)]
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI highestScoreText;
+    public TextMeshProUGUI timerText;
     public Text cantUseSkillText;
     public Text noEnemyText;
     public Text healingText;
@@ -28,6 +29,9 @@ public class GameManager : Singleton<GameManager>
     public GameObject destroyEffect;
     [Space(5f)]
     public List<Item> itemList = new List<Item>();
+
+    [Tooltip("10을 기준으로 설정")]
+    public List<float> itemSpawnPercentageList = new List<float>();
 
     private Player player;
 
@@ -82,7 +86,7 @@ public class GameManager : Singleton<GameManager>
         set
         {
             score = value;
-            if(score >= HighestScore)
+            if (score >= HighestScore)
             {
                 highestScoreText.text = $"{score}";
             }
@@ -91,6 +95,19 @@ public class GameManager : Singleton<GameManager>
     }
 
     public int stage;
+
+    private float timer;
+
+    public float Timer
+    {
+        get => timer;
+        set
+        {
+            timer = value;
+            timerText.text = $"{Mathf.Round(Timer * 10) * 0.1f}s";//소수점 첫째자리까지 표시
+        }
+    }
+
 
     private void Awake()
     {
@@ -102,11 +119,23 @@ public class GameManager : Singleton<GameManager>
         InitializeGame();
         StartCoroutine(nameof(IUpdate));
         StartCoroutine(nameof(IAddScore));
+        StartCoroutine(nameof(ITimer));
     }
 
     void Update()
     {
+    }
 
+    private IEnumerator ITimer()
+    {
+        while (true)
+        {
+            yield return null;
+            if (isGameStart == true)
+            {
+                Timer += Time.deltaTime;
+            }
+        }
     }
 
     private IEnumerator IAddScore()
@@ -168,33 +197,64 @@ public class GameManager : Singleton<GameManager>
 
     public void SpawnRandomItem(Vector3 pos)
     {
-        int randNum;
-        if (player.PetCount != player.maxPetCount)
+        int itemNum = 0;
+        int randNum = Random.Range(0, 100);
+        if (randNum <= 49) return;//아이템 드롭 안함
+
+        if (itemSpawnPercentageList[(int)EItemType.LevelUp] < randNum)
         {
-            randNum = Random.Range(0, itemList.Count);
+
         }
-        else
+        else if (itemSpawnPercentageList[(int)EItemType.Healing] < randNum)
         {
-            randNum = Random.Range(0, itemList.Count - 1);
+
         }
-        Instantiate(itemList[randNum], pos, Quaternion.identity);
+        else if (itemSpawnPercentageList[(int)EItemType.Bomb] < randNum)
+        {
+
+        }
+        else if (itemSpawnPercentageList[(int)EItemType.Invincibility] < randNum)
+        {
+
+        }
+
+
+
+
+        //Instantiate(itemList[], pos, Quaternion.identity);
+    }
+
+    private Item GetItem(float num)
+    {
+        return new Item();
+
+
+
+
+
+
     }
 
     #region 카메라 Shake
+
+    public void CameraShake(float shakeTime, float range, bool ifMode = false)
+    {
+        StartCoroutine(ICameraShake(shakeTime, range, ifMode));
+    }
+
     /// <summary>
-    /// 
+    /// 카메라 흔드는 코루틴
     /// </summary>
     /// <param name="shakeTime">흔드는 시간</param>
     /// <param name="range">얼마나 크게 움직일 것인가</param>
     /// <param name="ifMode">시간이 아니라 특정조건에 만족해야 할때</param>
-    public IEnumerator CameraShake(float shakeTime, float range, bool ifMode = false)
+    private IEnumerator ICameraShake(float shakeTime, float range, bool ifMode = false)
     {
         Vector3 defaultCamPosition = cam.transform.localPosition;
 
         if (ifMode == false)
         {
             float time = 0;
-
             while (time < shakeTime)
             {
                 StartCoroutine(ShakePosition(range));

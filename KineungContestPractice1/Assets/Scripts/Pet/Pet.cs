@@ -27,7 +27,7 @@ public abstract class Pet : MonoBehaviour
 
     protected Player player;
 
-    protected float chasingSpd = 3.5f;
+    protected float chasingSpd = 5f;
 
     protected virtual void Start()
     {

@@ -415,9 +415,9 @@ public class Player : Singleton<Player>
         Instantiate(petList[petCount - 1], transform);
     }
 
-    public void OnDamaged()
+    public void OnDamaged(int dmg)
     {
-        Hp -= 1;
+        Hp -= dmg;
     }
 
     private void OnDie()

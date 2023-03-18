@@ -34,7 +34,7 @@ public class EnemySpawner : Singleton<EnemySpawner>
         SpawnBoss(1);
     }
 
-    private Enemy GetEnemy(int enemyNum, int posNum, Vector3 rotate = default)
+    private Enemy GetEnemy(int enemyNum, int posNum,Vector3 rotate = default)
     {
         Enemy enemy = Instantiate(enemyList[enemyNum], enemySpawnPos[posNum].position, Quaternion.identity);
         enemy.transform.rotation = Quaternion.Euler(rotate);

@@ -20,7 +20,6 @@ public class BezierBullet : Bullet
     void Start()
     {
         StartCoroutine(BezierCurve());
-        print(moveSpd);
     }
 
     void Update()

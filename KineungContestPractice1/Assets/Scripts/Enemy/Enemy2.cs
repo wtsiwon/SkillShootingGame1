@@ -11,7 +11,7 @@ public class Enemy2 : Enemy
 
     private void CircleDelayShot(int count)
     {
-        StartCoroutine(nameof(IShot));
+        StartCoroutine(IShot(count));
     }
 
     private IEnumerator IShot(int count)

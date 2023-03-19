@@ -4,6 +4,16 @@ using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.UIElements;
 
+public enum EEnemySpawnPosType
+{
+    LeftMiddle,
+    LeftTop,
+    CenterLeft,
+    Center,
+    CenterRight,
+    RightMiddle,
+    RightTop,
+}
 public class EnemySpawner : Singleton<EnemySpawner>
 {
     public bool isEnemySpawn;
@@ -26,25 +36,105 @@ public class EnemySpawner : Singleton<EnemySpawner>
     }
     private void Start()
     {
-        SpawnPatterns();
+        StartCoroutine(SpawnPatterns());
     }
 
-    private void SpawnPatterns()
+    private IEnumerator SpawnPatterns()
     {
-        SpawnBoss(1);
+        yield return new WaitForSeconds(5f);
+        GetEnemy1((int)EEnemySpawnPosType.CenterLeft);
+        GetEnemy2((int)EEnemySpawnPosType.CenterRight);
+        yield return new WaitForSeconds(2f);
+        GetEnemy4((int)EEnemySpawnPosType.LeftTop);
+        GetEnemy3((int)EEnemySpawnPosType.Center);
+        yield return new WaitForSeconds(3f);
+        GetEnemy2((int)EEnemySpawnPosType.LeftMiddle);
+        GetEnemy4((int)EEnemySpawnPosType.RightMiddle);
+        yield return new WaitForSeconds(2f);
+        GetEnemy3((int)EEnemySpawnPosType.Center);
+        GetEnemy1((int)EEnemySpawnPosType.LeftMiddle);
+        yield return new WaitForSeconds(3f);
+        GetEnemy3((int)EEnemySpawnPosType.RightMiddle);
+        GetEnemy4((int)EEnemySpawnPosType.CenterRight);
+        yield return new WaitForSeconds(3f);
+        GetEnemy1((int)EEnemySpawnPosType.LeftTop);
+        GetEnemy2((int)EEnemySpawnPosType.Center);
+        yield return new WaitForSeconds(2f);
+        GetEnemy3((int)EEnemySpawnPosType.RightTop);
+        GetEnemy4((int)EEnemySpawnPosType.LeftMiddle);
+        yield return new WaitForSeconds(3f);
+        GetEnemy1((int)EEnemySpawnPosType.CenterLeft);
+        GetEnemy1((int)EEnemySpawnPosType.CenterRight);
+        yield return new WaitForSeconds(3f);
+        GetEnemy2((int)EEnemySpawnPosType.LeftTop);
+        GetEnemy3((int)EEnemySpawnPosType.Center);
+        yield return new WaitForSeconds(2f);
+        GetEnemy1((int)EEnemySpawnPosType.RightMiddle);
+        GetEnemy2((int)EEnemySpawnPosType.CenterLeft);
+        yield return new WaitForSeconds(3f);
+        GetEnemy4((int)EEnemySpawnPosType.CenterRight);
+        GetEnemy3((int)EEnemySpawnPosType.Center);
+        yield return new WaitForSeconds(3f);
+        GetEnemy2((int)EEnemySpawnPosType.LeftTop);
+        GetEnemy4((int)EEnemySpawnPosType.LeftMiddle);
+        yield return new WaitForSeconds(4f);
+        GetEnemy2((int)EEnemySpawnPosType.CenterLeft);
+        GetEnemy3((int)EEnemySpawnPosType.CenterLeft);
+        yield return new WaitForSeconds(1f);
+        StartCoroutine(SpawnBoss(1));
+
+
     }
 
     private Enemy GetEnemy(int enemyNum, int posNum,Vector3 rotate = default)
     {
         Enemy enemy = Instantiate(enemyList[enemyNum], enemySpawnPos[posNum].position, Quaternion.identity);
+
+        
+        if(posNum == 0 || posNum == 1)
+        {
+            rotate = new Vector3(0,0, 90);
+        }
+        else if(posNum == 5 || posNum == 6)
+        {
+            rotate = new Vector3(0,0, -90);
+        }
+        else
+        {
+            rotate = default;
+        }
+
         enemy.transform.rotation = Quaternion.Euler(rotate);
+
         return enemy;
     }
 
-    private void SpawnBoss(int bossNum)
+    private IEnumerator SpawnBoss(int bossNum)
     {
+
         Instantiate(bossList[bossNum - 1], enemySpawnPos[3].position + new Vector3(0, 2, 0), Quaternion.identity);
         isBossSpawned = true;
+        yield return null;
+    }
+
+    private void GetEnemy1(int posNum, Vector3 rotate = default)
+    {
+        GetEnemy(0, posNum, rotate);
+    }
+
+    private void GetEnemy2(int posNum, Vector3 rotate = default)
+    {
+        GetEnemy(1, posNum, rotate);
+    }
+
+    private void GetEnemy3(int posNum, Vector3 rotate = default)
+    {
+        GetEnemy(2, posNum, rotate);
+    }
+
+    private void GetEnemy4(int posNum, Vector3 rotate = default)
+    {
+        GetEnemy(3, posNum, rotate);
     }
 
     #region 적 나오는 패턴들

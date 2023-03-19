@@ -199,9 +199,8 @@ public class GameManager : Singleton<GameManager>
     {
         int itemNum = 0;
         int randNum = Random.Range(0, 100);
-        if (randNum <= 49) return;//아이템 드롭 안함
 
-        if (itemSpawnPercentageList[(int)EItemType.LevelUp] < randNum)
+        if (itemSpawnPercentageList[(int)EItemType.LevelUp] < randNum * 10)
         {
 
         }
@@ -224,16 +223,25 @@ public class GameManager : Singleton<GameManager>
         //Instantiate(itemList[], pos, Quaternion.identity);
     }
 
-    private Item GetItem(float num)
+    public static bool GetThisChanceResult(float chance)
     {
-        return new Item();
+        if(chance < 0.0000001f)
+        {
+            chance = 0.0000001f;
+        }
 
+        bool success = false;
+        int randAccuracy = 1000000;
 
-
-
-
-
+        float randHitRange = chance * randAccuracy;
+        int rand = Random.Range(1, randAccuracy + 1);
+        if(rand < randHitRange)
+        {
+            success = true;
+        }
+        return success;
     }
+
 
     #region 카메라 Shake
 

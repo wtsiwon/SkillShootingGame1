@@ -8,6 +8,7 @@ public enum ESkillType
     BezierShoot,
     Repair,
     Bomb,
+    Revolution,
 }
 
 public class PlayerSkill : MonoBehaviour
@@ -19,11 +20,12 @@ public class PlayerSkill : MonoBehaviour
     [Space(10f)]
     private List<float> skillCoolTimeList = new List<float>();
 
-    [SerializeField]
-    private BoxCollider2D bombCollider;
 
     private Player player;
 
+    [Header("폭탄 변수들")]
+    [SerializeField]
+    private BoxCollider2D bombCollider;
 
     [Tooltip("폭탄 스킬 데미지")]
     public int bombDmg;
@@ -31,8 +33,9 @@ public class PlayerSkill : MonoBehaviour
     [Tooltip("얼마나 수리 해줄것인가")]
     public int repairAmount;
 
+    #region 베지어 공격 변수들
+    [Header("베지어 공격변수들")]
     public int shootCount;
-
     public BezierBullet bezierBullet;
 
     [SerializeField]
@@ -42,7 +45,23 @@ public class PlayerSkill : MonoBehaviour
     private float startDistance = 6f;
     private float endDistance = 3f;
 
+    #endregion
+
+    #region 공전 스킬 관련 변수
+    [Header("공전스킬 관련 변수들")]
+    [SerializeField]
+    private RevolutionObj revolutionObj;
+
+    [SerializeField]
+    private float revolutionDuration;
+
+    [SerializeField]
+    private float revolutionSpd;
+    #endregion
+
+    private bool revolutionDone = true;
     #region SkillUI
+    [Header("SkillUI")]
     [SerializeField]
     [Space(10f)]
     private List<Image> skillIconList = new List<Image>();
@@ -55,11 +74,17 @@ public class PlayerSkill : MonoBehaviour
     private void Start()
     {
         player = Player.Instance;
+        SetSkill();
     }
 
     private void Update()
     {
         SkillKeyInput();
+    }
+
+    private void SetSkill()
+    {
+        revolutionObj.rotateSpd = revolutionSpd;
     }
 
     #region SkillKeyInput
@@ -68,6 +93,7 @@ public class PlayerSkill : MonoBehaviour
         BezierSkillInput();
         BombSkillInput();
         RepairSkillInput();
+        RevolutionSkillInput();
     }
 
     private void BezierSkillInput()
@@ -124,6 +150,21 @@ public class PlayerSkill : MonoBehaviour
             StartCoroutine(ISkillCoolDown(ESkillType.Repair));
         }
     }
+
+    private void RevolutionSkillInput()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftAlt))
+        {
+            if (skillCoolDownList[(int)ESkillType.Revolution] == true || revolutionDone == false)
+            {
+                GameManager.Instance.CantUseSkillText();
+                return;
+            }
+
+            Revolution();
+            //스킬이 다 끝나고 쿨타임 넣어줌
+        }
+    }
     #endregion
 
     private IEnumerator ISkillCoolDown(ESkillType type)
@@ -167,7 +208,7 @@ public class PlayerSkill : MonoBehaviour
                 BezierBullet bullet1 = Instantiate(bezierBullet);
                 bullet1.SetBullet(transform.position, player.bulletSpd / 10, player.atkDmg, target, startDistance, endDistance, false);
             }
-            yield return null;
+            yield return new WaitForSeconds(3f / 100f);
         }
     }
 
@@ -225,5 +266,24 @@ public class PlayerSkill : MonoBehaviour
     {
         player.Hp += amount;
         GameManager.Instance.HealingEffect(3, transform.position);
+    }
+
+    /// <summary>
+    /// 공전
+    /// </summary>
+    /// <param name="spd">공전 속도</param>
+    private void Revolution()
+    {
+        StartCoroutine(IRevolution());
+    }
+
+    private IEnumerator IRevolution()
+    {
+        revolutionDone = false;
+        revolutionObj.gameObject.SetActive(true);
+        yield return new WaitForSeconds(revolutionDuration);
+        revolutionObj.gameObject.SetActive(false);
+        StartCoroutine(ISkillCoolDown(ESkillType.Revolution));
+        revolutionDone = true;
     }
 }

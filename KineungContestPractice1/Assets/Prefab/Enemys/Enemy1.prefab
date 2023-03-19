@@ -138,13 +138,13 @@ MonoBehaviour:
   isBoss: 0
   moveSpd: 3
   score: 1000
-  dmg: 0
+  dmg: 10
   atkSpd: 0.5
   isAttack: 1
-  bulletSpd: 5
+  bulletSpd: 3
   bullet: {fileID: 3464308033749415962, guid: 9260f1e8aa8d1c348b9e298ce15397ef, type: 3}
-  maxHp: 10
-  hp: 10
+  maxHp: 20
+  hp: 0
   isMove: 1
   onDmgObj: {fileID: 7114393507998777226}
 --- !u!1 &7114393507998777226

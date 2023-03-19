@@ -71,6 +71,13 @@ public abstract class Enemy : MonoBehaviour
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         StartCoroutine(nameof(IAttack));
+        SetEnemy();
+    }
+
+    protected void SetEnemy()
+    {
+        maxHp = maxHp * GameManager.Instance.stage;
+        hp = maxHp;
     }
 
     protected virtual void Update()
@@ -79,6 +86,8 @@ public abstract class Enemy : MonoBehaviour
         {
             transform.Translate(Vector3.down * moveSpd * Time.deltaTime);
         }
+
+        EnemyDestroy();
     }
 
     public void OnDamaged(float dmg)
@@ -89,7 +98,7 @@ public abstract class Enemy : MonoBehaviour
     protected IEnumerator IOnDamaged()
     {
         onDmgObj.SetActive(true);
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.05f);
         onDmgObj.SetActive(false);
     }
 
@@ -118,7 +127,8 @@ public abstract class Enemy : MonoBehaviour
     private void ItemSpawn()
     {
         int rand = Random.Range(0, 10);
-        if (rand == 0)
+        //아이템 드롭 확률 50%
+        if (rand >= 5)
         {
             GameManager.Instance.SpawnRandomItem(transform.position);
         }

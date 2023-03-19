@@ -81,6 +81,7 @@ public class Player : Singleton<Player>
         get => isInvicibility;
         set
         {
+            isInvicibility = value;
             invicibilityCircle.SetActive(value);
         }
     }
@@ -93,8 +94,8 @@ public class Player : Singleton<Player>
     [Space(10f)]
     public readonly int maxHp = 100;
 
-    private int hp;
-    public int Hp
+    private float hp;
+    public float Hp
     {
         get
         {
@@ -102,6 +103,7 @@ public class Player : Singleton<Player>
         }
         set
         {
+            hp = value;
             if (value <= 0)
             {
                 if (isInvicibility == true) return;
@@ -115,7 +117,7 @@ public class Player : Singleton<Player>
                     return;
                 }
 
-                hp = value;
+                GameManager.Instance.CameraShake(0.5f, 0.1f);
                 StartCoroutine(IInvicibility());
             }
 
@@ -182,7 +184,6 @@ public class Player : Singleton<Player>
             yield return new WaitForSeconds(0.05f);
             Fuel -= decrease;
         }
-
     }
 
     private IEnumerator IInvicibility()
@@ -415,7 +416,7 @@ public class Player : Singleton<Player>
         Instantiate(petList[petCount - 1], transform);
     }
 
-    public void OnDamaged(int dmg)
+    public void OnDamaged(float dmg)
     {
         Hp -= dmg;
     }

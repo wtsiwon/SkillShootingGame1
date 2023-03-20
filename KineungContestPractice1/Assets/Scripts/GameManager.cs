@@ -197,30 +197,11 @@ public class GameManager : Singleton<GameManager>
 
     public void SpawnRandomItem(Vector3 pos)
     {
-        int itemNum = 0;
-        int randNum = Random.Range(0, 100);
+        int randNum = Random.Range(0, 10);
 
-        if (itemSpawnPercentageList[(int)EItemType.LevelUp] < randNum * 10)
-        {
+        if (randNum >= 5) randNum = 5;
 
-        }
-        else if (itemSpawnPercentageList[(int)EItemType.Healing] < randNum)
-        {
-
-        }
-        else if (itemSpawnPercentageList[(int)EItemType.Bomb] < randNum)
-        {
-
-        }
-        else if (itemSpawnPercentageList[(int)EItemType.Invincibility] < randNum)
-        {
-
-        }
-
-
-
-
-        //Instantiate(itemList[], pos, Quaternion.identity);
+        Instantiate(itemList[randNum], pos, Quaternion.identity);
     }
 
     public static bool GetThisChanceResult(float chance)

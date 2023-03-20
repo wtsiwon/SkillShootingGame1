@@ -11,6 +11,9 @@ public class Boss : Enemy
 
     public bool isBossMove;
 
+    [SerializeField]
+    private float shotInverval;
+
     public int patternNum;
 
     private bool isPatternDone;
@@ -186,6 +189,51 @@ public class Boss : Enemy
         yield break;
     }
 
+    private IEnumerator IBossPattern3()
+    {
+        isPatternDone = false;
+        StartCoroutine(IPattern3Shoot(atkSpd - 1));
+
+        isPatternDone = true;
+
+        yield return null;
+    }
+
+    private IEnumerator IPattern3Shoot(float duration)
+    {
+        float time = 0;
+        while(time < duration)
+        {
+            Bullet bullet1 = Instantiate(bullet);
+            bullet1.SetBullet(transform.position, Vector3.up, bulletSpd, dmg, true);
+
+            transform.rotation = Quaternion.Euler(0, 0, transform.rotation.x + 5);
+
+            time = Time.deltaTime;
+            yield return null;
+        }
+
+        time = 0;
+        while(time < 0.5f)
+        {
+            transform.rotation = Quaternion.Lerp(Quaternion.Euler(0, 0, transform.rotation.z), Quaternion.Euler(Vector3.zero), time / 0.5f);
+            yield return null;
+        }
+        yield break;
+    }
+
+    private IEnumerator IPattern4Shoot(float duration)
+    {
+        float time = 0;
+        while(time < duration)
+        {
+            Bullet bullet1 = Instantiate(bullet);
+            //²É¸ð¾ç ¾îÂ¼°í
+            time = Time.deltaTime;
+            
+        }
+        yield break;
+    }
 
 
     protected override void Attack()

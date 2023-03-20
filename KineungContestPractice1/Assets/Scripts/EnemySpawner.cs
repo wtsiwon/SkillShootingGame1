@@ -37,31 +37,34 @@ public class EnemySpawner : Singleton<EnemySpawner>
     private void Start()
     {
         StartCoroutine(SpawnPatterns());
+        SpawnBoss(1);
     }
 
     private IEnumerator SpawnPatterns()
     {
         yield return new WaitForSeconds(5f);
+
+        GameManager.Instance.stage = 1;
         GetEnemy1((int)EEnemySpawnPosType.CenterLeft);
         GetEnemy2((int)EEnemySpawnPosType.CenterRight);
         yield return new WaitForSeconds(2f);
-        GetEnemy4((int)EEnemySpawnPosType.LeftTop);
+        GetEnemy1((int)EEnemySpawnPosType.LeftTop);
         GetEnemy3((int)EEnemySpawnPosType.Center);
         yield return new WaitForSeconds(3f);
         GetEnemy2((int)EEnemySpawnPosType.LeftMiddle);
-        GetEnemy4((int)EEnemySpawnPosType.RightMiddle);
+        GetEnemy1((int)EEnemySpawnPosType.RightMiddle);
         yield return new WaitForSeconds(2f);
         GetEnemy3((int)EEnemySpawnPosType.Center);
         GetEnemy1((int)EEnemySpawnPosType.LeftMiddle);
         yield return new WaitForSeconds(3f);
         GetEnemy3((int)EEnemySpawnPosType.RightMiddle);
-        GetEnemy4((int)EEnemySpawnPosType.CenterRight);
+        GetEnemy2((int)EEnemySpawnPosType.CenterRight);
         yield return new WaitForSeconds(3f);
         GetEnemy1((int)EEnemySpawnPosType.LeftTop);
         GetEnemy2((int)EEnemySpawnPosType.Center);
         yield return new WaitForSeconds(2f);
         GetEnemy3((int)EEnemySpawnPosType.RightTop);
-        GetEnemy4((int)EEnemySpawnPosType.LeftMiddle);
+        GetEnemy2((int)EEnemySpawnPosType.LeftMiddle);
         yield return new WaitForSeconds(3f);
         GetEnemy1((int)EEnemySpawnPosType.CenterLeft);
         GetEnemy1((int)EEnemySpawnPosType.CenterRight);
@@ -72,18 +75,16 @@ public class EnemySpawner : Singleton<EnemySpawner>
         GetEnemy1((int)EEnemySpawnPosType.RightMiddle);
         GetEnemy2((int)EEnemySpawnPosType.CenterLeft);
         yield return new WaitForSeconds(3f);
-        GetEnemy4((int)EEnemySpawnPosType.CenterRight);
+        GetEnemy1((int)EEnemySpawnPosType.CenterRight);
         GetEnemy3((int)EEnemySpawnPosType.Center);
         yield return new WaitForSeconds(3f);
         GetEnemy2((int)EEnemySpawnPosType.LeftTop);
-        GetEnemy4((int)EEnemySpawnPosType.LeftMiddle);
+        GetEnemy1((int)EEnemySpawnPosType.LeftMiddle);
         yield return new WaitForSeconds(4f);
         GetEnemy2((int)EEnemySpawnPosType.CenterLeft);
         GetEnemy3((int)EEnemySpawnPosType.CenterLeft);
         yield return new WaitForSeconds(1f);
         StartCoroutine(SpawnBoss(1));
-
-
     }
 
     private Enemy GetEnemy(int enemyNum, int posNum,Vector3 rotate = default)

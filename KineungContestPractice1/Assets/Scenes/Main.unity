@@ -428,14 +428,13 @@ MonoBehaviour:
   itemList:
   - {fileID: 5034645439104565372, guid: eb045edf576810b4f95652708a4a37c7, type: 3}
   - {fileID: 640567804296282122, guid: 1d77fa44627bc1f4d8e85a7abe93e92a, type: 3}
-  - {fileID: 8957996037363173052, guid: 27260cc283c7e2e4b961f60aaa3f4051, type: 3}
   itemSpawnPercentageList:
   - 1
   - 1
   - 1
   - 1
-  - 4
   - 1
+  - 4
   cam: {fileID: 963194227}
   shakeTime: 5
   shakeInterval: 0.1

@@ -61,7 +61,14 @@ public class Bullet : MonoBehaviour
     public void SetBullet(Vector3 pos, Vector3 dir, float spd, float dmg, bool isEnemyBullet, bool isMoving = true, bool isGuided = false)
     {
         transform.position = pos;
-        moveSpd = spd;
+        if (isEnemyBullet == true)
+        {
+            moveSpd = spd / 2;
+        }
+        else
+        {
+            moveSpd = spd;
+        }
         isMove = isMoving;
         transform.rotation = Quaternion.Euler(dir);
         this.dmg = dmg;

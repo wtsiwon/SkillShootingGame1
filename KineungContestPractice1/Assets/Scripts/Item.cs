@@ -4,12 +4,12 @@ using UnityEngine;
 
 public enum EItemType
 {
-    LevelUp,
-    Healing,
-    Bomb,
-    Invincibility,
-    FuelSupply,
-    AddPet,
+    LevelUp,//레벨 업
+    Healing,//힐
+    Bomb,//폭탄
+    Invincibility,//무적
+    AddPet,//펫 추가
+    FuelSupply,//연료 충전
 }
 public class Item : MonoBehaviour
 {
@@ -28,6 +28,8 @@ public class Item : MonoBehaviour
     [SerializeField]
     [Tooltip("연료 충전량")]
     private float fuelSupplyAmount;
+
+    private Coroutine Iinicibility;
 
     private void Start()
     {
@@ -56,11 +58,27 @@ public class Item : MonoBehaviour
             case EItemType.Healing:
                 Player.Instance.Hp += 20;
                 break;
+            case EItemType.Bomb:
+                //메테오
+                break;
             case EItemType.AddPet:
-                Player.Instance.PetCount += 1;
+                if (Player.Instance.PetCount == Player.Instance.maxPetCount)
+                {
+                    GameManager.Instance.Score += 10000;
+                }
+                else
+                {
+                    Player.Instance.PetCount += 1;
+                }
+
                 break;
             case EItemType.Invincibility:
-                StartCoroutine(IInvicibility(invicibilityTime));
+                if(Player.Instance.IsInvicibility == true)
+                {
+                    StopCoroutine(IInvicibility(invicibilityTime));
+                }
+
+                Iinicibility = StartCoroutine(IInvicibility(invicibilityTime));
                 break;
             case EItemType.FuelSupply:
                 FuelSupply(fuelSupplyAmount);

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6471640855499345191}
   - component: {fileID: 3133418599405876751}
   m_Layer: 0
-  m_Name: AddPetItem
+  m_Name: FuelSupplyItem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -97,10 +97,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d601d1619458af7488e1a7bd61bff3ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 4
+  type: 5
   bombDmg: 0
   invicibilityTime: 0
-  fuelSupplyAmount: 0
+  fuelSupplyAmount: 50
 --- !u!58 &6471640855499345191
 CircleCollider2D:
   m_ObjectHideFlags: 0

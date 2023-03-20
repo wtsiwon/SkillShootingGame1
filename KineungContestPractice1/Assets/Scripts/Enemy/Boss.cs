@@ -4,6 +4,9 @@ using UnityEngine;
 public class Boss : Enemy
 {
     [SerializeField]
+    private Meteor meteor;
+
+    [SerializeField]
     private Transform shootingPos;
 
     public bool isBossMove;

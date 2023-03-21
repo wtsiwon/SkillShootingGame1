@@ -260,6 +260,7 @@ public class PlayerSkill : MonoBehaviour
             }
         }
         GameManager.Instance.GetDestroyEffect(Vector3.zero, 100);
+        GameManager.Instance.FlashEffect(0.66f);
     }
 
     private void Repair(int amount)

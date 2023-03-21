@@ -7,6 +7,10 @@ using TMPro;
 public class GameManager : Singleton<GameManager>
 {
     public Canvas canvas;
+
+    [SerializeField]
+    private Image whiteBoard;
+
     public Bullet bullet;
 
     [Header("UI")]
@@ -193,6 +197,73 @@ public class GameManager : Singleton<GameManager>
         obj.transform.rotation = Quaternion.Euler(0, 0, randRotate);
         obj.transform.localScale = new Vector3(scale, scale, 1);
         Destroy(obj, 0.5f);
+    }
+
+    public void FlashEffect(float time)
+    {
+        StartCoroutine(IFlashEffect(time));
+
+        IEnumerator IFlashEffect(float time)
+        {
+            float current = 0;
+            float percent = 0;
+            Color tempColor = whiteBoard.color;
+
+            while (percent < 1)
+            {
+                current += Time.deltaTime;
+                percent = current / (time * 0.3f);//더 빠르게 켜지게 하기 위해 0.3f을 곱함
+
+                tempColor.a = Mathf.Lerp(0, 1, percent);
+                whiteBoard.color = tempColor;
+                yield return null;
+            }
+
+            current = 0; percent = 0;
+            while(percent < 1)
+            {
+                current += Time.deltaTime;
+                percent = current / (time * 0.7f);
+
+                tempColor.a = Mathf.Lerp(1, 0, percent);
+                whiteBoard.color = tempColor;
+                yield return null;
+            }
+        }
+    }
+
+    public void AFlashEffect(float time)
+    {
+        StartCoroutine(FlashEffect(time));
+
+        IEnumerator FlashEffect(float time)
+        {
+            float current = 0;
+            float percent = 0;
+            Color tempColor = whiteBoard.color;
+
+            while (percent < 1)
+            {
+                current += Time.deltaTime;
+                percent = current / (time * 0.3f);
+
+                tempColor.a = Mathf.Lerp(0, 1, percent);
+                whiteBoard.color = tempColor;
+
+                yield return null;
+            }
+
+            current = 0; percent = 0;
+            while (percent < 1)
+            {
+                current += Time.deltaTime;
+                percent = current / (time * 0.7f);
+
+                tempColor.a = Mathf.Lerp(1, 0, percent);
+                whiteBoard.color = tempColor;
+                yield return null;
+            }
+        }
     }
 
     public void SpawnRandomItem(Vector3 pos)

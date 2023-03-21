@@ -103,7 +103,14 @@ public class Player : Singleton<Player>
         }
         set
         {
+            float temp = hp;
+
             hp = value;
+
+            if (temp > value)
+            {
+                GameManager.Instance.CameraShake(0.5f, 0.2f);
+            }
             if (value <= 0)
             {
                 if (isInvicibility == true) return;
@@ -117,7 +124,6 @@ public class Player : Singleton<Player>
                     return;
                 }
 
-                GameManager.Instance.CameraShake(0.5f, 0.1f);
                 StartCoroutine(IInvicibility());
             }
 
@@ -198,6 +204,12 @@ public class Player : Singleton<Player>
         Move();
         InputShootKey();
         transform.position = ClampPosition();
+
+        if (Input.GetKeyDown(KeyCode.F2))
+        {
+            Hp += 10f;
+        }
+
     }
 
     private void Move()
@@ -413,7 +425,7 @@ public class Player : Singleton<Player>
     /// </summary>
     public void AddPet(int petCount)
     {
-        Instantiate(petList[petCount - 1], transform);
+        Instantiate(petList[petCount - 1], transform.position, Quaternion.identity);
     }
 
     public void OnDamaged(float dmg)

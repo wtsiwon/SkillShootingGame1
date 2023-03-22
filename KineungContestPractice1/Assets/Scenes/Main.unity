@@ -2254,6 +2254,7 @@ MonoBehaviour:
   - {fileID: 6466171731060115375, guid: 5d9dcc5bc63b70340a354ebd8f2b6762, type: 3}
   - {fileID: -8886904913560832396, guid: f6455a5b579ed0549945ad7ac1882364, type: 3}
   - {fileID: 8531188036300916546, guid: c6e6d19c75a82c74aa9db13eed6dcf7a, type: 3}
+  - {fileID: -8110914100830129140, guid: 1050c9230e3134c45b59225686c4dd60, type: 3}
   petPosList:
   - {x: 1, y: -0.5, z: 0}
   - {x: -1, y: -0.5, z: 0}

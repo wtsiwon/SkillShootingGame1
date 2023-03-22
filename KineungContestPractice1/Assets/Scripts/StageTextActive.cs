@@ -9,6 +9,8 @@ public class StageTextActive : MonoBehaviour
     public Text stageText;
     public Text explainText;
 
+    public int stage = 1;
+
     void Start()
     {
         StartCoroutine(IActive(1.8f));

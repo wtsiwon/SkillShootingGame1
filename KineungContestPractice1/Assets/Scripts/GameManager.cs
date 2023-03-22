@@ -20,6 +20,9 @@ public class GameManager : Singleton<GameManager>
     public Slider hpbar;
     public Slider fuelbar;
 
+    [Tooltip("")]
+    public GameObject warningArea;
+
     [Header("Texts")]
     [Space(10f)]
     public TextMeshProUGUI scoreText;

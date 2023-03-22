@@ -252,7 +252,7 @@ MonoBehaviour:
   moveSpd: 2
   score: 1000000
   dmg: 10
-  atkSpd: 5
+  atkSpd: 1
   isAttack: 1
   bulletSpd: 2
   bullet: {fileID: 3464308033749415962, guid: 9260f1e8aa8d1c348b9e298ce15397ef, type: 3}
@@ -260,6 +260,8 @@ MonoBehaviour:
   hp: 1000000
   isMove: 1
   onDmgObj: {fileID: 3065659202634681191}
+  meteor: {fileID: 4999500175314829608, guid: daceb0abaff2950429246bc135e19f15, type: 3}
   shootingPos: {fileID: 2854433915210654815}
   isBossMove: 0
+  shotInverval: 0
   patternNum: 1

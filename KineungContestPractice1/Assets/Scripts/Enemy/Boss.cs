@@ -14,6 +14,10 @@ public class Boss : Enemy
     [SerializeField]
     private float shotInverval;
 
+    [SerializeField]
+    private Vector3 maxPosition;
+
+
     public int patternNum;
 
     private bool isPatternDone;
@@ -23,10 +27,20 @@ public class Boss : Enemy
         get
         {
             return hp;
+
         }
         set
         {
             base.Hp = value;
+
+            if (hp == maxHp / 2)
+            {
+                for (int i = 0; i < 5; i++)
+                {
+                    Vector3 pos = Random.insideUnitCircle * 2;
+                    GameManager.Instance.SpawnRandomItem(transform.position + pos);
+                }
+            }
         }
     }
 
@@ -150,7 +164,6 @@ public class Boss : Enemy
         yield break;
     }
 
-
     private IEnumerator IBossPattern2(int bulletCount, int central, int rotate, int rotateCount, int entireCount)
     {
         isPatternDone = false;
@@ -204,7 +217,7 @@ public class Boss : Enemy
     private IEnumerator IPattern3Shoot(float duration)
     {
         float time = 0;
-        while(time < duration)
+        while (time < duration)
         {
             Bullet bullet1 = Instantiate(bullet);
             Quaternion rot = Quaternion.Euler(Vector3.up);
@@ -218,7 +231,7 @@ public class Boss : Enemy
         }
 
         time = 0;
-        while(time < 0.5f)
+        while (time < 0.5f)
         {
             transform.rotation = Quaternion.Lerp(Quaternion.Euler(0, 0, transform.rotation.z), Quaternion.Euler(Vector3.zero), time / 0.5f);
             yield return null;
@@ -229,19 +242,75 @@ public class Boss : Enemy
     private IEnumerator IPattern4Shoot(float duration)
     {
         float time = 0;
-        while(time < duration)
+        while (time < duration)
         {
-            Bullet bullet1 = Instantiate(bullet);
             //²É¸ð¾ç ¾îÂ¼°í
             time = Time.deltaTime;
-            
+
         }
         yield break;
     }
 
+    private IEnumerator IBossPattern5()
+    {
+        isPatternDone = false;
+        GameObject warning = GameManager.Instance.warningArea;
+
+        IEnumerator IFadeInOut(float time)
+        {
+            float current = 0;
+            float percent = 0;
+            Color tempColor = warning.GetComponent<SpriteRenderer>().color;
+
+
+            while (percent < 1)
+            {
+                current += Time.deltaTime;
+                percent = current / (time * 0.5f);
+
+                tempColor.a = Mathf.Lerp(1, 0, percent);
+
+                warning.GetComponent<SpriteRenderer>().color = tempColor;
+                yield return null;
+            }
+
+            current = 0;
+            percent = 0;
+
+            while (percent < 1)
+            {
+
+                current += Time.deltaTime;
+                percent = current / (time * 0.5f);
+
+                tempColor.a = Mathf.Lerp(0, 1, percent);
+
+                warning.GetComponent<SpriteRenderer>().color = tempColor;
+                yield return null;
+            }
+
+            isPatternDone = true;
+            yield break;
+        }
+
+        float x = Random.Range(-maxPosition.x, maxPosition.x);
+        float y = Random.Range(-maxPosition.y, maxPosition.y);
+
+        Instantiate(warning, new Vector3(x, y, 0), Quaternion.identity);
+
+        for (int i = 0; i < 3; i++)
+        {
+            StartCoroutine(IFadeInOut(1));
+        }
+
+        Destroy(warning);
+        yield break;
+    }
+
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.TryGetComponent(out Player player))
+        if (collision.TryGetComponent(out Player player))
         {
             player.OnDamaged(dmg);
         }

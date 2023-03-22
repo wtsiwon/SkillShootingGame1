@@ -15,5 +15,25 @@ public class Cheat : MonoBehaviour
         {
             Player.Instance.Hp -= 1;
         }
+        if (Input.GetKeyDown(KeyCode.F2))
+        {
+            Player.Instance.Level += 1;
+        }
+
+        if (Input.GetKeyDown(KeyCode.F3))
+        {
+            Player.Instance.PetCount += 1;
+        }
+
+        if (Input.GetKeyDown(KeyCode.F4))
+        {
+            if (Player.Instance.IsInvicibility == false)
+                Player.Instance.IsInvicibility = true;
+            else Player.Instance.IsInvicibility = false;
+        }
+        if (Input.GetKeyDown(KeyCode.F5))
+        {
+            
+        }
     }
 }

@@ -7,23 +7,22 @@ public class Enemy1 : Enemy
     protected override void Attack()
     {
 
-        StartCoroutine(SectorFormShot(5, transform.position.z));
+        StartCoroutine(SectorFormShot(3));
     }
 
-    private IEnumerator SectorFormShot(int count, float center)
+    private IEnumerator SectorFormShot(int count)
     {
-        float amount = 180 / count;
-
-        float z = 180 + amount;
+        float[] amounts = new float[3] { 150, 180, 210 };
 
         for (int i = 0; i < count; i++)
         {
-            Bullet bullet1 = Instantiate(bullet);
-            bullet1.SetBullet(transform.position, new Vector3(0, 0, z), bulletSpd, dmg, true);
+            Quaternion rot = Quaternion.Euler(0, 0, amounts[i]);
+
+            Bullet bullet1 = Instantiate(bullet, transform.position, rot);
+            bullet1.SetBullet(transform.position, rot, bulletSpd, dmg, true);
+
+            yield return null;
         }
-
-
-        yield return null;
     }
     
     

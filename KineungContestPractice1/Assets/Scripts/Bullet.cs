@@ -58,7 +58,7 @@ public class Bullet : MonoBehaviour
         Destroy();
     }
 
-    public void SetBullet(Vector3 pos, Vector3 dir, float spd, float dmg, bool isEnemyBullet, bool isMoving = true, bool isGuided = false)
+    public void SetBullet(Vector3 pos, Quaternion rot, float spd, float dmg, bool isEnemyBullet, bool isMoving = true, bool isGuided = false)
     {
         transform.position = pos;
         if (isEnemyBullet == true)
@@ -70,7 +70,7 @@ public class Bullet : MonoBehaviour
             moveSpd = spd;
         }
         isMove = isMoving;
-        transform.rotation = Quaternion.Euler(dir);
+        transform.rotation = rot;
         this.dmg = dmg;
         this.isEnemyBullet = isEnemyBullet;
         this.isGuided = isGuided;

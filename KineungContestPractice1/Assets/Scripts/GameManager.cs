@@ -11,6 +11,9 @@ public class GameManager : Singleton<GameManager>
     [SerializeField]
     private Image whiteBoard;
 
+    [SerializeField]
+    private Image blackBoard;
+
     public Bullet bullet;
 
     [Header("UI")]
@@ -120,7 +123,9 @@ public class GameManager : Singleton<GameManager>
 
     void Start()
     {
-        InitializeGame();
+        StartCoroutine(IFadeOut(1f));
+        Invoke(nameof(InitializeGame), 1f);
+
         StartCoroutine(nameof(IUpdate));
         StartCoroutine(nameof(IAddScore));
         StartCoroutine(nameof(ITimer));
@@ -169,6 +174,26 @@ public class GameManager : Singleton<GameManager>
         Score = 0;
         isGameStart = true;
 
+    }
+
+    private IEnumerator IFadeOut(float time)
+    {
+        float current = 0;
+        float percent = 0;
+        Color tempColor = blackBoard.color;
+
+        while (percent < 1)
+        {
+            current += Time.deltaTime;
+            percent = current / time;
+
+            tempColor.a = Mathf.Lerp(1, 0, percent);
+            blackBoard.color = tempColor;
+
+            yield return null;
+        }
+
+        yield break;
     }
 
     public void UpdatePlayerHpBar(float amount)
@@ -220,7 +245,7 @@ public class GameManager : Singleton<GameManager>
             }
 
             current = 0; percent = 0;
-            while(percent < 1)
+            while (percent < 1)
             {
                 current += Time.deltaTime;
                 percent = current / (time * 0.7f);
@@ -277,7 +302,7 @@ public class GameManager : Singleton<GameManager>
 
     public static bool GetThisChanceResult(float chance)
     {
-        if(chance < 0.0000001f)
+        if (chance < 0.0000001f)
         {
             chance = 0.0000001f;
         }
@@ -287,7 +312,7 @@ public class GameManager : Singleton<GameManager>
 
         float randHitRange = chance * randAccuracy;
         int rand = Random.Range(1, randAccuracy + 1);
-        if(rand < randHitRange)
+        if (rand < randHitRange)
         {
             success = true;
         }

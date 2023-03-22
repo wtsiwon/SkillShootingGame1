@@ -23,7 +23,9 @@ public class StrikerPet : Pet
         float Dmg = atkDmg * player.Level;
         Dmg += attackPowerCoefficient;
 
-        bullet1.SetBullet(transform.position, Vector3.up, player.bulletSpd * 2, Dmg, false);
+        Quaternion rot = Quaternion.Euler(Vector3.up);
+
+        bullet1.SetBullet(transform.position, rot , player.bulletSpd * 2, Dmg, false);
         bullet.SetScale(14f);
     }
 }

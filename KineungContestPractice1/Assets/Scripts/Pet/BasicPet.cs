@@ -18,7 +18,10 @@ public class BasicPet : Pet
     private void BasicAttack()
     {
         Bullet bullet1 = Instantiate(bullet, transform.position, Quaternion.identity);
-        bullet1.SetBullet(transform.position, Vector3.up, player.bulletSpd, atkDmg * player.Level, false);
+
+        Quaternion rot = Quaternion.Euler(Vector3.up);
+
+        bullet1.SetBullet(transform.position, rot, player.bulletSpd, atkDmg * player.Level, false);
     }
     
 

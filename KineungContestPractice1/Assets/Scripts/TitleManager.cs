@@ -34,7 +34,7 @@ public class TitleManager : MonoBehaviour
     {
         gameStartBtn.onClick.AddListener(() =>
         {
-            SceneManager.LoadScene("Main");
+            SceneManager.LoadScene("Stage");
         });
     }
 }

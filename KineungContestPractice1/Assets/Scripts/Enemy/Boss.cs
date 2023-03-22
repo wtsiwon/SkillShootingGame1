@@ -138,7 +138,9 @@ public class Boss : Enemy
             for (int i = 0; i < 180; i += angle)
             {
                 Bullet bullet1 = Instantiate(bullet, transform.position, Quaternion.identity);
-                bullet1.SetBullet(transform.position, new Vector3(0, 0, i + count * 15 + 90), bulletSpd, 1, true);
+
+                Quaternion rot = Quaternion.Euler(new Vector3(0, 0, i + count * 15 + 90));
+                bullet1.SetBullet(transform.position, rot, bulletSpd, 1, true);
             }
             count++;
             yield return new WaitForSeconds(1f);
@@ -205,7 +207,9 @@ public class Boss : Enemy
         while(time < duration)
         {
             Bullet bullet1 = Instantiate(bullet);
-            bullet1.SetBullet(transform.position, Vector3.up, bulletSpd, dmg, true);
+            Quaternion rot = Quaternion.Euler(Vector3.up);
+
+            bullet1.SetBullet(transform.position, rot, bulletSpd, dmg, true);
 
             transform.rotation = Quaternion.Euler(0, 0, transform.rotation.x + 5);
 
@@ -235,6 +239,13 @@ public class Boss : Enemy
         yield break;
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.TryGetComponent(out Player player))
+        {
+            player.OnDamaged(dmg);
+        }
+    }
 
     protected override void Attack()
     {

@@ -19,7 +19,9 @@ public class Enemy2 : Enemy
         for (int i = 0; i < 360; i+= 360 / count)
         {
             Bullet bullet1 = Instantiate(bullet);
-            bullet1.SetBullet(transform.position, new Vector3(0, 0, i), bulletSpd, dmg, true);
+            Quaternion rot = Quaternion.Euler(0, 0, i);
+
+            bullet1.SetBullet(transform.position, rot, bulletSpd, dmg, true);
         }
         yield break;
     }

@@ -256,56 +256,93 @@ public class Boss : Enemy
         isPatternDone = false;
         GameObject warning = GameManager.Instance.warningArea;
 
-        IEnumerator IFadeInOut(float time)
-        {
-            float current = 0;
-            float percent = 0;
-            Color tempColor = warning.GetComponent<SpriteRenderer>().color;
-
-
-            while (percent < 1)
-            {
-                current += Time.deltaTime;
-                percent = current / (time * 0.5f);
-
-                tempColor.a = Mathf.Lerp(1, 0, percent);
-
-                warning.GetComponent<SpriteRenderer>().color = tempColor;
-                yield return null;
-            }
-
-            current = 0;
-            percent = 0;
-
-            while (percent < 1)
-            {
-
-                current += Time.deltaTime;
-                percent = current / (time * 0.5f);
-
-                tempColor.a = Mathf.Lerp(0, 1, percent);
-
-                warning.GetComponent<SpriteRenderer>().color = tempColor;
-                yield return null;
-            }
-
-            isPatternDone = true;
-            yield break;
-        }
-
         float x = Random.Range(-maxPosition.x, maxPosition.x);
         float y = Random.Range(-maxPosition.y, maxPosition.y);
 
-        Instantiate(warning, new Vector3(x, y, 0), Quaternion.identity);
+        warning.transform.position = new Vector3(x, y, 0);
 
         for (int i = 0; i < 3; i++)
         {
-            StartCoroutine(IFadeInOut(1));
+            StartCoroutine(IFadeInOut(1, warning));
+            yield return null;
         }
 
-        Destroy(warning);
+        float current = 0;
+        float percent = 0;
+
+        Vector3 startPos = transform.position;
+        Vector3 endPos = new Vector3(x, y, 0);
+        Vector3 currentPos;
+
+        while (percent < 1)
+        {
+            current += Time.deltaTime;
+            percent = current / 1f;
+
+            currentPos = Vector3.Lerp(startPos, endPos, percent);
+            transform.position = currentPos;
+
+            yield return null;
+        }
+
+        yield return new WaitForSeconds(0.5f);
+
+        current = 0;
+        percent = 0;
+
+        while(percent < 1)
+        {
+            current += Time.deltaTime;
+            percent = (current / 1f);
+
+            currentPos = Vector3.Lerp(endPos, startPos, percent);
+            transform.position = currentPos;
+            yield return null;
+        }
+
+        isPatternDone = true;
         yield break;
     }
+
+    private IEnumerator IFadeInOut(float time, GameObject warning)
+    {
+        float current = 0;
+        float percent = 0;
+        Color tempColor = warning.GetComponent<SpriteRenderer>().color;
+
+
+        while (percent < 1)
+        {
+            current += Time.deltaTime;
+            percent = current / (time * 0.5f);
+
+            tempColor.a = Mathf.Lerp(0, 1, percent);
+
+            warning.GetComponent<SpriteRenderer>().color = tempColor;
+            yield return null;
+        }
+
+        yield return new WaitForSeconds(0.5f);
+
+        current = 0;
+        percent = 0;
+
+        while (percent < 1)
+        {
+            current += Time.deltaTime;
+            percent = current / (time * 0.5f);
+
+            tempColor.a = Mathf.Lerp(1, 0, percent);
+
+            warning.GetComponent<SpriteRenderer>().color = tempColor;
+            yield return null;
+        }
+
+        isPatternDone = true;
+        yield break;
+    }
+
+
 
 
     private void OnTriggerEnter2D(Collider2D collision)

@@ -72,11 +72,6 @@ public class Boss : Enemy
         }
     }
 
-    protected override IEnumerator IAttack()
-    {
-        return base.IAttack();
-    }
-
     private void BossDie()
     {
         if (isDie == false)
@@ -136,7 +131,9 @@ public class Boss : Enemy
     {
         int randPattern = Random.Range(1, 2);
 
-        StartCoroutine($"IBossPattern{1}");
+        print("PlayRandomPattern");
+        StartCoroutine($"IBossPattern{5}");
+        
     }
 
     private IEnumerator IBossPattern1()
@@ -355,6 +352,7 @@ public class Boss : Enemy
 
     protected override void Attack()
     {
+        print("?");
         RandomBossPattern();
     }
     protected override void OnDie()

@@ -417,6 +417,7 @@ MonoBehaviour:
   bullet: {fileID: 3464308033749415962, guid: 9260f1e8aa8d1c348b9e298ce15397ef, type: 3}
   hpbar: {fileID: 65692517}
   fuelbar: {fileID: 565862143}
+  warningArea: {fileID: 0}
   scoreText: {fileID: 1672498176}
   highestScoreText: {fileID: 332417336}
   timerText: {fileID: 1220839671}
@@ -2224,7 +2225,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 843022188}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -4, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0}
   m_Children:
   - {fileID: 709514135}

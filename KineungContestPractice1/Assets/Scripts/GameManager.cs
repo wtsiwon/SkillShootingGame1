@@ -372,7 +372,6 @@ public class GameManager : Singleton<GameManager>
         shakePosition.z = cam.transform.localPosition.z;
 
         cam.transform.localPosition = shakePosition;
-        print(cam.transform.localPosition);
 
         ShakeIntervalMove(shakePosition, 0.1f);
         yield return new WaitForSeconds(0.1f);

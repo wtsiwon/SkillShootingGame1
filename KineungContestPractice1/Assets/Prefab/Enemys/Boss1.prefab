@@ -264,4 +264,5 @@ MonoBehaviour:
   shootingPos: {fileID: 2854433915210654815}
   isBossMove: 0
   shotInverval: 0
+  maxPosition: {x: 5, y: 5, z: 0}
   patternNum: 1

@@ -75,7 +75,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 6dc52df03f6a6a54dbcf20cd66778b22, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c82c2933d1b48ed4bbc92247b4953822, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -147,6 +147,7 @@ MonoBehaviour:
   hp: 0
   isMove: 1
   onDmgObj: {fileID: 2441831727131224149}
+  meteor: {fileID: 0}
 --- !u!1 &2441831727131224149
 GameObject:
   m_ObjectHideFlags: 0

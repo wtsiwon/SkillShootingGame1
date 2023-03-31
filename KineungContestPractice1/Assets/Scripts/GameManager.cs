@@ -104,7 +104,7 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
-    public int stage;
+    public static int stage = 1;
 
     private float timer;
 
@@ -117,6 +117,8 @@ public class GameManager : Singleton<GameManager>
             timerText.text = $"{Mathf.Round(Timer * 10) * 0.1f}s";//소수점 첫째자리까지 표시
         }
     }
+
+    public Vector3 defaultCameraPosition;
 
 
     private void Awake()
@@ -338,8 +340,6 @@ public class GameManager : Singleton<GameManager>
     /// <param name="ifMode">시간이 아니라 특정조건에 만족해야 할때</param>
     private IEnumerator ICameraShake(float shakeTime, float range, bool ifMode = false)
     {
-        Vector3 defaultCamPosition = cam.transform.localPosition;
-
         if (ifMode == false)
         {
             float time = 0;
@@ -362,16 +362,14 @@ public class GameManager : Singleton<GameManager>
             }
         }
 
-        cam.transform.localPosition = defaultCamPosition;
+        cam.transform.localPosition = defaultCameraPosition;
     }
 
     private IEnumerator ShakePosition(float range)
     {
-        Vector3 shakePosition = Random.insideUnitCircle * range;
+        Vector3 shakePosition = defaultCameraPosition + (Vector3)Random.insideUnitCircle * range;
 
         shakePosition.z = cam.transform.localPosition.z;
-
-        cam.transform.localPosition = shakePosition;
 
         ShakeIntervalMove(shakePosition, 0.1f);
         yield return new WaitForSeconds(0.1f);

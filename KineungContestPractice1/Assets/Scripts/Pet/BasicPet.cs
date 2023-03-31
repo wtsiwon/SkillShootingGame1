@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class BasicPet : Pet
 {
-
-
     protected override void Update()
     {
         base.Update();

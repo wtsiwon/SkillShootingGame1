@@ -76,7 +76,7 @@ public abstract class Enemy : MonoBehaviour
 
     protected void SetEnemy()
     {
-        maxHp = maxHp * GameManager.Instance.stage;
+        maxHp = maxHp * GameManager.stage;
         hp = maxHp;
     }
 

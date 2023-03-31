@@ -44,7 +44,7 @@ public class EnemySpawner : Singleton<EnemySpawner>
     {
         yield return new WaitForSeconds(5f);
 
-        GameManager.Instance.stage = 1;
+        GameManager.stage = 1;
         GetEnemy1((int)EEnemySpawnPosType.CenterLeft);
         GetEnemy2((int)EEnemySpawnPosType.CenterRight);
         yield return new WaitForSeconds(2f);

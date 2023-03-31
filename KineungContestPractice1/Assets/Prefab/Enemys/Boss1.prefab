@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2948694321765773803}
   - component: {fileID: 1239510415492331733}
   m_Layer: 6
-  m_Name: E-07
+  m_Name: OnDmgObj
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -188,7 +188,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: c0c5501b5feb4e5498edba8e4b916dee, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 4c2ea5fbf4878d64da08d627ed3d4f25, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

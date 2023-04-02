@@ -28,6 +28,8 @@ public class GameManager : Singleton<GameManager>
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI highestScoreText;
     public TextMeshProUGUI timerText;
+    public TextMeshProUGUI levelText;
+
     public Text cantUseSkillText;
     public Text noEnemyText;
     public Text healingText;
@@ -128,7 +130,6 @@ public class GameManager : Singleton<GameManager>
 
     void Start()
     {
-        StartCoroutine(IFadeOut(1f));
         Invoke(nameof(InitializeGame), 1f);
 
         StartCoroutine(nameof(IUpdate));
@@ -209,6 +210,11 @@ public class GameManager : Singleton<GameManager>
     public void UpdatePlayerFuelBar(float amount)
     {
         fuelbar.value = amount;
+    }
+
+    public void UpdatePlayerLevelText(int level)
+    {
+        levelText.text = $"{level}Level";
     }
 
     public void GetDestroyEffect(Vector3 pos, float scale = 7, bool isRandRotate = true)

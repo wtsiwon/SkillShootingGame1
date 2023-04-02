@@ -6,7 +6,7 @@ public enum EItemType
 {
     LevelUp,//레벨 업
     Healing,//힐
-    Bomb,//폭탄
+    Meteor,//메테오
     Invincibility,//무적
     AddPet,//펫 추가
     FuelSupply,//연료 충전
@@ -21,15 +21,19 @@ public class Item : MonoBehaviour
     [Tooltip("폭탄 데미지")]
     private int bombDmg;
 
-    [SerializeField]
     [Tooltip("무적시간")]
+    [SerializeField]
     private float invicibilityTime;
 
     [SerializeField]
     [Tooltip("연료 충전량")]
     private float fuelSupplyAmount;
 
-    private Coroutine Iinicibility;
+    [SerializeField]
+    [Tooltip("메테오 GameObject")]
+    private Meteor meteor;
+
+    private Coroutine Iinvicibility;
 
     private void Start()
     {
@@ -56,10 +60,18 @@ public class Item : MonoBehaviour
                 }
                 break;
             case EItemType.Healing:
-                Player.Instance.Hp += 20;
+                if (Player.Instance.maxHp == Player.Instance.Hp)
+                {
+                    GameManager.Instance.Score += 10000;
+                }
+                else
+                {
+                    Player.Instance.Hp += 20;
+                }
                 break;
-            case EItemType.Bomb:
+            case EItemType.Meteor:
                 //메테오
+                SpawnMeteor();
                 break;
             case EItemType.AddPet:
                 if (Player.Instance.PetCount == Player.Instance.maxPetCount)
@@ -73,12 +85,12 @@ public class Item : MonoBehaviour
 
                 break;
             case EItemType.Invincibility:
-                if(Player.Instance.IsInvicibility == true)
+                if (Player.Instance.IsInvicibility == true)
                 {
-                    StopCoroutine(IInvicibility(invicibilityTime));
+                    StopCoroutine(nameof(IInvicibility));
                 }
 
-                Iinicibility = StartCoroutine(IInvicibility(invicibilityTime));
+                StartCoroutine(nameof(IInvicibility));
                 break;
             case EItemType.FuelSupply:
                 FuelSupply(fuelSupplyAmount);
@@ -95,7 +107,12 @@ public class Item : MonoBehaviour
         }
     }
 
-    private IEnumerator IInvicibility(float invicibilityTime)
+    private void SpawnMeteor()
+    {
+        Instantiate(meteor);
+    }
+
+    private IEnumerator IInvicibility()
     {
         Player.Instance.IsInvicibility = true;
         yield return new WaitForSeconds(invicibilityTime);

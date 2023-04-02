@@ -37,7 +37,11 @@ public class Player : Singleton<Player>
         set
         {
             if (value >= maxLevel) level = maxLevel;
-            else level = value;
+            else
+            {
+                level = value;
+                GameManager.Instance.UpdatePlayerLevelText(level);
+            }
         }
     }
 
@@ -68,6 +72,8 @@ public class Player : Singleton<Player>
     [Tooltip("총알 발사 위치")]
     public List<Vector3> bulletShootPosList = new List<Vector3>();
 
+
+    [Tooltip("무적시간")]
     public float invicibilityTime;
 
     [SerializeField]
@@ -173,6 +179,7 @@ public class Player : Singleton<Player>
         fuel = maxFuel;
         hp = maxHp;
         petCount = 0;
+        GameManager.Instance.UpdatePlayerLevelText(1);
     }
 
     private IEnumerator IUpdate()

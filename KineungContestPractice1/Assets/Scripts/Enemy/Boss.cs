@@ -17,7 +17,6 @@ public class Boss : Enemy
     [SerializeField]
     private Vector3 maxPosition;
 
-
     public int patternNum;
 
     private bool isPatternDone;
@@ -27,7 +26,6 @@ public class Boss : Enemy
         get
         {
             return hp;
-
         }
         set
         {
@@ -43,7 +41,6 @@ public class Boss : Enemy
             }
         }
     }
-
 
     protected override void Start()
     {
@@ -125,6 +122,11 @@ public class Boss : Enemy
         }
 
         isBossMove = false;
+    }
+
+    protected override IEnumerator IAttack()
+    {
+        return base.IAttack();
     }
 
     private void RandomBossPattern()

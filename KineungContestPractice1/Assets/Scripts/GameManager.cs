@@ -362,7 +362,6 @@ public class GameManager : Singleton<GameManager>
 
     private void ShakeIntervalMove(Vector3 shakePosition, float shakeInterval)
     {
-        print("CameraShake");
         float time = 0;
         while (time < shakeInterval)
         {

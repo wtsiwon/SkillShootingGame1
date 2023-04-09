@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class GameManager : Singleton<GameManager>
 {
@@ -16,11 +17,26 @@ public class GameManager : Singleton<GameManager>
 
     public Bullet bullet;
 
+    [Header("GameOverUI")]
+    [SerializeField]
+    private GameObject gameoverBoard;
+
+    [SerializeField]
+    private TextMeshProUGUI gameOverScoreText;
+
+    [SerializeField]
+    private TextMeshProUGUI gameOverTimeText;
+
+    [SerializeField]
+    private TextMeshProUGUI gameOverPlayerLevelText;
+
+    [SerializeField]
+    private Button goMenuBtn;
+
     [Header("UI")]
     public Slider hpbar;
     public Slider fuelbar;
 
-    [Tooltip("")]
     public GameObject warningArea;
 
     [Header("Texts")]
@@ -135,6 +151,13 @@ public class GameManager : Singleton<GameManager>
         StartCoroutine(nameof(IUpdate));
         StartCoroutine(nameof(IAddScore));
         StartCoroutine(nameof(ITimer));
+        StartCoroutine(nameof(IFadeOut), 0.5f);
+
+        goMenuBtn.onClick.AddListener(() =>
+        {
+            SceneManager.LoadScene("Menu");
+            Time.timeScale = 1f;
+        });
     }
 
     void Update()
@@ -179,7 +202,7 @@ public class GameManager : Singleton<GameManager>
         player = Player.Instance;
         Score = 0;
         isGameStart = true;
-
+        Time.timeScale = 1f;
     }
     public void UpdatePlayerHpBar(float amount)
     {
@@ -194,6 +217,27 @@ public class GameManager : Singleton<GameManager>
     public void UpdatePlayerLevelText(int level)
     {
         levelText.text = $"{level}Level";
+    }
+
+    private IEnumerator IFadeOut(float time)
+    {
+        float current = 0;
+        float percent = 0;
+
+        Color tempColor = blackBoard.color;
+
+        while (percent < 1)
+        {
+            current += Time.deltaTime;
+            percent = current / time;
+
+            tempColor.a = Mathf.Lerp(1, 0, percent);
+
+            blackBoard.color = tempColor;
+            yield return null;
+        }
+        yield return null;
+
     }
 
     public void GetDestroyEffect(Vector3 pos, float scale = 7, bool isRandRotate = true)
@@ -311,7 +355,6 @@ public class GameManager : Singleton<GameManager>
 
 
     #region Ä«¸Þ¶ó Shake
-
     public void CameraShake(float shakeTime, float range, bool ifMode = false)
     {
         StartCoroutine(ICameraShake(shakeTime, range, ifMode));
@@ -417,8 +460,35 @@ public class GameManager : Singleton<GameManager>
     }
     #endregion
 
-    private void GameOver()
+    public void GameOver()
     {
+        StopAllCoroutines();
 
+        StartCoroutine(IScoreBoardMove(1));
+
+        gameOverPlayerLevelText.text = $"{Player.Instance.Level}Level";
+        gameOverScoreText.text = $"Score: {Score}";
+        gameOverTimeText.text = $"PlayTime: {Mathf.Round(Timer * 10) * 0.1f}s";
+    }
+
+    private IEnumerator IScoreBoardMove(float time)
+    {
+        float current = 0;
+        float percent = 0;
+        Vector3 startPos = gameoverBoard.transform.position;
+        Vector3 endPos = canvas.transform.position;
+
+
+        while(percent < 1) 
+        {
+            current += Time.deltaTime;
+            percent = current / time;
+
+            gameoverBoard.transform.position = Vector3.Lerp(startPos, endPos, percent);
+
+            yield return null;
+        }
+        Time.timeScale = 0.1f;
+        yield break;
     }
 }

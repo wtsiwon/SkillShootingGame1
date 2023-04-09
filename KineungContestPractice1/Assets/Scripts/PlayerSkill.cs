@@ -224,8 +224,6 @@ public class PlayerSkill : MonoBehaviour
         #region LINQ로 바꾸기 전 코드
         for (int i = 0; i < objs.Length; i++)
         {
-
-            print(objs[i].name);
             if (objs[i].TryGetComponent(out Enemy enemy))
             {
                 enemies.Add(enemy);

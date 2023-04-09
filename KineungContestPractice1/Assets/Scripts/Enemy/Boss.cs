@@ -44,6 +44,7 @@ public class Boss : Enemy
 
     protected override void Start()
     {
+        base.Start();
         StartCoroutine(IBossMove());
         isBossMove = true;
         IsDie = false;
@@ -124,18 +125,11 @@ public class Boss : Enemy
         isBossMove = false;
     }
 
-    protected override IEnumerator IAttack()
-    {
-        return base.IAttack();
-    }
-
     private void RandomBossPattern()
     {
-        int randPattern = Random.Range(1, 2);
+        int randPattern = Random.Range(1, 5);
 
-        print("PlayRandomPattern");
-        StartCoroutine($"IBossPattern{5}");
-        
+        StartCoroutine($"IBossPattern{randPattern}");
     }
 
     private IEnumerator IBossPattern1()
@@ -238,19 +232,7 @@ public class Boss : Enemy
         yield break;
     }
 
-    private IEnumerator IPattern4Shoot(float duration)
-    {
-        float time = 0;
-        while (time < duration)
-        {
-            //²É¸ð¾ç ¾îÂ¼°í
-            time = Time.deltaTime;
-
-        }
-        yield break;
-    }
-
-    private IEnumerator IBossPattern5()
+    private IEnumerator IBossPattern4()
     {
         isPatternDone = false;
         GameObject warning = GameManager.Instance.warningArea;
@@ -341,9 +323,6 @@ public class Boss : Enemy
         yield break;
     }
 
-
-
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.TryGetComponent(out Player player))
@@ -354,7 +333,7 @@ public class Boss : Enemy
 
     protected override void Attack()
     {
-        print("?");
+        print("Boss");
         RandomBossPattern();
     }
     protected override void OnDie()

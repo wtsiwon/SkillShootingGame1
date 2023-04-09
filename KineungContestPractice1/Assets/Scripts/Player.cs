@@ -28,6 +28,7 @@ public class Player : Singleton<Player>
     private bool isSlowMove;
 
     public readonly int maxLevel = 7;
+
     [SerializeField]
     private int level;
     public int Level
@@ -76,6 +77,8 @@ public class Player : Singleton<Player>
     [Tooltip("무적시간")]
     public float invicibilityTime;
 
+    private IEnumerator Iinvicibility;
+
     [SerializeField]
     [Space(10f)]
     private bool isInvicibility;
@@ -90,6 +93,26 @@ public class Player : Singleton<Player>
             isInvicibility = value;
             invicibilityCircle.SetActive(value);
         }
+    }
+
+    public void Invicibility(float time)
+    {
+        if (isInvicibility == true)
+        {
+            StopCoroutine(Iinvicibility);
+        }
+
+        Iinvicibility = IInvicibility(time);
+
+
+        StartCoroutine(Iinvicibility);
+    }
+
+    private IEnumerator IInvicibility(float time)
+    {
+        IsInvicibility = true;
+        yield return new WaitForSeconds(time);
+        IsInvicibility = false;
     }
 
     private Color fadeColor = new Color(255, 255, 255, 140);
@@ -125,12 +148,7 @@ public class Player : Singleton<Player>
             else if (value > maxHp) hp = maxHp;
             else
             {
-                if (isInvicibility == true)
-                {
-                    return;
-                }
-
-                StartCoroutine(IInvicibility());
+                Invicibility(invicibilityTime);
             }
 
             GameManager.Instance.UpdatePlayerHpBar(hp / maxHp);
@@ -197,13 +215,6 @@ public class Player : Singleton<Player>
             yield return new WaitForSeconds(0.05f);
             Fuel -= decrease;
         }
-    }
-
-    private IEnumerator IInvicibility()
-    {
-        IsInvicibility = true;
-        yield return new WaitForSeconds(invicibilityTime);
-        IsInvicibility = false;
     }
 
     void Update()
@@ -446,5 +457,6 @@ public class Player : Singleton<Player>
     private void OnDie()
     {
         print("죽었어임마");
+        GameManager.Instance.GameOver();
     }
 }

@@ -33,11 +33,8 @@ public class Item : MonoBehaviour
     [Tooltip("메테오 GameObject")]
     private Meteor meteor;
 
-    private Coroutine Iinvicibility;
-
     private void Start()
     {
-        SetItem();
     }
 
     private void Update()
@@ -70,7 +67,7 @@ public class Item : MonoBehaviour
                 }
                 break;
             case EItemType.Meteor:
-                //메테오
+                //메테오소환
                 SpawnMeteor();
                 break;
             case EItemType.AddPet:
@@ -85,12 +82,8 @@ public class Item : MonoBehaviour
 
                 break;
             case EItemType.Invincibility:
-                if (Player.Instance.IsInvicibility == true)
-                {
-                    StopCoroutine(nameof(IInvicibility));
-                }
+                Player.Instance.Invicibility(invicibilityTime);
 
-                StartCoroutine(nameof(IInvicibility));
                 break;
             case EItemType.FuelSupply:
                 FuelSupply(fuelSupplyAmount);
@@ -110,13 +103,6 @@ public class Item : MonoBehaviour
     private void SpawnMeteor()
     {
         Instantiate(meteor);
-    }
-
-    private IEnumerator IInvicibility()
-    {
-        Player.Instance.IsInvicibility = true;
-        yield return new WaitForSeconds(invicibilityTime);
-        Player.Instance.IsInvicibility = false;
     }
 
     private void FuelSupply(float amount)

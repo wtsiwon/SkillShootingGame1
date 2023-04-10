@@ -144,10 +144,11 @@ public class Boss : Enemy
             int count = 0;
             for (int i = 0; i < 180; i += angle)
             {
-                Bullet bullet1 = Instantiate(bullet, transform.position, Quaternion.identity);
-
                 Quaternion rot = Quaternion.Euler(new Vector3(0, 0, i + count * 15 + 90));
-                bullet1.SetBullet(transform.position, rot, bulletSpd, 1, true);
+
+                Bullet bullet1 = ObjPool.Instance.GetBullet(transform.position, 4, rot);
+
+                bullet1.SetBullet(transform.position, rot, bulletSpd, dmg, true, 4);
             }
             count++;
             yield return new WaitForSeconds(1f);
@@ -189,7 +190,10 @@ public class Boss : Enemy
             for (int i = 0; i < bulletCount; i++)
             {
                 Quaternion rot = Quaternion.Euler(0, 0, z + startRot);
-                Instantiate(bullet, transform.position, rot);
+
+                Bullet bullet = ObjPool.Instance.GetBullet(transform.position, 4, rot);
+
+                bullet.SetBullet(transform.position, rot, bulletSpd, dmg, true, 4);
                 z += amount;
             }
         }
@@ -212,14 +216,14 @@ public class Boss : Enemy
         float time = 0;
         while (time < duration)
         {
-            Bullet bullet1 = Instantiate(bullet);
             Quaternion rot = Quaternion.Euler(Vector3.up);
+            Bullet bullet1 = ObjPool.Instance.GetBullet(transform.position, 4, rot);
 
-            bullet1.SetBullet(transform.position, rot, bulletSpd, dmg, true);
+            bullet1.SetBullet(transform.position, rot, bulletSpd, dmg, true , 4);
 
-            transform.rotation = Quaternion.Euler(0, 0, transform.rotation.x + 5);
+            transform.rotation = Quaternion.Euler(0, 0, transform.rotation.z + 5);
 
-            time = Time.deltaTime;
+            time += Time.deltaTime;
             yield return null;
         }
 

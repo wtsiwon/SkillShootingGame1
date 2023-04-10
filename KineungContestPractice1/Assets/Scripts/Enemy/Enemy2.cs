@@ -18,10 +18,10 @@ public class Enemy2 : Enemy
     {
         for (int i = 0; i < 360; i+= 360 / count)
         {
-            Bullet bullet1 = Instantiate(bullet);
             Quaternion rot = Quaternion.Euler(0, 0, i);
+            Bullet bullet1 = ObjPool.Instance.GetBullet(transform.position, 4, rot);
 
-            bullet1.SetBullet(transform.position, rot, bulletSpd, dmg, true);
+            bullet1.SetBullet(transform.position, rot, bulletSpd, dmg, true,4);
         }
         yield break;
     }

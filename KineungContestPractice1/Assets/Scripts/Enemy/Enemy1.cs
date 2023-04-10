@@ -18,8 +18,8 @@ public class Enemy1 : Enemy
         {
             Quaternion rot = Quaternion.Euler(0, 0, amounts[i]);
 
-            Bullet bullet1 = Instantiate(bullet, transform.position, rot);
-            bullet1.SetBullet(transform.position, rot, bulletSpd, dmg, true);
+            Bullet bullet1 = ObjPool.Instance.GetBullet(transform.position, 4, rot);
+            bullet1.SetBullet(transform.position, rot, bulletSpd, dmg, true, 4);
 
             yield return null;
         }

@@ -8,7 +8,7 @@ public class ObjPool : Singleton<ObjPool>
 
     private Dictionary<int, Queue<Bullet>> pool = new Dictionary<int, Queue<Bullet>>();
 
-    public Bullet Get(Vector3 pos, int poolType)
+    public Bullet GetBullet(Vector3 pos, int poolType, Quaternion rot)
     {
         Bullet bullet = null;
 
@@ -18,20 +18,30 @@ public class ObjPool : Singleton<ObjPool>
             pool.Add(poolType, new Queue<Bullet>());
         }
 
+        Queue<Bullet> queue = pool[poolType];
 
+        Bullet origin = originObj[poolType - 1];
 
         if (pool[poolType].Count > 0)
         {
-            bullet = pool[poolType].Dequeue();
+            bullet = queue.Dequeue();
         }
         else
         {
-            bullet = Instantiate(bullet, pos, Quaternion.identity);
+            bullet = Instantiate(origin);
         }
 
-
+        bullet.transform.position = pos;
+        bullet.transform.rotation = rot;
+        bullet.gameObject.SetActive(true);
 
         return bullet;
+    }
+
+    public void Return(int poolType, Bullet bullet)
+    {
+        bullet.gameObject.SetActive(false);
+        pool[poolType].Enqueue(bullet);
     }
 
 }

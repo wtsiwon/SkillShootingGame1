@@ -283,11 +283,15 @@ public class Player : Singleton<Player>
 
     private Bullet GetBullet(int bulletLevel)
     {
-        Bullet bullet = Instantiate(bulletList[bulletLevel - 1]);
-
         Quaternion rot = Quaternion.Euler(Vector3.up);
 
-        bullet.SetBullet(transform.position, rot, bulletSpd, atkDmg + (atkDmg * levelPerbulletAdditionalDmg[level - 1]), false);
+        Bullet bullet = ObjPool.Instance.GetBullet(transform.position, bulletLevel, rot);
+        if (bullet == null)
+        {
+            print("null");
+            return null;
+        }
+        bullet.SetBullet(transform.position, rot, bulletSpd, atkDmg + (atkDmg * levelPerbulletAdditionalDmg[level - 1]), false, bulletLevel);
 
         return bullet;
     }

@@ -68,17 +68,10 @@ public class Bullet : MonoBehaviour
         Destroy();
     }
 
-    public void SetBullet(Vector3 pos, Quaternion rot, float spd, float dmg, bool isEnemyBullet, int level,  bool isMoving = true, bool isGuided = false)
+    public void SetBullet(Vector3 pos, Quaternion rot, float spd, float dmg, bool isEnemyBullet, int level, bool isMoving = true, bool isGuided = false)
     {
         transform.position = pos;
-        if (isEnemyBullet == true)
-        {
-            moveSpd = spd / 2;
-        }
-        else
-        {
-            moveSpd = spd;
-        }
+        moveSpd = spd;
         isMove = isMoving;
         transform.rotation = rot;
         this.level = level;

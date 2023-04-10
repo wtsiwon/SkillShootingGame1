@@ -221,7 +221,7 @@ MonoBehaviour:
   isBoss: 0
   moveSpd: 3
   score: 2000
-  dmg: 20
+  dmg: 10
   atkSpd: 1.5
   isAttack: 1
   bulletSpd: 3

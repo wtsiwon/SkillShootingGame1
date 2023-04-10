@@ -212,8 +212,12 @@ public class Player : Singleton<Player>
     {
         while (Fuel > 0)
         {
-            yield return new WaitForSeconds(0.05f);
-            Fuel -= decrease;
+            if (EnemySpawner.Instance.isBossSpawned == false)
+            {
+                yield return new WaitForSeconds(0.05f);
+                Fuel -= decrease;
+            }
+            yield return null;
         }
     }
 

@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Boss : Enemy
@@ -19,7 +20,9 @@ public class Boss : Enemy
 
     public int patternNum;
 
-    private bool isPatternDone;
+    private bool isPatternDone = true;
+
+    private List<IEnumerator> IBossPatternList = new List<IEnumerator>(5);
 
     public override float Hp
     {
@@ -48,6 +51,16 @@ public class Boss : Enemy
         StartCoroutine(IBossMove());
         isBossMove = true;
         IsDie = false;
+
+        CoroutineSubstitution();
+    }
+
+    /// <summary>
+    /// 코루틴 대입
+    /// </summary>
+    private void CoroutineSubstitution()
+    {
+
     }
 
     protected void Update()//일부러 상속 안받음
@@ -127,22 +140,26 @@ public class Boss : Enemy
 
     private void RandomBossPattern()
     {
-        int randPattern = Random.Range(1, 5);
-
-        StartCoroutine($"IBossPattern{randPattern}");
+        if (isPatternDone == true)
+        {
+            int randPattern = Random.Range(1, 4);
+            print("BossPattern" + randPattern);
+            StartCoroutine($"IBossPattern{randPattern}");
+        }
+        //StartCoroutine(IBossPatternList[randPattern]);
     }
 
     private IEnumerator IBossPattern1()
     {
         isPatternDone = false;
 
-        int angle = 180 / 12;
+        int angle = 360 / 12;
 
 
-        for (int j = 0; j < 10; j++)
+        for (int j = 0; j < 5; j++)
         {
             int count = 0;
-            for (int i = 0; i < 180; i += angle)
+            for (int i = 0; i < 360; i += angle)
             {
                 Quaternion rot = Quaternion.Euler(new Vector3(0, 0, i + count * 15 + 90));
 
@@ -157,15 +174,26 @@ public class Boss : Enemy
         isPatternDone = true;
         yield break;
     }
-
-    private IEnumerator IBossPattern2(int bulletCount, int central, int rotate, int rotateCount, int entireCount)
+    /// <summary>
+    /// 흩 뿌리기
+    /// </summary>
+    /// <param name="bulletCount"></param>
+    /// <param name="rotate"></param>
+    /// <param name="rotateCount"></param>
+    /// <param name="entireCount"></param>
+    /// <returns></returns>
+    private IEnumerator IBossPattern2()
     {
         isPatternDone = false;
+        int rotate = 10;
+        int rotateCount = 3;
+        int entireCount = 5;
+        int central = 0;
 
         float z = -rotate;
         float amount = (rotate * 2f) / rotateCount;
 
-        for (int i = 0; i < entireCount; i++)
+        for (int i = 0; i < 8; i++)
         {
             Vector2 nor = (Vector3.zero - transform.position).normalized;
             float tarZ = Mathf.Atan2(nor.y, nor.x) * Mathf.Rad2Deg;
@@ -177,7 +205,7 @@ public class Boss : Enemy
                 amount *= -1;
             }
 
-            ShotBullet(central, z + tarZ, bulletCount);
+            ShotBullet(central, z + tarZ, entireCount);
 
             yield return new WaitForSeconds(0.1f);
         }
@@ -201,7 +229,7 @@ public class Boss : Enemy
         yield break;
     }
 
-    private IEnumerator IBossPattern3()
+    private IEnumerator IBossPattern4()
     {
         isPatternDone = false;
         StartCoroutine(IPattern3Shoot(atkSpd - 1));
@@ -219,7 +247,7 @@ public class Boss : Enemy
             Quaternion rot = Quaternion.Euler(Vector3.up);
             Bullet bullet1 = ObjPool.Instance.GetBullet(transform.position, 4, rot);
 
-            bullet1.SetBullet(transform.position, rot, bulletSpd, dmg, true , 4);
+            bullet1.SetBullet(transform.position, rot, bulletSpd, dmg, true, 4);
 
             transform.rotation = Quaternion.Euler(0, 0, transform.rotation.z + 5);
 
@@ -236,7 +264,7 @@ public class Boss : Enemy
         yield break;
     }
 
-    private IEnumerator IBossPattern4()
+    private IEnumerator IBossPattern3()
     {
         isPatternDone = false;
         GameObject warning = GameManager.Instance.warningArea;
@@ -275,7 +303,7 @@ public class Boss : Enemy
         current = 0;
         percent = 0;
 
-        while(percent < 1)
+        while (percent < 1)
         {
             current += Time.deltaTime;
             percent = (current / 1f);

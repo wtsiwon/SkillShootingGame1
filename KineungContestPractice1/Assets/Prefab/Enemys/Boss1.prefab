@@ -256,8 +256,8 @@ MonoBehaviour:
   isAttack: 1
   bulletSpd: 2
   bullet: {fileID: 3464308033749415962, guid: 9260f1e8aa8d1c348b9e298ce15397ef, type: 3}
-  maxHp: 1000000
-  hp: 1000000
+  maxHp: 100000
+  hp: 100000
   isMove: 1
   onDmgObj: {fileID: 3065659202634681191}
   meteor: {fileID: 4999500175314829608, guid: daceb0abaff2950429246bc135e19f15, type: 3}

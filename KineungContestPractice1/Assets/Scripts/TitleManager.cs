@@ -15,6 +15,9 @@ public class TitleManager : MonoBehaviour
     public Button gameStartBtn;
     public Button exitBtn;
 
+    public Button helpBtn;
+    public GameObject explainUI;
+
     private void Awake()
     {
         instance = this;
@@ -35,6 +38,11 @@ public class TitleManager : MonoBehaviour
         gameStartBtn.onClick.AddListener(() =>
         {
             SceneManager.LoadScene("Stage");
+        });
+
+        helpBtn.onClick.AddListener(() =>
+        {
+            explainUI.SetActive(true);
         });
     }
 }

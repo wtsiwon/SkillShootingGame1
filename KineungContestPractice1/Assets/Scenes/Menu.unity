@@ -471,6 +471,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameStartBtn: {fileID: 1555140860}
   exitBtn: {fileID: 0}
+  helpBtn: {fileID: 1438165375}
 --- !u!82 &363770804
 AudioSource:
   m_ObjectHideFlags: 0

@@ -24,10 +24,6 @@ public class BezierBullet : Bullet
 
     void Update()
     {
-        //if(target == null)
-        //{
-        //    transform.Translate(Vector3.up * moveSpd * Time.deltaTime);
-        //}
     }
 
 
@@ -87,7 +83,7 @@ public class BezierBullet : Bullet
         points[0] = transform.position;
 
         points[1] = PointSetting(transform.position) + 
-            (Vector2)(startDistance * Random.Range(-1.0f, 1.0f) * transform.right) + 
+            (Vector2)(startDistance * Random.Range(-1.0f, 1.0f) * transform.right) +
             (Vector2)(startDistance * Random.Range(-0.15f, 1.0f) * transform.up);
 
         points[2] = PointSetting(target.position) + 
